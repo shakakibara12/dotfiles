@@ -124,7 +124,7 @@ local editorgui         = "subl"
 local filemanager       = "pcmanfm"
 --local mailclient        = "evolution"
 local mediaplayer       = "spotify"
-local terminal          = "alacritty"
+local terminal          = "termite -e zsh"
 --local virtualmachine    = "virtualbox"
 
 -- awesome variables

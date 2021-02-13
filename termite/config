@@ -1,0 +1,94 @@
+[options]
+#https://github.com/thestinger/termite/blob/master/config
+allow_bold = true
+audible_bell = false
+browser = xdg-open
+clickable_url = true
+cursor_blink = system
+cursor_shape = block
+dynamic_title = true
+filter_unmatched_urls = true
+font = Monospace 13
+#font = Hack Bold 10
+geometry = 1280x720
+highlight = #2f2f2f
+icon_name = Terminal
+modify_other_keys = false
+mouse_autohide = false
+scroll_on_output = false
+scroll_on_keystroke = true
+scrollback_lines = 15000
+size_hints = false
+search_wrap = true
+urgent_on_bell = true
+
+[hints]
+#font = Monospace 12
+#foreground = #dcdccc
+#background = #3f3f3f
+#active_foreground = #e68080
+#active_background = #3f3f3f
+#padding = 2
+#border = #3f3f3f
+#border_width = 10
+#roundness = 2.0
+
+############################################################
+#### You can change the color coding to your liking
+#### There is a folder themes in ~/config/termite/themes
+#### Copy/paste the colors from one of the 79+ templates to this one
+#### A backup of the original config termite is present
+############################################################
+#### Use websites to make the terminal your own
+#### https://terminal.sexy
+#### https://critical.ch/xterm/
+############################################################
+
+[colors]
+# Base16 Atelier Forest
+# Author: Bram de Haan (http://atelierbramdehaan.nl)
+
+foreground      = #a8a19f
+foreground_bold = #e6e2e0
+cursor          = #e6e2e0
+background = rgba(40, 42, 54, 0.8)
+
+# 16 color space
+
+# Black, Gray, Silver, White
+color0  = #1b1918
+color8  = #766e6b
+color7  = #a8a19f
+color15 = #f1efee
+
+# Red
+color1  = #f22c40
+color9  = #f22c40
+
+# Green
+color2  = #7b9726
+color10 = #7b9726
+
+# Yellow
+color3  = #c38418
+color11 = #c38418
+
+# Blue
+color4  = #407ee7
+color12 = #407ee7
+
+# Purple
+color5  = #6666ea
+color13 = #6666ea
+
+# Teal
+color6  = #3d97b8
+color14 = #3d97b8
+
+# Extra colors
+color16 = #df5320
+color17 = #c33ff3
+color18 = #2c2421
+color19 = #68615e
+color20 = #9c9491
+color21 = #e6e2e0
