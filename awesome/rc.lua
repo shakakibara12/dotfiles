@@ -1,15 +1,3 @@
---[[
-
-     Awesome WM configuration template
-     https://github.com/awesomeWM
-
-     Freedesktop : https://github.com/lcpz/awesome-freedesktop
-
-     Copycats themes : https://github.com/lcpz/awesome-copycats
-
-     lain : https://github.com/lcpz/lain
-
---]]
 
 -- {{{ Required libraries
 local awesome, client, mouse, screen, tag = awesome, client, mouse, screen, tag
@@ -116,25 +104,24 @@ local modkey1      = "Control"
 
 -- personal variables
 --change these variables if you want
+
 local browser1          = "brave"
 local browser2          = "firefox"
---local browser3          = "chromium -no-default-browser-check"
 local editor            = os.getenv("EDITOR") or "nano"
 local editorgui         = "subl"
 local filemanager       = "pcmanfm"
 --local mailclient        = "evolution"
 local mediaplayer       = "spotify"
-local terminal          = "termite -e zsh"
---local virtualmachine    = "virtualbox"
+local terminal          = "alacritty -e zsh"
 
 -- awesome variables
 awful.util.terminal = terminal
-awful.util.tagnames = {  "➊", "➋", "➌", "➍", "➎" }
+--awful.util.tagnames = {  "➊", "➋", "➌", "➍", "➎" }
 --awful.util.tagnames = { "⠐", "⠡", "⠲", "⠵", "⠻", "⠿" }
 --awful.util.tagnames = { "⌘", "♐", "⌥", "ℵ" }
 --awful.util.tagnames = { "www", "edit", "gimp", "inkscape", "music" }
 -- Use this : https://fontawesome.com/cheatsheet
---awful.util.tagnames = { "", "", "", "", "" }
+awful.util.tagnames = { "  ", "  ", "  ", "  ", "  " }
 awful.layout.suit.tile.left.mirror = true
 awful.layout.layouts = {
     awful.layout.suit.tile,
@@ -314,35 +301,30 @@ globalkeys = my_table.join(
 	end,
     {description = "show dmenu", group = "hotkeys"}),
 
-    -- Function keys
-    awful.key({ }, "F12", function () awful.util.spawn( "xfce4-terminal --drop-down" ) end,
-        {description = "dropdown terminal" , group = "function keys"}),
-
-
     -- super + ... function keys
     awful.key({ modkey }, "F1", function () awful.util.spawn( browser1 ) end,
         {description = browser1, group = "function keys"}),
     awful.key({ modkey }, "F2", function () awful.util.spawn( editorgui ) end,
         {description = editorgui , group = "function keys" }),
-    --awful.key({ modkey }, "F3", function () awful.util.spawn( "inkscape" ) end,
-        --{description = "inkscape" ,group = "function keys" }),
+    awful.key({ modkey }, "F3", function () awful.util.spawn( "playerctl play-pause" ) end,
+        {description = "play-puase" ,group = "function keys" }),
     awful.key({ modkey }, "F4", function () awful.util.spawn( "gimp" ) end,
         {description = "gimp" , group = "function keys" }),
-    awful.key({ modkey }, "F5", function () awful.util.spawn( "meld" ) end,
-        {description = "meld" , group = "function keys" }),
+    --awful.key({ modkey }, "F5", function () awful.util.spawn( "meld" ) end,
+        --{description = "meld" , group = "function keys" }),
     awful.key({ modkey }, "F6", function () awful.util.spawn( "vlc --video-on-top" ) end,
         {description = "vlc" , group = "function keys" }),
-    awful.key({ modkey }, "F7", function () awful.util.spawn( "virtualbox" ) end,
-        {description = virtualmachine , group = "function keys" }),
+    --awful.key({ modkey }, "F7", function () awful.util.spawn( "virtualbox" ) end,
+        --{description = virtualmachine , group = "function keys" }),
     awful.key({ modkey }, "F8", function () awful.util.spawn( filemanager ) end,
         {description = filemanager , group = "function keys" }),
     awful.key({ modkey }, "F9", function () awful.util.spawn( mailclient ) end,
         {description = mailclient , group = "function keys" }),
     awful.key({ modkey }, "F10", function () awful.util.spawn( mediaplayer ) end,
         {description = mediaplayer , group = "function keys" }),
-    awful.key({ modkey }, "F11", function () awful.util.spawn( "rofi -show run -fullscreen" ) end,
-        {description = "rofi fullscreen" , group = "function keys" }),
-    awful.key({ modkey }, "F12", function () awful.util.spawn( "rofi -show run" ) end,
+    --awful.key({ modkey }, "F11", function () awful.util.spawn( "rofi -show run -fullscreen" ) end,
+        --{description = "rofi fullscreen" , group = "function keys" }),
+    awful.key({ modkey }, "F12", function () awful.util.spawn( "rofi-theme-selector" ) end,
         {description = "rofi" , group = "function keys" }),
 
     -- super + ...k
@@ -350,16 +332,14 @@ globalkeys = my_table.join(
         {description = "conky-toggle", group = "super"}),
     awful.key({ modkey }, "e", function () awful.util.spawn( editorgui ) end,
         {description = "run gui editor", group = "super"}),
-    --awful.key({ modkey }, "h", function () awful.util.spawn( "urxvt -T 'htop task manager' -e htop" ) end,
-        --{description = "htop", group = "super"}),
-    awful.key({ modkey }, "r", function () awful.util.spawn( "rofi-theme-selector" ) end,
+    awful.key({ modkey }, "r", function () awful.util.spawn( "rofi -show run" ) end,
         {description = "rofi theme selector", group = "super"}),
     awful.key({ modkey }, "t", function () awful.util.spawn( terminal ) end,
         {description = "terminal", group = "super"}),
     awful.key({ modkey }, "v", function () awful.util.spawn( "pavucontrol" ) end,
         {description = "pulseaudio control", group = "super"}),
-    --awful.key({ modkey }, "u", function () awful.screen.focused().mypromptbox:run() end,
-          --{description = "run prompt", group = "super"}),
+    awful.key({ modkey }, "u", function () awful.screen.focused().mypromptbox:run() end,
+          {description = "run prompt", group = "super"}),
     awful.key({ modkey }, "x",  function () awful.util.spawn( "arcolinux-logout" ) end,
       {description = "exit", group = "hotkeys"}),
     awful.key({ modkey }, "Escape", function () awful.util.spawn( "xkill" ) end,
@@ -374,8 +354,6 @@ globalkeys = my_table.join(
 
 
     -- ctrl+alt +  ...
-    awful.key({ modkey1, altkey   }, "e", function() awful.util.spawn( "arcolinux-tweak-tool" ) end,
-        {description = "ArcoLinux Tweak Tool", group = "alt+ctrl"}),
     awful.key({ modkey1, altkey   }, "a", function() awful.util.spawn( "xfce4-appfinder" ) end,
         {description = "Xfce appfinder", group = "alt+ctrl"}),
     awful.key({ modkey1, altkey   }, "b", function() awful.util.spawn( filemanager ) end,
@@ -398,19 +376,6 @@ globalkeys = my_table.join(
         {description = "Pamac Manager", group = "alt+ctrl"}),
     awful.key({ modkey1, altkey   }, "d", function() awful.util.spawn( "discord" ) end,
         {description = "Discord", group = "alt+ctrl"}),
-
-
-    -- alt + ..
-    awful.key({ altkey }, "Left", function () awful.util.spawn( "variety -p" ) end,
-        {description = "Wallpaper previous", group = "altkey"}),
-    awful.key({ altkey }, "Right", function () awful.util.spawn( "variety -n" ) end,
-        {description = "Wallpaper next", group = "altkey"}),
-    awful.key({ altkey }, "Up", function () awful.util.spawn( "variety -f" ) end,
-        {description = "Add wallpaper to favourite", group = "altkey"}),
-    awful.key({ altkey }, "Down", function () awful.util.spawn( "variety -t" ) end,
-        {description = "Delete wallpaper", group = "altkey"}),
-    awful.key({ altkey }, "F2", function () awful.util.spawn( "gmrun" ) end,
-        {description = "Gmrun", group = "altkey"}),
 
     -- screenshots
 
@@ -446,12 +411,6 @@ globalkeys = my_table.join(
         	end
     end),
 
-    -- Non-empty tag browsing
-    --awful.key({ modkey }, "Left", function () lain.util.tag_view_nonempty(-1) end,
-              --{description = "view  previous nonempty", group = "tag"}),
-   -- awful.key({ modkey }, "Right", function () lain.util.tag_view_nonempty(1) end,
-             -- {description = "view  next nonempty", group = "tag"}),
-
     -- Default client focus
     awful.key({ modkey,           }, "j",
         function ()
@@ -465,34 +424,6 @@ globalkeys = my_table.join(
         end,
         {description = "focus previous by index", group = "client"}
     ),
-
-    -- By direction client focus
-
-    --awful.key({ modkey1 }, "j",
-        --function()
-            --awful.client.focus.global_bydirection("down")
-            --if client.focus then client.focus:raise() end
-        --end,
-        --{description = "focus down", group = "client"}),
-    --awful.key({ modkey1 }, "k",
-        --function()
-            --awful.client.focus.global_bydirection("up")
-            --if client.focus then client.focus:raise() end
-        --end,
-        --{description = "focus up", group = "client"}),
-    --awful.key({ modkey1 }, "h",
-        --function()
-            --awful.client.focus.global_bydirection("left")
-            --if client.focus then client.focus:raise() end
-        --end,
-        --{description = "focus left", group = "client"}),
-
-    --awful.key({ modkey1 }, "l",
-        --function()
-            --awful.client.focus.global_bydirection("right")
-            --if client.focus then client.focus:raise() end
-        --end,
-        --{description = "focus right", group = "client"}),
 
 
     -- Layout manipulation
@@ -583,13 +514,6 @@ globalkeys = my_table.join(
               end,
               {description = "restore minimized", group = "client"}),
 
-    -- Widgets popups
-    --awful.key({ altkey, }, "c", function () lain.widget.calendar.show(7) end,
-        --{description = "show calendar", group = "widgets"}),
-    --awful.key({ altkey, }, "h", function () if beautiful.fs then beautiful.fs.show(7) end end,
-              --{description = "show filesystem", group = "widgets"}),
-    --awful.key({ altkey, }, "w", function () if beautiful.weather then beautiful.weather.show(7) end end,
-              --{description = "show weather", group = "widgets"}),
 
     -- Brightness
     awful.key({ }, "XF86MonBrightnessUp", function () os.execute("light -A 10") end,
@@ -597,9 +521,6 @@ globalkeys = my_table.join(
     awful.key({ }, "XF86MonBrightnessDown", function () os.execute("light -U 10") end,
               {description = "-10%", group = "hotkeys"}),
 
-        --rclone
- 	awful.key({ altkey,   }, "m", function() awful.util.spawn( "/home/shaka/Desktop/rclone.sh" ) end,
-        {description = "Rclone mount", group = "hotkeys"}),
 
     -- ALSA volume control
     --awful.key({ modkey1 }, "Up",
@@ -650,27 +571,14 @@ globalkeys = my_table.join(
 
 --Added by me
 
-    awful.key({}, "F3", function() awful.util.spawn("playerctl play-pause", false) end),
     awful.key({ modkey1, "Shift" }, "Right", function() awful.util.spawn("playerctl next", false) end),
     awful.key({ modkey1, "Shift" }, "Left", function() awful.util.spawn("playerctl previous", false) end),
-    --awful.key({}, "XF86AudioStop", function() awful.util.spawn("playerctl stop", false) end),
-    
+--scripts
+	awful.key({ altkey }, "f", function () awful.util.spawn( "/home/shaka/scripts/mpv.sh" ) end,
+        {description = "mpv from clipboard", group = "hotkeys"}),
+	awful.key({ altkey,   }, "m", function() awful.util.spawn( "/home/shaka/scripts/rclone.sh" ) end,
+        {description = "Rclone mount", group = "hotkeys"}),
 
-
-    -- Copy primary to clipboard (terminals to gtk)
-    --awful.key({ modkey }, "c", function () awful.spawn.with_shell("xsel | xsel -i -b") end,
-             -- {description = "copy terminal to gtk", group = "hotkeys"}),
-     --Copy clipboard to primary (gtk to terminals)
-    --awful.key({ modkey }, "v", function () awful.spawn.with_shell("xsel -b | xsel") end,
-              --{description = "copy gtk to terminal", group = "hotkeys"}),
-
-
-    -- Default
-    --[[ Menubar
-
-    awful.key({ modkey }, "p", function() menubar.show() end,
-              {description = "show the menubar", group = "super"})
-    --]]
 
     awful.key({ altkey }, "x",
               function ()
@@ -820,56 +728,6 @@ awful.rules.rules = {
     -- Titlebars
     { rule_any = { type = { "dialog", "normal" } },
       properties = { titlebars_enabled = false } },
-          -- Set applications to always map on the tag 2 on screen 1.
-    --{ rule = { class = "Subl3" },
-        --properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = true  } },
-
-
-    -- Set applications to always map on the tag 1 on screen 1.
-    -- find class or role via xprop command
-    --{ rule = { class = browser2 },
-      --properties = { screen = 1, tag = awful.util.tagnames[1], switchtotag = true  } },
-
-    --{ rule = { class = browser1 },
-      --properties = { screen = 1, tag = awful.util.tagnames[1], switchtotag = true  } },
-
-    --{ rule = { class = "Vivaldi-stable" },
-        --properties = { screen = 1, tag = awful.util.tagnames[1], switchtotag = true } },
-
-    --{ rule = { class = "Chromium" },
-      --properties = { screen = 1, tag = awful.util.tagnames[1], switchtotag = true  } },
-
-    --{ rule = { class = "Opera" },
-      --properties = { screen = 1, tag = awful.util.tagnames[1],switchtotag = true  } },
-
-    -- Set applications to always map on the tag 2 on screen 1.
-    --{ rule = { class = "Subl3" },
-        --properties = { screen = 1, tag = awful.util.tagnames[2],switchtotag = true  } },
-
-    --{ rule = { class = editorgui },
-        --properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = true  } },
-
-    --{ rule = { class = "Brackets" },
-        --properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = true  } },
-
-    --{ rule = { class = "Code" },
-        --properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = true  } },
-
-    --    { rule = { class = "Geany" },
-         --  properties = { screen = 1, tag = awful.util.tagnames[2], switchtotag = true  } },
-
-
-    -- Set applications to always map on the tag 3 on screen 1.
-    --{ rule = { class = "Inkscape" },
-        --properties = { screen = 1, tag = awful.util.tagnames[3], switchtotag = true  } },
-
-    -- Set applications to always map on the tag 4 on screen 1.
-    --{ rule = { class = "Gimp" },
-        --properties = { screen = 1, tag = awful.util.tagnames[4], switchtotag = true  } },
-
-    -- Set applications to always map on the tag 5 on screen 1.
-    --{ rule = { class = "Meld" },
-        --properties = { screen = 1, tag = awful.util.tagnames[5] , switchtotag = true  } },
 
 
     -- Set applications to be maximized at startup.
@@ -878,16 +736,10 @@ awful.rules.rules = {
     { rule = { class = editorgui },
           properties = { maximized = true } },
 
-    { rule = { class = "Geany" },
-          properties = { maximized = false, floating = false } },
-
     { rule = { class = "Gimp*", role = "gimp-image-window" },
           properties = { maximized = true } },
 
     { rule = { class = "Gnome-disks" },
-          properties = { maximized = true } },
-
-    { rule = { class = "inkscape" },
           properties = { maximized = true } },
 
     { rule = { class = mediaplayer },
@@ -895,25 +747,6 @@ awful.rules.rules = {
 
     { rule = { class = "Vlc" },
           properties = { maximized = true } },
-
-    { rule = { class = "VirtualBox Manager" },
-          properties = { maximized = true } },
-
-    { rule = { class = "VirtualBox Machine" },
-          properties = { maximized = true } },
-
-    { rule = { class = "Vivaldi-stable" },
-          properties = { maximized = false, floating = false } },
-
-    { rule = { class = "Vivaldi-stable" },
-          properties = { callback = function (c) c.maximized = false end } },
-
-    --IF using Vivaldi snapshot you must comment out the rules above for Vivaldi-stable as they conflict
---    { rule = { class = "Vivaldi-snapshot" },
---          properties = { maximized = false, floating = false } },
-
---    { rule = { class = "Vivaldi-snapshot" },
---          properties = { callback = function (c) c.maximized = false end } },
 
     { rule = { class = "Xfce4-settings-manager" },
           properties = { floating = false } },
@@ -926,30 +759,16 @@ awful.rules.rules = {
     -- Floating clients.
     { rule_any = {
         instance = {
-          "DTA",  -- Firefox addon DownThemAll.
           "copyq",  -- Includes session name in class.
         },
         class = {
           "Arandr",
           "Arcolinux-welcome-app.py",
-          "Blueberry",
-          "Galculator",
           "Gnome-font-viewer",
-          "Gpick",
-          "Imagewriter",
           "Font-manager",
-          "Kruler",
-          "MessageWin",  -- kalarm.
           "arcolinux-logout",
-          "Peek",
-          "Skype",
           "System-config-printer.py",
           "Sxiv",
-          "Unetbootin.elf",
-          "Wpa_gui",
-          "pinentry",
-          "veromix",
-          "xtightvncviewer",
           "Xfce4-terminal"},
 
         name = {
@@ -1053,3 +872,9 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 awful.spawn.with_shell("~/.config/awesome/autostart.sh")
 awful.spawn.with_shell("picom -b --config  $HOME/.config/awesome/picom.conf")
 
+
+
+
+-- Custom Widgets
+
+--net speed

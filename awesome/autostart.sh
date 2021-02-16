@@ -12,12 +12,13 @@ function run {
 run nm-applet
 #run caffeine
 #run pamac-tray
-run variety
+#run variety
+run nitrogen --restore
 #run xfce4-power-manager
 #run blueberry-tray
 #run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #run numlockx on
-run volumeicon
+#run volumeicon
 #run conky -c $HOME/.config/awesome/system-overview
 #you can set wallpapers in themes as well
 #feh --bg-fill /usr/share/backgrounds/arcolinux/blue-earth-2880x1800.jpg &
