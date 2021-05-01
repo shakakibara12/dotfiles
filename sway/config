@@ -3,6 +3,12 @@
 # Copy this to ~/.config/sway/config and edit it to your liking.
 #
 # Read `man 5 sway` for a complete reference.
+gaps inner 15 
+gaps outer 7 
+
+default_border pixel 2 #disable windows titlebar
+
+font pango: SourceCodePro Medium 12
 
 ### Variables
 #
