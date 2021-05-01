@@ -65,6 +65,10 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
+#disable mouse acceleration
+
+input * accel_profile flat
+
 ### Key bindings
 #
 # Basics:
@@ -86,7 +90,7 @@ output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
     floating_modifier $mod normal
 
     # Reload the configuration file
-    bindsym $mod+Shift+c reload
+    bindsym $mod+Shift+r reload
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
@@ -216,3 +220,22 @@ include /etc/sway/config.d/*
 
 #My Bindings
 
+bindsym $mod+x exec arcolinux-logout
+bindsym $mod+F3 exec playerctl play-pause 
+bindsym Control+Alt+w exec $browser
+bindsym Control+Alt+b exec $filemanager 
+bindsym Control+Alt+m exec $mail 
+bindsym Control+Alt+s exec $mediaplayer 
+bindsym Control+Alt+d exec discord 
+bindsym XF86AudioRaiseVolume exec pamixer -i 2       #increase audio 
+bindsym XF86AudioLowerVolume exec pamixer -d 2       #decrease audio
+#bindsym $mod+Shift+$down exec pamixer -d 2          #decrease audio 
+#bindsym $mod+Shift+$up exec pamixer -i 2            #increase audio  
+bindsym Control+Shift+m exec pamixer -t              #mute audio 
+#Media keys supported by vlc, spotify, audacious, xmm2, ...
+bindsym XF86AudioPlay exec playerctl play-pause
+bindsym XF86AudioNext exec playerctl next
+bindsym XF86AudioPrev exec playerctl previous
+bindsym XF86AudioStop exec playerctl stop
+bindsym Alt+f exec /home/shaka/scripts/mpv.sh 
+bindsym Alt+m exec /home/shaka/scripts/rclone.sh 
