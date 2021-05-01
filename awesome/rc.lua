@@ -15,8 +15,8 @@ local wibox         = require("wibox")
 local beautiful     = require("beautiful")
 
 -- Notification library
-local naughty       = require("naughty")
-naughty.config.defaults['icon_size'] = 100
+--local naughty       = require("naughty")
+--naughty.config.defaults['icon_size'] = 100
 
 --local menubar       = require("menubar")
 
@@ -106,7 +106,7 @@ local modkey1      = "Control"
 --change these variables if you want
 
 local browser1          = "brave"
-local browser2          = "firefox"
+local browser2          = "librewolf"
 local editor            = os.getenv("EDITOR") or "nano"
 local editorgui         = "subl"
 local filemanager       = "pcmanfm"
@@ -771,6 +771,8 @@ awful.rules.rules = {
           "System-config-printer.py",
           "Sxiv",
           "xdman-Main",
+          "copyq",
+          "xsane",
           "Xfce4-terminal"},
 
         name = {

@@ -20,6 +20,7 @@ run copyq
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 run numlockx on
 run xbindkeys -p
+run ~/scripts/wine.sh
 #run pulseeffects -l epic --gapplication-service
 run indicator-sound-switcher
 #run volumeicon
