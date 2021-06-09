@@ -3,8 +3,8 @@
 # Copy this to ~/.config/sway/config and edit it to your liking.
 #
 # Read `man 5 sway` for a complete reference.
-gaps inner 15 
-gaps outer 7 
+gaps inner 10 
+gaps outer 5 
 
 default_border pixel 2 #disable windows titlebar
 
@@ -31,12 +31,11 @@ set $mail mailspring
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu dmenu_path | dmenu | xargs swaymsg exec --
-
+set $menu rofi -show run
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /usr/share/backgrounds/sway/Sway_Wallpaper_Blue_1920x1080.png fill
+output * bg /home/shaka/Pictures/Wallpapers/3.png fill
 #
 # Example configuration:
 #
@@ -86,7 +85,7 @@ input * accel_profile flat
     bindsym $mod+q kill
 
     # Start your launcher
-    bindsym $mod+d exec $menu
+    bindsym $mod+r exec $menu
 
     # Drag floating windows by holding down $mod and left mouse button.
     # Resize them with right mouse button + $mod.
@@ -211,7 +210,8 @@ mode "resize" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-bindsym $mod+r mode "resize"
+#bindsym $mod+r mode "resize"
+
 
 #
 # Status Bar:
@@ -244,4 +244,17 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioStop exec playerctl stop
 bindsym Alt+f exec /home/shaka/scripts/mpv.sh 
-bindsym Alt+m exec /home/shaka/scripts/rclone.sh 
+bindsym Alt+m exec /home/shaka/scripts/rclone.sh
+#Screenshot bebe
+bindsym Control+Shift+s exec grim -g "$(slurp)" - | swappy -f - 
+bindsym $mod+Shift+s exec grimshot --notify copy area
+bindsym Control+Print exec grimshot --notify copy screen
+bindsym Print exec grimshot --notify save screen 
+
+#Startup Apps
+exec_always --no-startup-id copyq;
+exec_always --no-startup-id indicator-sound-switcher;
+
+
+#Start window in floating mode
+for_window [app_id="copyq"] floating enable

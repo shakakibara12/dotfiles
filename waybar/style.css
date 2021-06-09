@@ -2,7 +2,7 @@
     border: none;
     border-radius: 2px;
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: "Roboto Mono Medium", Roboto, Helvetica, Arial, sans-serif;
+    font-family: "Roboto Mono Medium", Helvetica, Arial, sans-serif;
     font-size: 15px;
     min-height: 0;
 }
@@ -196,36 +196,3 @@ label:focus {
     background-color: #2980b9;
 }
 
-#idle_inhibitor {
-    background-color: #2d3436;
-}
-
-#idle_inhibitor.activated {
-    background-color: #ecf0f1;
-    color: #2d3436;
-}
-
-#mpd {
-    background-color: #66cc99;
-    color: #2a5c45;
-}
-
-#mpd.disconnected {
-    background-color: #f53c3c;
-}
-
-#mpd.stopped {
-    background-color: #90b1b1;
-}
-
-#mpd.paused {
-    background-color: #51a37a;
-}
-
-#language {
-    background: #00b093;
-    color: #740864;
-    padding: 0 5px;
-    margin: 0 5px;
-    min-width: 16px;
-}

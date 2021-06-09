@@ -304,8 +304,9 @@ ex ()
 
 [[ -f ~/.zshrc-personal ]] && . ~/.zshrc-personal
 
-neofetch
+uwufetch
 
 alias cat='bat'
 alias ins='sudo pacman -S'
+alias v='nvim'
 alias rem='sudo pacman -Runs'
