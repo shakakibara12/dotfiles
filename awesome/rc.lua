@@ -81,6 +81,9 @@ awful.spawn.with_shell(
 
 -- }}}
 
+-- Enable gaps
+beautiful.gap_single_client = true
+
 -- {{{ Variable definitions
 
 local themes = {
@@ -105,8 +108,7 @@ local modkey1      = "Control"
 -- personal variables
 --change these variables if you want
 
-local browser1          = "brave"
-local browser2          = "librewolf"
+local browser           = "brave"
 local editor            = os.getenv("EDITOR") or "nano"
 local editorgui         = "subl"
 local filemanager       = "pcmanfm"
@@ -116,12 +118,12 @@ local terminal          = "alacritty -e zsh"
 
 -- awesome variables
 awful.util.terminal = terminal
---awful.util.tagnames = {  "➊", "➋", "➌", "➍", "➎" }
+awful.util.tagnames = {  "➊", "➋", "➌", "➍", "➎" }
 --awful.util.tagnames = { "⠐", "⠡", "⠲", "⠵", "⠻", "⠿" }
 --awful.util.tagnames = { "⌘", "♐", "⌥", "ℵ" }
 --awful.util.tagnames = { "www", "edit", "gimp", "inkscape", "music" }
 -- Use this : https://fontawesome.com/cheatsheet
-awful.util.tagnames = { " " , " ", " ", " ", " " }
+--awful.util.tagnames = { " " , " ", " ", " ", " " }
 awful.layout.suit.tile.left.mirror = true
 awful.layout.layouts = {
     awful.layout.suit.tile,
@@ -157,12 +159,12 @@ awful.util.taglist_buttons = my_table.join(
     awful.button({ modkey }, 1, function(t)
         if client.focus then
             client.focus:move_to_tag(t)
-        end
-    end),
+       end
+   end),
     awful.button({ }, 3, awful.tag.viewtoggle),
     awful.button({ modkey }, 3, function(t)
-        if client.focus then
-            client.focus:toggle_tag(t)
+      if client.focus then
+           client.focus:toggle_tag(t)
         end
     end),
     awful.button({ }, 4, function(t) awful.tag.viewnext(t.screen) end),
@@ -212,11 +214,8 @@ lain.layout.cascade.tile.offset_x      = dpi(2)
 lain.layout.cascade.tile.offset_y      = dpi(32)
 lain.layout.cascade.tile.extra_padding = dpi(5)
 lain.layout.cascade.tile.nmaster       = 5
+lain.layout.cascade.tile.nmaster       = 5
 lain.layout.cascade.tile.ncol          = 2
-
--- }}}
-
-
 
 -- {{{ Menu
 local myawesomemenu = {
@@ -282,11 +281,11 @@ awful.screen.connect_for_each_screen(function(s) beautiful.at_screen_connect(s)
 
 
 -- {{{ Mouse bindings
-root.buttons(my_table.join(
-    awful.button({ }, 3, function () awful.util.mymainmenu:toggle() end),
-    awful.button({ }, 4, awful.tag.viewnext),
-    awful.button({ }, 5, awful.tag.viewprev)
-))
+--root.buttons(my_table.join(
+--    awful.button({ }, 3, function () awful.util.mymainmenu:toggle() end),
+--    awful.button({ }, 4, awful.tag.viewnext),
+--    awful.button({ }, 5, awful.tag.viewprev)
+--))
 -- }}}
 
 
@@ -295,8 +294,8 @@ root.buttons(my_table.join(
 globalkeys = my_table.join(
 
     -- {{{ Personal keybindings
-    awful.key({ modkey }, "w", function () awful.util.spawn( browser1 ) end,
-        {description = browser1, group = "function keys"}),
+    awful.key({ modkey1, altkey }, "w", function () awful.util.spawn( browser  ) end,
+        {description = browser , group = "function keys"}),
     -- dmenu
     awful.key({ modkey, "Shift"   }, "d",
     function ()
@@ -306,8 +305,8 @@ globalkeys = my_table.join(
     {description = "show dmenu", group = "hotkeys"}),
 
     -- super + ... function keys
-    awful.key({ modkey }, "F1", function () awful.util.spawn( browser1 ) end,
-        {description = browser1, group = "function keys"}),
+    awful.key({ modkey }, "F1", function () awful.util.spawn( browser  ) end,
+        {description = browser , group = "function keys"}),
     awful.key({ modkey }, "F2", function () awful.util.spawn( editorgui ) end,
         {description = editorgui , group = "function keys" }),
     awful.key({ modkey }, "F3", function () awful.util.spawn( "playerctl play-pause" ) end,
@@ -374,8 +373,8 @@ globalkeys = my_table.join(
         {description = mediaplayer, group = "alt+ctrl"}),
     awful.key({ modkey1, altkey   }, "t", function() awful.util.spawn( terminal ) end,
         {description = terminal, group = "alt+ctrl"}),
-    awful.key({ modkey1, altkey   }, "v", function() awful.util.spawn( browser1 ) end,
-        {description = browser1, group = "alt+ctrl"}),
+    awful.key({ modkey1, altkey   }, "v", function() awful.util.spawn( browser  ) end,
+        {description = browser , group = "alt+ctrl"}),
     awful.key({ modkey1, altkey   }, "p", function() awful.util.spawn( "pamac-manager" ) end,
         {description = "Pamac Manager", group = "alt+ctrl"}),
     awful.key({ modkey1, altkey   }, "d", function() awful.util.spawn( "discord" ) end,

@@ -13,14 +13,15 @@ run nm-applet
 #run caffeine
 #run pamac-tray
 #run variety
-run nitrogen --restore
+#run nitrogen --restore
 run copyq
-#run xfce4-power-manager
+run xfce4-clipman
 #run blueberry-tray
 run /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 run numlockx on
 run xbindkeys -p
 run ~/scripts/wine.sh
+run ~/Downloads/styli.sh/styli.sh -s landscape
 #run pulseeffects -l epic --gapplication-service
 run indicator-sound-switcher
 #run volumeicon
