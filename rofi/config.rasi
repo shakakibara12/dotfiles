@@ -4,4 +4,4 @@ configuration {
   show-icons:         true;
   icon-theme:         "candy-icons";
 }
-@import "/usr/share/rofi/themes/Arc-Dark-Casablanca-transparent.rasi"
+@import "/usr/share/rofi/themes/Arc-Dark-Evopop-transparent.rasi"
