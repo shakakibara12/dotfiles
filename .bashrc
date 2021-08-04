@@ -222,4 +222,3 @@ ex ()
 [[ -f ~/.bashrc-personal ]] && . ~/.bashrc-personal
 
 neofetch
-source "$HOME/.cargo/env"

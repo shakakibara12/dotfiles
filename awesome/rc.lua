@@ -108,13 +108,13 @@ local modkey1      = "Control"
 -- personal variables
 --change these variables if you want
 
-local browser           = "brave"
+local browser           = "librewolf"
 local editor            = os.getenv("EDITOR") or "nano"
 local editorgui         = "subl"
 local filemanager       = "pcmanfm"
 local mailclient        = "mailspring"
 local mediaplayer       = "alacritty -e ncspot"
-local terminal          = "alacritty -e zsh"
+local terminal          = "alacritty"
 
 -- awesome variables
 awful.util.terminal = terminal

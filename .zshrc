@@ -79,7 +79,7 @@ source $ZSH/oh-my-zsh.sh
 # export MANPATH="/usr/local/man:$MANPATH"
 
 # You may need to manually set your language environment
-# export LANG=en_US.UTF-8
+export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
 # if [[ -n $SSH_CONNECTION ]]; then
@@ -243,16 +243,16 @@ alias cleanup='sudo pacman -Rns $(pacman -Qtdq)'
 #get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
 
-#nano for important configration files
+#vim for important configration files
 #know what you do in these files
-alias nlightdm="sudo nano /etc/lightdm/lightdm.conf"
-alias npacman="sudo nano /etc/pacman.conf"
-alias ngrub="sudo nano /etc/default/grub"
-alias nmkinitcpio="sudo nano /etc/mkinitcpio.conf"
-alias nslim="sudo nano /etc/slim.conf"
-alias noblogout="sudo nano /etc/oblogout.conf"
-alias nmirrorlist="sudo nano /etc/pacman.d/mirrorlist"
-alias nconfgrub="sudo nano /boot/grub/grub.cfg"
+alias vlightdm="sudo vim /etc/lightdm/lightdm.conf"
+alias vpacman="sudo vim /etc/pacman.conf"
+alias vgrub="sudo vim /etc/default/grub"
+alias vmkinitcpio="sudo vim /etc/mkinitcpio.conf"
+alias vslim="sudo vim /etc/slim.conf"
+alias voblogout="sudo vim /etc/oblogout.conf"
+alias vmirrorlist="sudo vim /etc/pacman.d/mirrorlist"
+alias vconfgrub="sudo vim /boot/grub/grub.cfg"
 
 #gpg
 #verify signature for isos
@@ -302,10 +302,10 @@ ex ()
 
 [[ -f ~/.zshrc-personal ]] && . ~/.zshrc-personal
 
-uwufetch
+neofetch | lolcat
 
-alias cat='bat'
-alias ins='sudo pacman -S'
+alias ins='sudo pacman -Sy'
 alias v='nvim'
-alias rem='sudo pacman -Runs'
+alias rem='sudo pacman -R'
 export PAGER=most
+#alias sudo=doas
