@@ -17,7 +17,7 @@ local string  = string
 local function factory(args)
     local net        = { widget = wibox.widget.textbox(), devices = {} }
     local args       = args or {}
-    local timeout    = args.timeout or 2
+    local timeout    = args.timeout or 2 
     local units      = args.units or 1024*1024/8 -- mb
     local notify     = args.notify or "on"
     local wifi_state = args.wifi_state or "off"
