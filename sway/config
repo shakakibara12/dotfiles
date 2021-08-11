@@ -1,7 +1,3 @@
-# Default config for sway
-#
-# Copy this to ~/.config/sway/config and edit it to your liking.
-#
 # Read `man 5 sway` for a complete reference.
 gaps inner 10 
 gaps outer 5 
@@ -9,6 +5,14 @@ gaps outer 5
 default_border pixel 2 #disable windows titlebar
 
 font pango: SourceCodePro Medium 12
+
+#xorg support
+
+xwayland enable
+
+#disable focus follows mouse cursor
+
+focus_follows_mouse no
 
 ### Variables
 #
@@ -24,7 +28,7 @@ set $right l
 
 set $filemanager pcmanfm
 set $browser brave
-set $term alacritty -e zsh
+set $term alacritty
 set $mediaplayer alacritty -e ncspot
 set $mail mailspring
 
@@ -252,7 +256,8 @@ bindsym Control+Print exec grimshot --notify copy screen
 bindsym Print exec grimshot --notify save screen 
 
 #Startup Apps
-exec_always --no-startup-id copyq;
+
+#exec_always --no-startup-id copyq;
 exec_always --no-startup-id indicator-sound-switcher;
 
 
