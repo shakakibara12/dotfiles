@@ -1,22 +1,23 @@
 {
     "layer": "top", // Waybar at top layer
     "position": "top", // Waybar position (top|bottom|left|right)
-    "height": 25, // Waybar height (to be removed for auto height)
+    "height": 29, // Waybar height (to be removed for auto height)
     // "width": 1280, // Waybar width
     // Choose the order of the modules
-    "modules-left": ["sway/workspaces", "sway/mode"],
+    "modules-left": ["sway/workspaces", "sway/mode", "custom/spotify"],
     "modules-center": ["clock"],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "backlight", "battery", "battery#bat2", "tray"],
+    "modules-right": ["pulseaudio", "network", "cpu", "memory", "tray"],
      "sway/workspaces": {
          "disable-scroll": true,
          "all-outputs": true,
          "format": "{name}: {icon}",
          "format-icons": {
              "1": "",
-             "2": "",
+             "2": "︁",
              "3": "",
-             "4": "",
+             "4": "",
              "5": "",
+             "6": "",
          }
      },
     "sway/window": {
@@ -76,15 +77,16 @@
     },
     "network": {
         // "interface": "wlp2*", // (Optional) To force the use of this interface
-        "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-wifi": " {bandwidthDownBits} | ︁ {bandwidthUpBits}",
         "format-linked": "{ifname} (No IP) ",
-        "format-ethernet": " {bandwidthDownBits}",
-  //    "format-ethernet": "D: {bandwidthDownBits} | U: {bandwidthUpBits}",
-    //  "format-ethernet": "{ifname} ",
+        "format-ethernet": " {bandwidthDownBits} | ︁ {bandwidthUpBits}",
         "interval": 3,
     //  "format-ethernet": "{ifname}: {ipaddr}{cidr} ",
         "format-disconnected": "Disconnected ⚠",
-        "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    //  "format-wifi": "{essid} ({signalStrength}%) ",
+        "format-alt": "{essid} ({signalStrength}%) ",
+    //  "format-alt": "{ifname}: {ipaddr}/{cidr}"
+
     },
     "pulseaudio": {
         // "scroll-step": 1, // %, can be a float
@@ -94,6 +96,11 @@
         "format-muted": " {format_source}",
         "format-source": "{volume}% ",
         "format-source-muted": "",
+        "on-scroll-up": "pactl set-sink-volume 0 +2%",
+        "on-scroll-down": "pactl set-sink-volume 0 -2%",
+        "on-click": "pactl set-sink-mute 0 toggle",
+        "on-click-right": "pactl set-source-mute 0 toggle",
+        "on-click-middle": "pavucontrol",
         "format-icons": {
             "headphone": "",
             "hands-free": "",
@@ -103,6 +110,16 @@
             "car": "",
             "default": ["", "", ""]
         },
-        "on-click": "pavucontrol"
+   //   "on-click": "pavucontrol"
+    },
+
+    "custom/spotify": {
+        "format": "  {}",
+        "escape": true,
+        "return-type": "$text",
+        "max-length": 30,
+        "exec": "$HOME/.config/waybar/mediaplayer.sh 2> /dev/null",
+        "exec-if": "pgrep ncspot",
+        "on-click": "playerctl -p ncspot play-pause"
     },
 }

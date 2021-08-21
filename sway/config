@@ -2,12 +2,20 @@
 gaps inner 10 
 gaps outer 5 
 
-default_border pixel 2 #disable windows titlebar
+default_border pixel 6 #disable windows titlebar
 
 font pango: SourceCodePro Medium 12
 
-#xorg support
+# class                 border  backgr. text    indicator child_border
+client.focused          #0039e6 #285577 #ffffff #2e9ef4   #0039e6
+client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+client.urgent           #2f343a #900000 #ffffff #900000   #900000
+client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
+client.background       #ffffff
+
+#xorg support
 xwayland enable
 
 #disable focus follows mouse cursor
@@ -15,7 +23,6 @@ xwayland enable
 focus_follows_mouse no
 
 ### Variables
-#
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
 # Home row direction keys, like vim
@@ -172,10 +179,10 @@ input * accel_profile flat
     bindsym $mod+f fullscreen
 
     # Toggle the current focus between tiling and floating mode
-    bindsym $mod+Shift+space floating toggle
+    bindsym $mod+space floating toggle
 
     # Swap focus between the tiling area and the floating area
-    bindsym $mod+space focus mode_toggle
+    bindsym $mod+Shift+space focus mode_toggle
 
     # Move focus to the parent container
     bindsym $mod+a focus parent
@@ -186,11 +193,11 @@ input * accel_profile flat
     # You can send windows there and get them back later.
 
     # Move the currently focused window to the scratchpad
-    bindsym $mod+Shift+minus move scratchpad
+    bindsym $mod+n move scratchpad
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+minus scratchpad show
+    bindsym $mod+Shift+n scratchpad show, floating toggle 
 #
 # Resizing containers:
 #
@@ -216,11 +223,7 @@ mode "resize" {
 }
 #bindsym $mod+r mode "resize"
 
-
-#
-# Status Bar:
-#
-# Read `man 5 sway-bar` for more information about this section.
+#Use waybar
 bar {
     swaybar_command waybar
 }
@@ -237,16 +240,17 @@ bindsym Control+Alt+b exec $filemanager
 bindsym Control+Alt+m exec $mail 
 bindsym Control+Alt+s exec $mediaplayer 
 bindsym Control+Alt+d exec discord 
-bindsym XF86AudioRaiseVolume exec pamixer -i 2       #increase audio 
-bindsym XF86AudioLowerVolume exec pamixer -d 2       #decrease audio
+bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2%       #increase audio 
+bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2%       #decrease audio
 #bindsym $mod+Shift+$down exec pamixer -d 2          #decrease audio 
 #bindsym $mod+Shift+$up exec pamixer -i 2            #increase audio  
-bindsym Control+Shift+m exec pamixer -t              #mute audio 
+bindsym Control+Shift+m exec pactl set-sink-mute 0 toggle              #mute audio 
 #Media keys supported by vlc, spotify, audacious, xmm2, ...
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioStop exec playerctl stop
+#scripts
 bindsym Alt+f exec /home/shaka/scripts/mpv.sh 
 bindsym Alt+m exec /home/shaka/scripts/rclone.sh
 #Screenshot bebe
@@ -254,12 +258,16 @@ bindsym Control+Shift+s exec grim -g "$(slurp)" - | swappy -f -
 bindsym $mod+Shift+s exec grimshot --notify copy area
 bindsym Control+Print exec grimshot --notify copy screen
 bindsym Print exec grimshot --notify save screen 
-
+#mouse keybindings
+#bindsym [--release] [--border] [--whole-window] [--exclude-titlebar] [<Modifiers>+]button<n> command
+bindsym --release --border --whole-window button9 workspace next 
+bindsym --release --border --whole-window button8 workspace prev 
 #Startup Apps
 
 #exec_always --no-startup-id copyq;
-exec_always --no-startup-id indicator-sound-switcher;
-
+#exec_always --no-startup-id indicator-sound-switcher;
+exec --no-startup-id env QT_QPA_PLATFORM=xcb copyq;
+exec --no-startup-id gammastep-indicator
 
 #Start window in floating mode
-for_window [app_id="copyq"] floating enable
+for_window [class="copyq"] floating enable

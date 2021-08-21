@@ -2,7 +2,7 @@
     border: none;
     border-radius: 2px;
     /* `otf-font-awesome` is required to be installed for icons */
-    font-family: "Roboto Mono Medium", Helvetica, Arial, sans-serif;
+    font-family: "Roboto Mono Medium", "Font Awesome 5 Free Solid", Helvetica, Arial, sans-serif;
     font-size: 15px;
     min-height: 0;
 }
@@ -196,3 +196,10 @@ label:focus {
     background-color: #2980b9;
 }
 
+#custom-spotify {
+    background-color: #009900;
+    color: #333333;
+    margin: 4px 0;
+
+
+}
