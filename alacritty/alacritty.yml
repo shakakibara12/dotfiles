@@ -28,6 +28,7 @@ window:
   #position:
   #  x: 0
   #  y: 0
+
   # Window padding (changes require restart)
   #
   # Blank space added around the window in pixels. This padding is scaled
@@ -38,6 +39,7 @@ window:
 
   # Spread additional padding evenly around the terminal content.
   #dynamic_padding: false
+
   # Window decorations
   #
   # Values for `decorations`:
@@ -48,6 +50,7 @@ window:
   #     - transparent: Title bar, transparent background and title bar buttons
   #     - buttonless: Title bar, transparent background, but no title bar buttons
   #decorations: full
+
   # Startup Mode (changes require restart)
   #
   # Values for `startup_mode`:
@@ -58,6 +61,7 @@ window:
   # Values for `startup_mode` (macOS only):
   #   - SimpleFullscreen
   #startup_mode: Windowed
+
   # Window title
   title: Alacritty
 
@@ -67,18 +71,22 @@ window:
     instance: Alacritty
     # General application class
     general: Alacritty
+
   # GTK theme variant (Linux/BSD only)
   #
   # Override the variant of the GTK theme. Commonly supported values are `dark` and `light`.
   # Set this to `None` to use the default theme variant.
   #gtk_theme_variant: None
+
 scrolling:
   # Maximum number of lines in the scrollback buffer.
   # Specifying '0' will disable scrolling.
   history: 5000
+
   # Number of lines the viewport will move for every line scrolled when
   # scrollback is enabled (history > 0).
   #multiplier: 3
+
   # Scroll to the bottom when new text is written to the terminal.
   #auto_scroll: false
 
@@ -90,6 +98,7 @@ scrolling:
 # To prevent unexpected behavior in these applications, it's also required to
 # change the `it` value in terminfo when altering this setting.
 #tabspaces: 8
+
 # Font configuration
 font:
   # Normal (roman) font face
@@ -178,12 +187,14 @@ font:
   offset:
     x: 0
     y: 1
+
   # Glyph offset determines the locations of the glyphs within their cells with
   # the default being at the bottom. Increasing `x` moves the glyph to the right,
   # increasing `y` moves the glyph upwards.
   #glyph_offset:
   #  x: 0
   #  y: 0
+
   # Thin stroke font rendering (macOS only)
   #
   # Thin strokes are suitable for retina displays, but for non-retina screens
@@ -199,37 +210,83 @@ font:
   # This is a global setting and will require a log out or restart to take
   # effect.
   #use_thin_strokes: true
+
 # If `true`, bold text is drawn using the bright color variants.
 draw_bold_text_with_bright_colors: true
 
 # Colors (Tomorrow Night Bright)
 colors:
-  name: 3024 (dark)
-  author: Chris Kempson
   primary:
-    background: "#090300"
-    foreground: "#a5a2a2"
+    background: '0x191b22'
+    foreground: '0xf8f8f2'
+
   cursor:
-    text: "#090300"
-    cursor: "#a5a2a2"
+    text: CellBackground
+    cursor: CellForeground
+
+  vi_mode_cursor:
+    text: CellBackground
+    cursor: CellForeground
+
+  search:
+    matches:
+      foreground: '0x44475a'
+      background: '0x50fa7b'
+    focused_match:
+      foreground: '0x44475a'
+      background: '0xffb86c'
+    bar:
+      background: '0x282a36'
+      foreground: '0xf8f8f2'
+
+  line_indicator:
+    foreground: None
+    background: None
+
+  selection:
+    text: CellForeground
+    background: '0x44475a'
+
   normal:
-    black: "#090300"
-    red: "#db2d20"
-    green: "#01a252"
-    yellow: "#fded02"
-    blue: "#01a0e4"
-    magenta: "#a16a94"
-    cyan: "#b5e4f4"
-    white: "#a5a2a2"
+    black:   '0x000000'
+    red:     '0xff5555'
+    green:   '0x50fa7b'
+    yellow:  '0xf1fa8c'
+    blue:    '0xbd93f9'
+    magenta: '0xff79c6'
+    cyan:    '0x8be9fd'
+    white:   '0xbfbfbf'
+
   bright:
-    black: "#5c5855"
-    red: "#db2d20"
-    green: "#01a252"
-    yellow: "#fded02"
-    blue: "#01a0e4"
-    magenta: "#a16a94"
-    cyan: "#b5e4f4"
-    white: "#f7f7f7"
+    black:   '0x4d4d4d'
+    red:     '0xff6e67'
+    green:   '0x5af78e'
+    yellow:  '0xf4f99d'
+    blue:    '0xcaa9fa'
+    magenta: '0xff92d0'
+    cyan:    '0x9aedfe'
+    white:   '0xe6e6e6'
+
+  dim:
+    black:   '0x14151b'
+    red:     '0xff2222'
+    green:   '0x1ef956'
+    yellow:  '0xebf85b'
+    blue:    '0x4d5b86'
+    magenta: '0xff46b0'
+    cyan:    '0x59dffc'
+    white:   '0xe6e6d1'
+
+  # Indexed Colors
+  #
+  # The indexed colors include all colors from 16 to 256.
+  # When these are not set, they're filled with sensible defaults.
+  #
+  # Example:
+  #   `- { index: 16, color: '0xff00ff' }`
+  #
+  #indexed_colors: []
+
 # Visual Bell
 #
 # Any time the BEL code is received, Alacritty "rings" the visual bell. Once
@@ -255,31 +312,39 @@ colors:
 #  animation: EaseOutExpo
 #  duration: 0
 #  color: '0xffffff'
+
 # Background opacity
 #
 # Window opacity as a floating point number from `0.0` to `1.0`.
 # The value `0.0` is completely transparent and `1.0` is opaque.
 background_opacity: 0.95
 # background_opacity: 0.80
+
 #selection:
-#semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
-# When set to `true`, selected text will be copied to the primary clipboard.
-#save_to_clipboard: false
+  #semantic_escape_chars: ",│`|:\"' ()[]{}<>\t"
+
+  # When set to `true`, selected text will be copied to the primary clipboard.
+  #save_to_clipboard: false
+
 # Allow terminal applications to change Alacritty's window title.
 #dynamic_title: true
+
 #cursor:
-# Cursor style
-#
-# Values for `style`:
-#   - ▇ Block
-#   - _ Underline
-#   - | Beam
-#style: Block
-# If this is `true`, the cursor will be rendered as a hollow box when the
-# window is not focused.
-#unfocused_hollow: true
+  # Cursor style
+  #
+  # Values for `style`:
+  #   - ▇ Block
+  #   - _ Underline
+  #   - | Beam
+  #style: Block
+
+  # If this is `true`, the cursor will be rendered as a hollow box when the
+  # window is not focused.
+  #unfocused_hollow: true
+
 # Live config reload (changes require restart)
 #live_config_reload: true
+
 # Shell
 #
 # You can set `shell.program` to the path of your favorite shell, e.g. `/bin/fish`.
@@ -293,11 +358,13 @@ background_opacity: 0.95
 #  program: /bin/bash
 #  args:
 #    - --login
+
 # Startup directory
 #
 # Directory the shell is started in. If this is unset, or `None`, the working
 # directory of the parent process will be used.
 #working_directory: None
+
 # WinPTY backend (Windows only)
 #
 # Alacritty defaults to using the newer ConPTY backend if it is available,
@@ -307,57 +374,68 @@ background_opacity: 0.95
 # Setting this option to `true` makes Alacritty use the legacy WinPTY backend,
 # even if the ConPTY backend is available.
 #winpty_backend: false
+
 # Send ESC (\x1b) before characters when alt is pressed.
 #alt_send_esc: true
+
 #debug:
-# Display the time it takes to redraw each frame.
-#render_timer: false
-# Keep the log file after quitting Alacritty.
-#persistent_logging: false
-# Log level
-#
-# Values for `log_level`:
-#   - None
-#   - Error
-#   - Warn
-#   - Info
-#   - Debug
-#   - Trace
-#log_level: Warn
-# Print all received window events.
-#print_events: false
-# Record all characters and escape sequences as test data.
-#ref_test: false
+  # Display the time it takes to redraw each frame.
+  #render_timer: false
+
+  # Keep the log file after quitting Alacritty.
+  #persistent_logging: false
+
+  # Log level
+  #
+  # Values for `log_level`:
+  #   - None
+  #   - Error
+  #   - Warn
+  #   - Info
+  #   - Debug
+  #   - Trace
+  #log_level: Warn
+
+  # Print all received window events.
+  #print_events: false
+
+  # Record all characters and escape sequences as test data.
+  #ref_test: false
+
 #mouse:
-# Click settings
-#
-# The `double_click` and `triple_click` settings control the time
-# alacritty should wait for accepting multiple clicks as one double
-# or triple click.
-#double_click: { threshold: 300 }
-#triple_click: { threshold: 300 }
-# If this is `true`, the cursor is temporarily hidden when typing.
-#hide_when_typing: false
-#url:
-# URL launcher
-#
-# This program is executed when clicking on a text which is recognized as a URL.
-# The URL is always added to the command as the last parameter.
-#
-# When set to `None`, URL launching will be disabled completely.
-#
-# Default:
-#   - (macOS) open
-#   - (Linux/BSD) xdg-open
-#   - (Windows) explorer
-#launcher:
-#  program: xdg-open
-#  args: []
-# URL modifiers
-#
-# These are the modifiers that need to be held down for opening URLs when clicking
-# on them. The available modifiers are documented in the key binding section.
-#modifiers: None
+  # Click settings
+  #
+  # The `double_click` and `triple_click` settings control the time
+  # alacritty should wait for accepting multiple clicks as one double
+  # or triple click.
+  #double_click: { threshold: 300 }
+  #triple_click: { threshold: 300 }
+
+  # If this is `true`, the cursor is temporarily hidden when typing.
+  #hide_when_typing: false
+
+  #url:
+    # URL launcher
+    #
+    # This program is executed when clicking on a text which is recognized as a URL.
+    # The URL is always added to the command as the last parameter.
+    #
+    # When set to `None`, URL launching will be disabled completely.
+    #
+    # Default:
+    #   - (macOS) open
+    #   - (Linux/BSD) xdg-open
+    #   - (Windows) explorer
+    #launcher:
+    #  program: xdg-open
+    #  args: []
+
+    # URL modifiers
+    #
+    # These are the modifiers that need to be held down for opening URLs when clicking
+    # on them. The available modifiers are documented in the key binding section.
+    #modifiers: None
+
 # Mouse bindings
 #
 # Mouse bindings are specified as a list of objects, much like the key
@@ -379,6 +457,7 @@ background_opacity: 0.95
 # - `mods` (see key bindings)
 #mouse_bindings:
 #  - { mouse: Middle, action: PasteSelection }
+
 # Key bindings
 #
 # Key bindings are specified as a list of objects. For example, this is the
@@ -480,41 +559,21 @@ background_opacity: 0.95
 # be mapped to the `ReceiveChar` action. Alternatively, you can use `None` for
 # a no-op if you do not wish to receive input characters for that binding.
 key_bindings:
-  # (Windows, Linux, and BSD only)
-  - { key: V, mods: Control|Shift, action: Paste }
-  - { key: C, mods: Control|Shift, action: Copy }
-  - { key: Insert, mods: Shift, action: PasteSelection }
-  - { key: Key0, mods: Control, action: ResetFontSize }
-  - { key: Equals, mods: Control, action: IncreaseFontSize }
-  - { key: Plus, mods: Control, action: IncreaseFontSize }
-  - { key: Minus, mods: Control, action: DecreaseFontSize }
-  - { key: Minus, mods: Control, action: DecreaseFontSize }
+    # (Windows, Linux, and BSD only)
+  - { key: V,        mods: Control|Shift, action: Paste            }
+  - { key: C,        mods: Control|Shift, action: Copy             }
+  - { key: Insert,   mods: Shift,         action: PasteSelection   }
+  - { key: Key0,     mods: Control,       action: ResetFontSize    }
+  - { key: Equals,   mods: Control,       action: IncreaseFontSize }
+  - { key: Plus,     mods: Control,       action: IncreaseFontSize }
+  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
+  - { key: Minus,    mods: Control,       action: DecreaseFontSize }
 
-  - { key: Paste, action: Paste }
-  - { key: Copy, action: Copy }
-  - { key: L, mods: Control, action: ClearLogNotice }
-  - { key: L, mods: Control, chars: "\f" }
-  - {
-      key: PageUp,
-      mods: Shift,
-      action: ScrollPageUp,
-      mode: ~Alt
-    }
-  - {
-      key: PageDown,
-      mods: Shift,
-      action: ScrollPageDown,
-      mode: ~Alt
-    }
-  - {
-      key: Home,
-      mods: Shift,
-      action: ScrollToTop,
-      mode: ~Alt
-    }
-  - {
-      key: End,
-      mods: Shift,
-      action: ScrollToBottom,
-      mode: ~Alt
-    }
+  - { key: Paste,                    action: Paste                            }
+  - { key: Copy,                     action: Copy                             }
+  - { key: L,         mods: Control, action: ClearLogNotice                   }
+  - { key: L,         mods: Control, chars: "\x0c"                            }
+  - { key: PageUp,    mods: Shift,   action: ScrollPageUp,   mode: ~Alt       }
+  - { key: PageDown,  mods: Shift,   action: ScrollPageDown, mode: ~Alt       }
+  - { key: Home,      mods: Shift,   action: ScrollToTop,    mode: ~Alt       }
+  - { key: End,       mods: Shift,   action: ScrollToBottom, mode: ~Alt       }
