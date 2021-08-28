@@ -117,9 +117,20 @@
         "format": "  {} ",
         "escape": true,
         "return-type": "$text",
+        "interval": 10,
         "max-length": 35,
         "exec": "$HOME/.config/waybar/mediaplayer.sh 2> /dev/null",
         "exec-if": "pgrep ncspot",
         "on-click": "playerctl -p ncspot play-pause"
     },
 }
+#"custom/spotify": {
+#    "format": " {} ",
+#    "escape": true,
+#    "return-type": "json",
+#    "max-length": 40,
+#    "interval": 30, // Remove this if your script is endless and write in loop
+#    "exec": "$HOME/.config/waybar/mediaplayer.py 2> /dev/null", // Script in resources/custom_modules folder
+#    "exec-if": "pgrep ncspot"
+#    "on-click": "playerctl -p ncspot play-pause"
+#}
