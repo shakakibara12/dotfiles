@@ -114,10 +114,10 @@
     },
 
     "custom/spotify": {
-        "format": "  {}",
+        "format": "  {} ",
         "escape": true,
         "return-type": "$text",
-        "max-length": 30,
+        "max-length": 35,
         "exec": "$HOME/.config/waybar/mediaplayer.sh 2> /dev/null",
         "exec-if": "pgrep ncspot",
         "on-click": "playerctl -p ncspot play-pause"
