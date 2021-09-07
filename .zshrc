@@ -1,3 +1,5 @@
+#Enable vi mode
+bindkey -v
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
@@ -102,7 +104,7 @@ export LANG=en_IN.UTF-8
 
 ####   ARCOLINUX SETTINGS   ####
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+#source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 setopt GLOB_DOTS
 
 # If not running interactively, don't do anything
