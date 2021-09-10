@@ -56,9 +56,12 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 [[ -f ~/.zshrc-personal ]] && . ~/.zshrc-personal
 
-neofetch | lolcat
-
 ##ENV
-[ -d "$HOME/.bin" ] && PATH="${PATH}:$HOME/.local/.bin"
-[ -d "$HOME/bin" ] && PATH="${PATH}:$HOME/.local/bin"
+if [ -d "$HOME/.bin" ] ;
+  then PATH="$HOME/.bin:$PATH"
+fi
 
+if [ -d "$HOME/.local/bin" ] ;
+  then PATH="$HOME/.local/bin:$PATH"
+fi
+source ~/powerlevel10k/powerlevel10k.zsh-theme

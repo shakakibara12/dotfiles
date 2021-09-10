@@ -20,7 +20,7 @@ xwayland enable
 
 #disable focus follows mouse cursor
 
-focus_follows_mouse no
+focus_follows_mouse yes
 
 ### Variables
 # Logo key. Use Mod1 for Alt.
@@ -46,7 +46,7 @@ set $menu rofi -show run
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /home/shaka/Pictures/Wallpapers/3.png fill
+output * bg /home/shaka/Pictures/Wallpapers/wallpaper fill
 #
 # Example configuration:
 #
