@@ -56,6 +56,8 @@ source ~/powerlevel10k/powerlevel10k.zsh-theme
 
 [[ -f ~/.zshrc-personal ]] && . ~/.zshrc-personal
 
+bindkey -v
+
 ##ENV
 if [ -d "$HOME/.bin" ] ;
   then PATH="$HOME/.bin:$PATH"
@@ -65,3 +67,5 @@ if [ -d "$HOME/.local/bin" ] ;
   then PATH="$HOME/.local/bin:$PATH"
 fi
 source ~/powerlevel10k/powerlevel10k.zsh-theme
+bindkey "^[[1;5C" forward-word
+bindkey "^[[1;5D" backward-word
