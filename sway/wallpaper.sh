@@ -6,3 +6,4 @@ choose=$(sxiv -r -t -q -o $path)
 [[ -d $HOME/Pictures/Wallpapers ]] || mkdir -p $Home/Pictures/Wallpapers/
 
 [[ -z $choose ]] || ln -sf $choose $path/wallpaper
+exit
