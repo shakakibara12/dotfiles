@@ -2,9 +2,13 @@
 gaps inner 10 
 gaps outer 5 
 
-default_border pixel 6 #disable windows titlebar
+default_border pixel 2 #disable windows titlebar
+default_floating_border pixel 2 #disable floating windows titlebar
 
-font pango: SourceCodePro Medium 12
+#Font
+font pango:DejaVu Sans Mono 11
+#align  title
+title_align center
 
 # class                 border  backgr. text    indicator child_border
 client.focused          #0039e6 #285577 #ffffff #2e9ef4   #0039e6
@@ -13,7 +17,11 @@ client.unfocused        #333333 #222222 #888888 #292d2e   #222222
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
-client.background       #ffffff
+#client.background       #ffffff            #its ignored by sway anyway lol
+
+#Importing the gtk,icon, and cursor themes:
+#also fixes copyq XD (sometimes)
+exec_always import-gsettings
 
 #xorg support
 xwayland enable
@@ -33,7 +41,7 @@ set $right l
 
 #Set variables here:
 
-set $filemanager pcmanfm
+set $filemanager pcmanfm     #for wayland support use pcmanfm-qt
 set $browser brave
 set $term alacritty
 set $mediaplayer alacritty -e ncspot
@@ -42,11 +50,11 @@ set $mail mailspring
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
-set $menu rofi -show run
+set $menu wofi --show drun -i | xargs swaymsg exec --
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg /home/shaka/Pictures/Wallpapers/wallpaper fill
+output * bg ~/Pictures/Wallpapers/wallpaper fill
 #
 # Example configuration:
 #
@@ -188,8 +196,7 @@ input * accel_profile flat
     bindsym $mod+a focus parent
 #
 # Scratchpad:
-#
-    # Sway has a "scratchpad", which is a bag of holding for windows.
+# # Sway has a "scratchpad", which is a bag of holding for windows.
     # You can send windows there and get them back later.
 
     # Move the currently focused window to the scratchpad
@@ -238,8 +245,8 @@ bindsym $mod+F3 exec playerctl play-pause
 bindsym Control+Alt+w exec $browser
 bindsym Control+Alt+b exec $filemanager 
 bindsym Control+Alt+m exec $mail 
-bindsym Control+Alt+s exec $mediaplayer 
-bindsym Control+Alt+d exec discord 
+bindsym Control+Alt+s exec $mediaplayer
+bindsym Control+Alt+d exec discord-canary
 bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2%       #increase audio 
 bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2%       #decrease audio
 #bindsym $mod+Shift+$down exec pamixer -d 2          #decrease audio 
@@ -251,8 +258,10 @@ bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioStop exec playerctl stop
 #scripts
-bindsym Alt+f exec /home/shaka/scripts/mpv.sh 
-bindsym Alt+m exec /home/shaka/scripts/rclone.sh
+bindsym $mod+p exec ~/.config/sway/wallpaper.sh
+bindsym $mod+o exec ~/.config/sway/audio_output.sh
+bindsym Alt+f exec ~/scripts/mpv.sh 
+bindsym Alt+m exec ~/scripts/rclone.sh
 #Screenshot bebe
 bindsym Control+Shift+s exec grim -g "$(slurp)" - | swappy -f - 
 bindsym $mod+Shift+s exec grimshot --notify copy area
@@ -266,8 +275,9 @@ bindsym --release --border --whole-window button8 workspace prev
 
 #exec_always --no-startup-id copyq;
 #exec_always --no-startup-id indicator-sound-switcher;
-exec --no-startup-id env QT_QPA_PLATFORM=xcb copyq;
+exec_always --no-startup-id env QT_QPA_PLATFORM=xcb copyq;
 exec --no-startup-id gammastep-indicator
+exec --no-startup-id xhost +SI:localuser:root           #fix cannot open display: :0 error
 
 #Start window in floating mode
 for_window [class="copyq"] floating enable
