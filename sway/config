@@ -240,7 +240,7 @@ include /etc/sway/config.d/*
 
 #My Bindings
 
-bindsym $mod+x exec arcolinux-logout
+bindsym $mod+x exec shaka-logout
 bindsym $mod+F3 exec playerctl play-pause 
 bindsym Control+Alt+w exec $browser
 bindsym Control+Alt+b exec $filemanager 
