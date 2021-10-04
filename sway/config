@@ -6,7 +6,7 @@ default_border pixel 2 #disable windows titlebar
 default_floating_border pixel 2 #disable floating windows titlebar
 
 #Font
-font pango:DejaVu Sans Mono 11
+font pango:DejaVu Sans Mono 12
 #align  title
 title_align center
 
@@ -42,7 +42,7 @@ set $right l
 #Set variables here:
 
 set $filemanager pcmanfm     #for wayland support use pcmanfm-qt
-set $browser brave
+set $browser firefox
 set $term alacritty
 set $mediaplayer alacritty -e ncspot
 set $mail mailspring
@@ -264,6 +264,9 @@ bindsym $mod+p exec ~/.config/sway/wallpaper.sh
 bindsym $mod+o exec ~/.config/sway/audio_output.sh
 bindsym Alt+f exec ~/scripts/mpv.sh 
 bindsym Alt+m exec ~/scripts/rclone.sh
+#Laptop stuff
+bindsym XF86MonBrightnessUp exec brightnessctl s +10%
+bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
 #Screenshot bebe
 bindsym Control+Shift+s exec grim -g "$(slurp)" - | swappy -f - 
 bindsym $mod+Shift+s exec grimshot --notify copy area

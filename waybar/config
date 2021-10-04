@@ -6,7 +6,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode", "custom/spotify"],
     "modules-center": ["clock"],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "tray"],
+    "modules-right": ["pulseaudio", "network", "cpu", "memory", "battery", "tray"],
      "sway/workspaces": {
          "disable-scroll": true,
          "all-outputs": true,
@@ -60,9 +60,9 @@
     },
     "battery": {
         "states": {
-            // "good": 95,
-            "warning": 30,
-            "critical": 15
+            // "good": 90,
+            "warning": 20,
+            "critical": 10
         },
         "format": "{capacity}% {icon}",
         "format-charging": "{capacity}% ",
