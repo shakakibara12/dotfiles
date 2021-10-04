@@ -21,7 +21,7 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
 #Importing the gtk,icon, and cursor themes:
 #also fixes copyq XD (sometimes)
-exec_always import-gsettings
+exec_always ~/.config/sway/import-gsettings
 
 #xorg support
 xwayland enable
@@ -175,8 +175,8 @@ input * accel_profile flat
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+v splitv
+    bindsym $mod+shift+b splith
+    bindsym $mod+b splitv
 
     # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
@@ -241,6 +241,7 @@ include /etc/sway/config.d/*
 #My Bindings
 
 bindsym $mod+x exec arcolinux-logout
+bindsym $mod+v exec copyq toggle
 bindsym $mod+F3 exec playerctl play-pause 
 bindsym Control+Alt+w exec $browser
 bindsym Control+Alt+b exec $filemanager 
@@ -257,6 +258,7 @@ bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
 bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioStop exec playerctl stop
+bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle              #mute audio 
 #scripts
 bindsym $mod+p exec ~/.config/sway/wallpaper.sh
 bindsym $mod+o exec ~/.config/sway/audio_output.sh
@@ -275,7 +277,7 @@ bindsym --release --border --whole-window button8 workspace prev
 
 #exec_always --no-startup-id copyq;
 #exec_always --no-startup-id indicator-sound-switcher;
-exec_always --no-startup-id env QT_QPA_PLATFORM=xcb copyq;
+exec_always --no-startup-id env QT_QPA_PLATFORM=xcb copyq
 exec --no-startup-id gammastep-indicator
 exec --no-startup-id xhost +SI:localuser:root          #fix cannot open display: :0 error
 exec --no-startup-id xrdb -merge ~/.Xdefaults          #use colours and font from Xdefaults ( for sxiv and other apps )
