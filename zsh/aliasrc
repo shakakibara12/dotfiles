@@ -34,7 +34,7 @@ alias ytv-best="yt-dlp -f bestvideo+bestaudio "
 alias iso="cat /etc/dev-rel | awk -F '=' '/ISO/ {print $2}'"
 
 #Cleanup orphaned packages
-alias cleanup='sudo pacman -Rns $(pacman -Qtdq) && sudo paccache -r'
+alias cleanup='sudo paccache -r && sudo pacman -Rns $(pacman -Qtdq)'
 
 #get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"

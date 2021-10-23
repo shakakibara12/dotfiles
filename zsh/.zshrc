@@ -8,6 +8,7 @@ setopt autocd		# Automatically cd into typed directory.
 #stty stop undef		# Disable ctrl-s to freeze terminal.
 setopt interactive_comments
 
+autoload -U promptinit && promptinit					# autoload prompt
 #Enable git on the right side
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
@@ -20,14 +21,21 @@ zstyle ':vcs_info:*' enable git
 # History in cache directory:
 HISTSIZE=10000
 SAVEHIST=10000
-HISTFILE=~/.cache/zsh/history #create folder (or it won't store history)
+HISTFILE=~/.config/zsh/history 
+
+# Compile the completion dump to increase startup speed.
+zcompdump=~/.config/zsh/.zcompdump
+if [[ "$zcompdump" -nt "${zcompdump}.zwc" || ! -s "${zcompdump}.zwc" ]]; then
+zcompile "$zcompdump"
+fi
 
 # Load aliases and shortcuts if existent.
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc"
 
 # Basic auto/tab complete:
 autoload -Uz compinit && compinit
-zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} matcher-list '' 'm:{a-zA-Z}={A-Za-z}'
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} #add colors in tab completion
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' #case insensitive tab completion
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
@@ -38,6 +46,9 @@ bindkey -v
 export KEYTIMEOUT=1
 
 
+bindkey '^R' history-incremental-search-backward
+bindkey "^N" history-beginning-search-forward
+bindkey "^P" history-beginning-search-backward
 bindkey "^a" beginning-of-line
 bindkey "^e" end-of-line
 bindkey "^[[1;5C" forward-word
