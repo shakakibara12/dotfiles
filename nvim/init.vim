@@ -17,10 +17,19 @@ set encoding=UTF-8 nobackup nowritebackup nocursorline splitbelow splitright wil
 set shiftwidth=4 tabstop=4 softtabstop=4 autoindent smartindent expandtab
 set rnu "relative number
 set noshowmode
+ " Turn backup off
+set nobackup nowb noswapfile 
+set history=500
+" Set to auto read when a file is changed from the outside 
+set autoread 
+au FocusGained,BufEnter * checktime
+
 
 "key- Bindings
-let mapleader=" "
+let mapleader=","
 nnoremap <leader>s :source ~/.config/nvim/init.vim<CR>
+" doesn't work in nvim rightnow"
+"command! W execute 'w !sudo -S tee % > /dev/null' <bar> edit! "savefile which have permission problems
 command! -bang -nargs=? -complete=dir HFiles
   \ call fzf#vim#files(<q-args>, {'source': 'rg --files --hidden -g "!.git" '}, <bang>0)
 nnoremap Q <nop>
