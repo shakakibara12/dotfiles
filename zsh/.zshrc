@@ -19,6 +19,7 @@ zstyle ':vcs_info:git:*' formats '%F{yellow}(%b)%f'
 zstyle ':vcs_info:*' enable git
 
 # History in cache directory:
+setopt HIST_IGNORE_DUPS
 HISTSIZE=10000
 SAVEHIST=10000
 HISTFILE=~/.config/zsh/history 
@@ -33,9 +34,10 @@ fi
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc"
 
 # Basic auto/tab complete:
-autoload -Uz compinit && compinit
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} #add colors in tab completion
-zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}' #case insensitive tab completion
+zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'  'r:|=*' 'l:|=* r:|=*' #case insensitive tab completion
+autoload -Uz compinit && compinit
 zmodload zsh/complist
 compinit
 _comp_options+=(globdots)		# Include hidden files.
