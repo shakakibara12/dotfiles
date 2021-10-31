@@ -32,7 +32,7 @@ function show_help () {
 }
 
 #checks if wf-recorder is running
-pgrep -x "wf-recorder" > /dev/null && killall -s SIGINT wf-recorder && notify-send "Recording stopped" && exit
+pgrep -x "wf-recorder" > /dev/null && killall -s SIGINT wf-recorder && notify-send -t 3000 "Recording stopped" && exit
 
 #if [[ "$1" == "-g" ]] || [[ "$1" == "--geometry" ]]; then
 #    wf-recorder -g "$(slurp)" -f $save --codec libx264rgb --device /dev/dri/renderD128 $codec_param --audio $device --force-yuv 
@@ -49,12 +49,12 @@ case "$1" in
       ;;
     -s|--screen )
       shift
-      notify-send "Recording started"
+      notify-send -t 3000 "Recording started"
       wf-recorder -f $save --codec libx264rgb --device /dev/dri/renderD128 $codec_param --audio $device --force-yuv
       ;;
     -g|--geometry )
       shift
-      notify-send "Recording started"
+      notify-send -t 3000 "Recording started"
       wf-recorder -g "$(slurp)" -f $save --codec libx264rgb --device /dev/dri/renderD128 $codec_param --audio $device --force-yuv
       ;;
     *)
@@ -68,10 +68,10 @@ pactl set-default-source $mic_default
 #Encoding
 function encode() {
     sleep 3
-    notify-send "Starting encode..." && \
+    notify-send -t 3000 "Starting encode..." && \
     ffmpeg -i $save -c:v libx264 -x264opts colorprim=bt709:transfer=bt709:colormatrix=smpte170m -crf 22 -c:a copy "$encoded_name" && \
     sleep 3 && \
-    notify-send "Video is now ready!"
+    notify-send -t 3000 "Video is now ready!"
     rm -f $save
     exit
 }
