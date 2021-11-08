@@ -114,11 +114,11 @@ font:
     # family: RobotoMono Nerd Font
     # family: Hack
     # family: JetBrains Mono
-    # family: UbuntuMono Nerd Font
+    family: UbuntuMono Nerd Font
     # family: Monofur Nerd Font
     # family: TerminessTTF Nerd Font
-    #family: MesloLGS NF
-    family: Monospace
+    # family: MesloLGS NF
+    # family: Monospace
 
     # The `style` can be specified to pick a specific face.
     style: Regular
@@ -134,10 +134,10 @@ font:
     # family: RobotoMono Nerd Font
     # family: Hack
     # family: JetBrains Mono
-    # family: UbuntuMono Nerd Font
+    family: UbuntuMono Nerd Font
     # family: Monofur Nerd Font
     # family: TerminessTTF Nerd Font
-    family: Monospace
+    #family: Monospace
 
     # The `style` can be specified to pick a specific face.
     style: Bold
@@ -153,10 +153,10 @@ font:
     # family: RobotoMono Nerd Font
     # family: Hack
     # family: JetBrains Mono
-    # family: UbuntuMono Nerd Font
+    family: UbuntuMono Nerd Font
     # family: Monofuritalic Nerd Font Mono
     # family: TerminessTTF Nerd Font
-    family: Monospace
+    #family: Monospace
 
     # The `style` can be specified to pick a specific face.
     style: Italic
@@ -172,16 +172,16 @@ font:
     # family: RobotoMono Nerd Font
     # family: Hack
     # family: JetBrains Mono
-    # family: UbuntuMono Nerd Font
+    family: UbuntuMono Nerd Font
     # family: Monofuritalic Nerd Font Mono
     # family: TerminessTTF Nerd Font
-    family: Monospace
+    #family: Monospace
 
     # The `style` can be specified to pick a specific face.
     style: Bold Italic
 
   # Point size
-  size: 11
+  size: 13
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.

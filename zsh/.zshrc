@@ -18,10 +18,11 @@ RPROMPT=\$vcs_info_msg_0_
 zstyle ':vcs_info:git:*' formats '%F{yellow}(%b)%f'
 zstyle ':vcs_info:*' enable git
 
-# History in cache directory:
+# History:
 setopt HIST_IGNORE_DUPS
-HISTSIZE=10000
-SAVEHIST=10000
+HISTSIZE='10000'
+HISTFILESIZE='10000'
+HISTCONTROL=ignoreboth:erasedups
 HISTFILE=~/.config/zsh/history 
 
 # Compile the completion dump to increase startup speed.

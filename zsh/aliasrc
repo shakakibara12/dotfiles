@@ -5,6 +5,8 @@ alias rm='rm -i'
 alias ins='sudo pacman -Sy'
 alias v='nvim'
 alias rem='sudo pacman -R'
+alias history='history 0' #fixes history only showing 16 results
+alias rsync='rsync -v'
 
 alias grep='grep --color=auto'
 
@@ -18,9 +20,6 @@ alias pacman='sudo pacman --color auto'
 
 #grub update
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
-
-#add new fonts
-alias update-fc='sudo fc-cache -fv'
 
 #switch between bash and zsh
 alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
