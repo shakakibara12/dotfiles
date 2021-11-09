@@ -20,9 +20,8 @@ zstyle ':vcs_info:*' enable git
 
 # History:
 setopt HIST_IGNORE_DUPS
-HISTSIZE='10000'
-HISTFILESIZE='10000'
-HISTCONTROL=ignoreboth:erasedups
+HISTSIZE=10000
+SAVEHIST=10000
 HISTFILE=~/.config/zsh/history 
 
 # Compile the completion dump to increase startup speed.
