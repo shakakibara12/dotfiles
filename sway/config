@@ -93,6 +93,9 @@ output * bg ~/Pictures/Wallpapers/wallpaper fill
 
 input * accel_profile flat
 
+#enable numlock in keyboard
+input 1:1:AT_Translated_Set_2_keyboard xkb_numlock enabled
+
 ### Key bindings
 #
 # Basics:
@@ -268,9 +271,15 @@ bindsym Alt+m exec ~/scripts/rclone.sh
 bindsym XF86MonBrightnessUp exec brightnessctl s +10%
 bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
 #Screenshot bebe
+#copy a section of screen and edit with swappy
 bindsym Control+Shift+s exec grim -g "$(slurp)" - | swappy -f - 
+#copy a section of screen and copy to clipboard
 bindsym $mod+Shift+s exec grimshot --notify copy area
+#Copy screenshot to clipboard
 bindsym Control+Print exec grimshot --notify copy screen
+#Grab a swappshot from a specific window under Sway, using swaymsg and jq:
+bindsym $mod+Print exec ~/.config/sway/screenshot.sh
+#save full screen screenshot
 bindsym Print exec grimshot --notify save screen 
 #Record
 bindsym F12 exec ~/.config/sway/record.sh -s

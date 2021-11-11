@@ -19,9 +19,15 @@ zstyle ':vcs_info:git:*' formats '%F{yellow}(%b)%f'
 zstyle ':vcs_info:*' enable git
 
 # History:
-setopt HIST_IGNORE_DUPS
-HISTSIZE=10000
-SAVEHIST=10000
+setopt APPEND_HISTORY # adds history
+setopt CORRECT
+setopt COMPLETE_IN_WORD
+setopt INC_APPEND_HISTORY SHARE_HISTORY  # adds history incrementally and share it across sessions
+setopt HIST_IGNORE_ALL_DUPS  # don't record dupes in history
+setopt HIST_REDUCE_BLANKS
+setopt EXTENDED_HISTORY # add timestamps to history
+HISTSIZE=100000
+SAVEHIST=100000
 HISTFILE=~/.config/zsh/history 
 
 # Compile the completion dump to increase startup speed.
@@ -47,10 +53,12 @@ _comp_options+=(globdots)		# Include hidden files.
 bindkey -v
 export KEYTIMEOUT=1
 
-
-bindkey '^R' history-incremental-search-backward
-bindkey "^N" history-beginning-search-forward
-bindkey "^P" history-beginning-search-backward
+autoload -U history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey '^R' history-incremental-search-backward-end
+bindkey "^N" history-beginning-search-forward-end
+bindkey "^P" history-beginning-search-backward-end 
 bindkey "^a" beginning-of-line
 bindkey "^e" end-of-line
 bindkey "^[[1;5C" forward-word
