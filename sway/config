@@ -251,11 +251,12 @@ bindsym Control+Alt+b exec $filemanager
 bindsym Control+Alt+m exec $mail 
 bindsym Control+Alt+s exec $mediaplayer
 bindsym Control+Alt+d exec discord-canary
-bindsym XF86AudioRaiseVolume exec pactl set-sink-volume 0 +2%       #increase audio 
-bindsym XF86AudioLowerVolume exec pactl set-sink-volume 0 -2%       #decrease audio
-#bindsym $mod+Shift+$down exec pamixer -d 2          #decrease audio 
-#bindsym $mod+Shift+$up exec pamixer -i 2            #increase audio  
-bindsym Control+Shift+m exec pactl set-sink-mute 0 toggle              #mute audio 
+bindsym XF86AudioRaiseVolume exec amixer set Master 2%+            #increase audio 
+#bindsym $mod+Shift+$down exec amixer set Master 2%-       #decrease audio
+#bindsym $mod+Shift+$up exec amixer set Master 2%+            #increase audio 
+bindsym XF86AudioLowerVolume exec amixer set Master 2%-       #decrease audio
+bindsym Control+Shift+m exec amixer set Master toggle      #mute audio 
+
 #Media keys supported by vlc, spotify, audacious, xmm2, ...
 bindsym XF86AudioPlay exec playerctl play-pause
 bindsym XF86AudioNext exec playerctl next
