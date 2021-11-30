@@ -6,7 +6,8 @@ alias ins='sudo pacman -Sy'
 alias v='nvim'
 alias rem='sudo pacman -R'
 alias history='history 0' #fixes history only showing 16 results
-alias rsync='rsync -v'
+alias rsync='rsync -vh'
+alias cp='cp -v'
 
 alias grep='grep --color=auto'
 
@@ -29,6 +30,7 @@ alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
 alias mirror="sudo reflector -f 30 -l 30 --threads 4 --number 10 --verbose --save /etc/pacman.d/mirrorlist"
 
 alias ytv-best="yt-dlp -f bestvideo+bestaudio "
+alias yta-best="yt-dlp --extract-audio --audio-format best "
 
 alias iso="cat /etc/dev-rel | awk -F '=' '/ISO/ {print $2}'"
 
