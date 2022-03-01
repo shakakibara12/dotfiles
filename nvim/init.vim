@@ -7,6 +7,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'itchyny/lightline.vim'
 Plug 'morhetz/gruvbox'
 Plug 'sainnhe/everforest'
+Plug 'vimwiki/vimwiki'
 
 "List ends here. Plugins become visible to Vim after this call.
 call plug#end()
@@ -26,10 +27,10 @@ au FocusGained,BufEnter * checktime
 
 
 "key- Bindings
-let mapleader=","
+" <leader> = '\' this is the default leader
+" let mapleader=","
 nnoremap <leader>s :source ~/.config/nvim/init.vim<CR>
 " doesn't work in nvim rightnow"
-"command! W execute 'w !sudo -S tee % > /dev/null' <bar> edit! "savefile which have permission problems
 command! -bang -nargs=? -complete=dir HFiles
   \ call fzf#vim#files(<q-args>, {'source': 'rg --files --hidden -g "!.git" '}, <bang>0)
 nnoremap Q <nop>
@@ -37,7 +38,7 @@ nnoremap <UP> <nop>
 nnoremap <Down> <nop>
 nnoremap <Left> <nop>
 nnoremap <Right> <nop>
-map ; :HFiles<CR>
+"map ; :HFiles<CR>
 
 "Colors
 colorscheme gruvbox

@@ -20,7 +20,6 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 #client.background       #ffffff            #its ignored by sway anyway lol
 
 #Importing the gtk,icon, and cursor themes:
-#also fixes copyq XD (sometimes)
 exec ~/.config/sway/import-gsettings
 #exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
@@ -42,8 +41,8 @@ set $right l
 
 #Set variables here:
 
-set $filemanager pcmanfm     #for wayland support use pcmanfm-qt
-set $browser firefox
+set $filemanager pcmanfm
+set $browser librewolf
 set $term alacritty
 set $mediaplayer alacritty -e ncspot
 set $mail mailspring
@@ -179,8 +178,8 @@ input 1:1:AT_Translated_Set_2_keyboard xkb_numlock enabled
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+shift+b splith
-    bindsym $mod+b splitv
+    bindsym $mod+b splith
+    bindsym $mod+v splitv
 
     # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
@@ -239,24 +238,36 @@ bar {
     swaybar_command waybar
 }
 
+# Notification Daemon
+exec swaync
+
+# Toggle control center
+bindsym $mod+Shift+i exec swaync-client -t -sw
+
 
 include /etc/sway/config.d/*
 
 #My Bindings
 
 bindsym $mod+x exec wlogout
-bindsym $mod+v exec copyq toggle
+#bindsym $mod+v exec copyq toggle
+
+#these ugly shortcuts are for mouse bindings!
+#https://github.com/sezanzeb/input-remapper
+bindsym Control+Shift+t workspace next
+bindsym Control+Shift+y workspace prev
+
 bindsym $mod+F3 exec playerctl play-pause 
 bindsym Control+Alt+w exec $browser
 bindsym Control+Alt+b exec $filemanager 
 bindsym Control+Alt+m exec $mail 
-bindsym Control+Alt+s exec $mediaplayer
+bindsym Control+Alt+s exec $mediaplayer, floating enable
 #bindsym Control+Alt+d exec discord-canary
-bindsym XF86AudioRaiseVolume exec amixer set Master 2%+            #increase audio 
+bindsym XF86AudioRaiseVolume exec pamixer -i 2 #increase audio 
 #bindsym $mod+Shift+$down exec amixer set Master 2%-       #decrease audio
 #bindsym $mod+Shift+$up exec amixer set Master 2%+            #increase audio 
-bindsym XF86AudioLowerVolume exec amixer set Master 2%-       #decrease audio
-bindsym Control+Shift+m exec amixer set Master toggle      #mute audio 
+bindsym XF86AudioLowerVolume exec pamixer -d 2 #decrease audio
+bindsym $mod+Shift+m exec amixer set Master toggle      #mute audio 
 
 #Media keys supported by vlc, spotify, audacious, xmm2, ...
 bindsym XF86AudioPlay exec playerctl play-pause
@@ -267,8 +278,8 @@ bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle              #mute audio
 #scripts
 bindsym $mod+p exec ~/.config/sway/wallpaper.sh
 bindsym $mod+o exec ~/.config/sway/audio_output.sh
-bindsym Alt+f exec ~/scripts/mpv.sh 
-bindsym Alt+m exec ~/scripts/rclone.sh
+bindsym $mod+u exec ~/scripts/mpv.sh 
+bindsym $mod+m exec ~/scripts/rclone.sh
 #Laptop stuff
 bindsym XF86MonBrightnessUp exec brightnessctl s +10%
 bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
@@ -284,23 +295,32 @@ bindsym $mod+Print exec ~/.config/sway/screenshot.sh
 #save full screen screenshot
 bindsym Print exec grimshot --notify save screen 
 #Record
-bindsym F12 exec ~/.config/sway/record.sh -s
-bindsym $mod+F12 exec ~/.config/sway/record.sh -g
+bindsym $mod+F12 exec ~/.config/sway/record.sh -s
+bindsym $mod+Shift+F12 exec ~/.config/sway/record.sh -g
 #mouse keybindings
 #bindsym [--release] [--border] [--whole-window] [--exclude-titlebar] [<Modifiers>+]button<n> command
-bindsym --release --border --whole-window button9 workspace next 
-bindsym --release --border --whole-window button8 workspace prev 
+#bindsym --release --border --whole-window button9 workspace next 
+#bindsym --release --border --whole-window button8 workspace prev 
 #Startup Apps
 
-exec_always --no-startup-id copyq
+exec --no-startup-id qbittorrent
+exec --no-startup-id com.github.alainm23.planner
+exec --no-startup-id input-remapper-control --command autoload
+exec --no-startup-id alarm-clock-applet --hidden
+#exec --no-startup-id gnome-clocks --gapplication-service
+#exec_always --no-startup-id copyq
 #exec --no-startup-id gammastep-indicator
 #exec --no-startup-id xhost +SI:localuser:root          #fix cannot open display: :0 error
 #better and secure alternative is using a polkit as mentioned here 
 #    https://www.reddit.com/r/swaywm/comments/r1218i/this_is_my_sway_is_fantastic_post/
 #or use `sudo -E program`
-#exec --no-startup-id xrdb -merge ~/.Xdefaults          #use colours and font from Xdefaults ( for sxiv and other apps )
+exec --no-startup-id xrdb -merge ~/.Xresources          #use colours and font from Xdefaults ( for sxiv and other apps )
 
 #Start window in floating mode
 for_window [app_id="copyq"] floating enable
 for_window [app_id="gnome-pomodoro"] floating enable
+for_window [app_id="org.gnome.clocks"] floating enable
+for_window [class="Alarm-clock-applet"] floating enable
 
+#Open programs in different workspace
+for_window [app_id="org.qbittorrent.qBittorrent"] move to workspace 4

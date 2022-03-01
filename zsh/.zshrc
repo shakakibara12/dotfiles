@@ -23,9 +23,8 @@ setopt APPEND_HISTORY # adds history
 setopt CORRECT
 setopt COMPLETE_IN_WORD
 setopt INC_APPEND_HISTORY SHARE_HISTORY  # adds history incrementally and share it across sessions
-setopt HIST_IGNORE_ALL_DUPS  # don't record dupes in history
-setopt HIST_REDUCE_BLANKS
-setopt EXTENDED_HISTORY # add timestamps to history
+#setopt HIST_IGNORE_ALL_DUPS  # don't record dupes in history
+#setopt EXTENDED_HISTORY # add timestamps to history
 HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE=~/.config/zsh/history 
@@ -82,7 +81,11 @@ echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 #cd into directory with fzf epic
-bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
+#bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
+
+#https://github.com/ohmyzsh/ohmyzsh/issues/3440
+#no longer need to reload shell after installing a package
+#zstyle ':completion:*' rehash true
 
 # Edit line in vim with ctrl-e:
 #autoload edit-command-line; zle -N edit-command-line
