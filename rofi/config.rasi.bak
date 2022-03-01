@@ -1,0 +1,7 @@
+/** Basic config file **/
+
+configuration {
+  show-icons:         true;
+  icon-theme:         "candy-icons";
+}
+@import "/home/shaka/.config/rofi/themes/Arc-Dark-Evopop-transparent.rasi"
