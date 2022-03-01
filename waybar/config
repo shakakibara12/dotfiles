@@ -6,7 +6,7 @@
     // Choose the order of the modules
     "modules-left": ["sway/workspaces", "sway/mode", "custom/spotify"],
     "modules-center": ["clock"],
-    "modules-right": ["pulseaudio", "network", "cpu", "memory", "battery", "tray"],
+    "modules-right": ["pulseaudio", "network", "cpu", "memory", "tray"],
      "sway/workspaces": {
          "disable-scroll": true,
          "all-outputs": true,
@@ -76,13 +76,13 @@
         "bat": "BAT2"
     },
     "network": {
-    //  "interface": "wlp2*", // (Optional) To force the use of this interface
+        "interface": "enp2s0", // (Optional) To force the use of this interface
         "format-wifi": " {bandwidthDownBits} | ︁ {bandwidthUpBits}",
         "format-linked": "{ifname} (No IP) ",
         "format-ethernet": " {bandwidthDownBits} | ︁ {bandwidthUpBits}",
         "interval": 3,
     //  "format-ethernet": "{ifname}: {ipaddr}{cidr} ",
-        "format-disconnected": "Disconnected ⚠",
+        "format-disconnected": "Disconnected",
     //  "format-wifi": "{essid} ({signalStrength}%) ",
     //  "format-alt": "{essid} ({signalStrength}%) ",
         "format-alt": "{ifname}: {ipaddr}{cidr} "
@@ -120,8 +120,8 @@
         "interval": 10,
         "max-length": 35,
         "exec": "$HOME/.config/waybar/mediaplayer.sh 2> /dev/null",
-        "exec-if": "pgrep ncspot",
-        "on-click": "playerctl -p ncspot play-pause"
+   //   "exec-if": "pgrep ncspot spotify spotifyd",
+        "on-click": "$HOME/.config/waybar/mediaplayer.sh -p 2> /dev/null",
     },
 }
 #"custom/spotify": {
