@@ -30,6 +30,7 @@ xwayland enable
 
 focus_follows_mouse yes
 
+
 ### Variables
 # Logo key. Use Mod1 for Alt.
 set $mod Mod4
@@ -124,6 +125,20 @@ input 1:1:AT_Translated_Set_2_keyboard xkb_numlock enabled
 #
 # Moving around:
 #
+
+#get the fibonacci layout like this
+#------------
+#|      | B | 
+#|  A   |---|
+#|      | C |
+#------------
+
+#default_orientation vertical #start in opposite orientation from your monitor
+for_window [class=".*"] split toggle #toggles split at each new window
+bindsym $mod+shift+q split toggle kill #kill command resets the split
+#bindsym $mod+e layout toggle split # should already exist but use if split orientation  messes up
+
+
     # Move your focus around
     bindsym $mod+$left focus left
     bindsym $mod+$down focus down
@@ -315,7 +330,7 @@ exec --no-startup-id alarm-clock-applet --hidden
 #    https://www.reddit.com/r/swaywm/comments/r1218i/this_is_my_sway_is_fantastic_post/
 #or use `sudo -E program`
 exec --no-startup-id xrdb -merge ~/.Xresources          #use colours and font from Xdefaults ( for sxiv and other apps )
-
+exec ~/.config/sway/alternating_layouts.py
 #Start window in floating mode
 for_window [app_id="copyq"] floating enable
 for_window [app_id="gnome-pomodoro"] floating enable

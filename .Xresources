@@ -37,4 +37,4 @@
 
 
 ! Font
-*.font:         Ubuntu Mono-13
+*.font: Ubuntu:style=bold:size=11

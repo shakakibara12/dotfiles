@@ -4,8 +4,9 @@
 # pactl list sinks | awk '/Name:/ {print $2}'
 
 cmd=$(pactl get-default-sink)
-device1=$(pactl list sinks | awk '/Name:/ {print $2}' | awk 'NR==1')
+#device1=$(pactl list sinks | awk '/Name:/ {print $2}' | awk 'NR==1')
 #device2=$(pactl list sinks | awk '/Name:/ {print $2}' | awk 'NR==2')
+device1="alsa_output.pci-0000_00_03.0.hdmi-stereo"
 device2="alsa_output.usb-C-Media_Electronics_Inc._USB_Audio_Device-00.analog-stereo"
 
 [[ $cmd == $device1 ]] \

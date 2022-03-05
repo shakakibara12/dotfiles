@@ -1,12 +1,12 @@
 export PATH="$PATH:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:/opt/appimages:/home/shaka/bin:/home/shaka/.local/bin"
 export LIBVA_DRIVER_NAME=i965
 export QT_QPA_PLATFORMTHEME=qt5ct
-export XDG_SESSION_TYPE=wayland
-export XDG_CURRENT_DESKTOP=sway
-export QT_QPA_PLATFORM=wayland
+#export XDG_SESSION_TYPE=wayland
+#export XDG_CURRENT_DESKTOP=sway
+#export QT_QPA_PLATFORM=wayland
 # removes window outlines and stuff
-export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
-export MOZ_ENABLE_WAYLAND=1
+#export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
+#export MOZ_ENABLE_WAYLAND=1
 export VDPAU_DRIVER=va_gl
 export ZDOTDIR=$HOME/.config/zsh
 export EDITOR='nvim'
