@@ -318,10 +318,10 @@ bindsym $mod+Shift+F12 exec ~/.config/sway/record.sh -g
 #bindsym --release --border --whole-window button8 workspace prev 
 #Startup Apps
 
-exec --no-startup-id qbittorrent
-exec --no-startup-id com.github.alainm23.planner
-exec --no-startup-id input-remapper-control --command autoload
-exec --no-startup-id alarm-clock-applet --hidden
+#exec --no-startup-id qbittorrent
+#exec --no-startup-id com.github.alainm23.planner
+#exec --no-startup-id input-remapper-control --command autoload
+#exec --no-startup-id alarm-clock-applet --hidden
 #exec --no-startup-id gnome-clocks --gapplication-service
 #exec_always --no-startup-id copyq
 #exec --no-startup-id gammastep-indicator
@@ -331,6 +331,8 @@ exec --no-startup-id alarm-clock-applet --hidden
 #or use `sudo -E program`
 exec --no-startup-id xrdb -merge ~/.Xresources          #use colours and font from Xdefaults ( for sxiv and other apps )
 exec ~/.config/sway/alternating_layouts.py
+
+
 #Start window in floating mode
 for_window [app_id="copyq"] floating enable
 for_window [app_id="gnome-pomodoro"] floating enable
