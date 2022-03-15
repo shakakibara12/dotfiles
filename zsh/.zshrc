@@ -55,9 +55,13 @@ export KEYTIMEOUT=1
 autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
-bindkey '^R' history-incremental-search-backward-end
+bindkey '^R' history-incremental-search-backward
+#bindkey '^S' history-incremental-search-forward
+bindkey '^D' delete-char-or-list
 bindkey "^N" history-beginning-search-forward-end
 bindkey "^P" history-beginning-search-backward-end 
+bindkey "^B" backward-char
+bindkey "^F" forward-char
 bindkey "^a" beginning-of-line
 bindkey "^e" end-of-line
 bindkey "^[[1;5C" forward-word

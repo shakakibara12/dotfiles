@@ -42,9 +42,9 @@ set $right l
 
 #Set variables here:
 
-set $filemanager pcmanfm
+set $filemanager nautilus
 set $browser librewolf
-set $term alacritty
+set $term foot
 set $mediaplayer alacritty -e ncspot
 set $mail mailspring
 
@@ -320,7 +320,7 @@ bindsym $mod+Shift+F12 exec ~/.config/sway/record.sh -g
 
 #exec --no-startup-id qbittorrent
 #exec --no-startup-id com.github.alainm23.planner
-#exec --no-startup-id input-remapper-control --command autoload
+exec --no-startup-id input-remapper-control --command autoload
 #exec --no-startup-id alarm-clock-applet --hidden
 #exec --no-startup-id gnome-clocks --gapplication-service
 #exec_always --no-startup-id copyq

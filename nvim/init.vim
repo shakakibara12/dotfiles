@@ -38,7 +38,7 @@ nnoremap <UP> <nop>
 nnoremap <Down> <nop>
 nnoremap <Left> <nop>
 nnoremap <Right> <nop>
-"map ; :HFiles<CR>
+map <leader>; :HFiles<CR>
 
 "Colors
 colorscheme gruvbox
