@@ -11,16 +11,14 @@ font pango:DejaVu Sans Mono 12
 title_align center
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #0039e6 #285577 #ffffff #2e9ef4   #0039e6
+client.focused          #0039e6 #315B30 #ffffff #2e9ef4   #0039e6
 client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
 client.unfocused        #333333 #222222 #888888 #292d2e   #222222
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
-#client.background       #ffffff            #its ignored by sway anyway lol
-
 #Importing the gtk,icon, and cursor themes:
-exec ~/.config/sway/import-gsettings
+exec_always ~/.config/sway/import-gsettings
 #exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #xorg support
@@ -45,7 +43,7 @@ set $right l
 set $filemanager nautilus
 set $browser librewolf
 set $term foot
-set $mediaplayer alacritty -e ncspot
+set $mediaplayer foot -e ncspot
 set $mail mailspring
 
 # Your preferred application launcher
@@ -67,10 +65,10 @@ output * bg ~/Pictures/Wallpapers/wallpaper fill
 #
 # Example configuration:
 #
-# exec swayidle -w \
-#          timeout 300 'swaylock -f -c 000000' \
-#          timeout 600 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-#          before-sleep 'swaylock -f -c 000000'
+exec swayidle -w \
+         timeout 300 'swaylock -f' \
+         timeout 310 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
+         before-sleep 'swaylock -f'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -122,21 +120,6 @@ input 1:1:AT_Translated_Set_2_keyboard xkb_numlock enabled
 
     # Exit sway (logs you out of your Wayland session)
     bindsym $mod+Shift+e exec swaynag -t warning -m 'You pressed the exit shortcut. Do you really want to exit sway? This will end your Wayland session.' -b 'Yes, exit sway' 'swaymsg exit'
-#
-# Moving around:
-#
-
-#get the fibonacci layout like this
-#------------
-#|      | B | 
-#|  A   |---|
-#|      | C |
-#------------
-
-#default_orientation vertical #start in opposite orientation from your monitor
-for_window [class=".*"] split toggle #toggles split at each new window
-bindsym $mod+shift+q split toggle kill #kill command resets the split
-#bindsym $mod+e layout toggle split # should already exist but use if split orientation  messes up
 
 
     # Move your focus around
@@ -194,7 +177,7 @@ bindsym $mod+shift+q split toggle kill #kill command resets the split
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
     bindsym $mod+b splith
-    bindsym $mod+v splitv
+    bindsym $mod+shift+v splitv
 
     # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
@@ -246,7 +229,7 @@ mode "resize" {
     bindsym Return mode "default"
     bindsym Escape mode "default"
 }
-#bindsym $mod+r mode "resize"
+bindsym $mod+ctrl+r mode "resize"
 
 #Use waybar
 bar {
@@ -266,6 +249,7 @@ include /etc/sway/config.d/*
 
 bindsym $mod+x exec wlogout
 #bindsym $mod+v exec copyq toggle
+bindsym $mod+v exec clipman pick --tool=wofi
 
 #these ugly shortcuts are for mouse bindings!
 #https://github.com/sezanzeb/input-remapper
@@ -276,7 +260,7 @@ bindsym $mod+F3 exec playerctl play-pause
 bindsym Control+Alt+w exec $browser
 bindsym Control+Alt+b exec $filemanager 
 bindsym Control+Alt+m exec $mail 
-bindsym Control+Alt+s exec $mediaplayer, floating enable
+bindsym Control+Alt+s exec $mediaplayer
 #bindsym Control+Alt+d exec discord-canary
 bindsym XF86AudioRaiseVolume exec pamixer -i 2 #increase audio 
 #bindsym $mod+Shift+$down exec amixer set Master 2%-       #decrease audio
@@ -291,7 +275,7 @@ bindsym XF86AudioPrev exec playerctl previous
 bindsym XF86AudioStop exec playerctl stop
 bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle              #mute audio 
 #scripts
-bindsym $mod+p exec ~/.config/sway/wallpaper.sh
+bindsym $mod+p exec ~/.config/sway/wallpaper.sh -w
 bindsym $mod+o exec ~/.config/sway/audio_output.sh
 bindsym $mod+u exec ~/scripts/mpv.sh 
 bindsym $mod+m exec ~/scripts/rclone.sh
@@ -312,17 +296,13 @@ bindsym Print exec grimshot --notify save screen
 #Record
 bindsym $mod+F12 exec ~/.config/sway/record.sh -s
 bindsym $mod+Shift+F12 exec ~/.config/sway/record.sh -g
-#mouse keybindings
-#bindsym [--release] [--border] [--whole-window] [--exclude-titlebar] [<Modifiers>+]button<n> command
-#bindsym --release --border --whole-window button9 workspace next 
-#bindsym --release --border --whole-window button8 workspace prev 
+
+
 #Startup Apps
 
 #exec --no-startup-id qbittorrent
 #exec --no-startup-id com.github.alainm23.planner
 exec --no-startup-id input-remapper-control --command autoload
-#exec --no-startup-id alarm-clock-applet --hidden
-#exec --no-startup-id gnome-clocks --gapplication-service
 #exec_always --no-startup-id copyq
 #exec --no-startup-id gammastep-indicator
 #exec --no-startup-id xhost +SI:localuser:root          #fix cannot open display: :0 error
@@ -330,14 +310,16 @@ exec --no-startup-id input-remapper-control --command autoload
 #    https://www.reddit.com/r/swaywm/comments/r1218i/this_is_my_sway_is_fantastic_post/
 #or use `sudo -E program`
 exec --no-startup-id xrdb -merge ~/.Xresources          #use colours and font from Xdefaults ( for sxiv and other apps )
-exec ~/.config/sway/alternating_layouts.py
+exec --no-startup-id wl-paste -t text --watch clipman store --max-items=30
+exec --no-startup-id autotiling
+#using mpvpaper as live wallpaper ( nvm it fills my swap and then fucks my pc, will try it later when its fixed or i will fix it myself & send pr )
+#exec --no-startup-id ~/.config/sway/wallpaper.sh -v
 
 
 #Start window in floating mode
 for_window [app_id="copyq"] floating enable
 for_window [app_id="gnome-pomodoro"] floating enable
 for_window [app_id="org.gnome.clocks"] floating enable
-for_window [class="Alarm-clock-applet"] floating enable
 
 #Open programs in different workspace
 for_window [app_id="org.qbittorrent.qBittorrent"] move to workspace 4

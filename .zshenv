@@ -1,15 +1,15 @@
-export PATH="$PATH:/bin:/usr/bin:/usr/local/sbin:/usr/local/bin:/opt/appimages:/home/shaka/bin:/home/shaka/.local/bin"
+export PATH="$PATH:/bin:/opt/appimages:/home/shaka/bin:/home/shaka/.local/bin:/home/shaka/go/bin"
 export LIBVA_DRIVER_NAME=i965
 export QT_QPA_PLATFORMTHEME=qt5ct
 #export XDG_SESSION_TYPE=wayland
 export XDG_CURRENT_DESKTOP=sway
+export XDG_SCREENSHOTS_DIR=~/Pictures/Screenshots
 export QT_QPA_PLATFORM=wayland
 # removes window outlines and stuff
 export VDPAU_DRIVER=va_gl
 export ZDOTDIR=$HOME/.config/zsh
 export EDITOR='nvim'
-export TERMINAL='alacritty'
-#export TERMINAL='alacritty'
+export TERMINAL='foot'
 export MANPAGER='nvim +Man!'
 export HISTCONTROL=erasedups,ignorespace
 #not setting here instead setting in /etc/environemnt

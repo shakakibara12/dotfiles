@@ -16,7 +16,7 @@ dir="$HOME/Videos"
 name="$(date +'%Y-%m-%d_%I-%M-%S').mp4"
 save="$dir/$name"
 encoded_name="$dir/encoded_$name"
-codec_param="-p "crf=23" -p "fpsmax=30" "
+#codec_param="-p "crf=23" -p "fpsmax=30" "
 mic_default=$(pactl get-default-source)
 monitor="alsa_output.usb-C-Media_Electronics_Inc._USB_Audio_Device-00.analog-stereo.monitor"
 

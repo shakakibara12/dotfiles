@@ -56,7 +56,7 @@ autoload -U history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
 bindkey '^R' history-incremental-search-backward
-#bindkey '^S' history-incremental-search-forward
+bindkey '^S' history-incremental-search-forward
 bindkey '^D' delete-char-or-list
 bindkey "^N" history-beginning-search-forward-end
 bindkey "^P" history-beginning-search-backward-end 
@@ -89,13 +89,13 @@ preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 #https://github.com/ohmyzsh/ohmyzsh/issues/3440
 #no longer need to reload shell after installing a package
-#zstyle ':completion:*' rehash true
+zstyle ':completion:*' rehash true
 
-# Edit line in vim with ctrl-e:
-#autoload edit-command-line; zle -N edit-command-line
-#bindkey '^e' edit-command-line
+# Edit line in vim with ctrl-t:
+autoload edit-command-line; zle -N edit-command-line
+bindkey '^t' edit-command-line
 
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
-neofetch | lolcat
+neofetch | lolcat 
