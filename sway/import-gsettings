@@ -14,3 +14,5 @@ gsettings set "$gnome_schema" icon-theme "$icon_theme"
 gsettings set "$gnome_schema" cursor-theme "$cursor_theme"
 gsettings set "$gnome_schema" font-name "$font_name"
 gsettings set "$gnome_schema" color-scheme prefer-dark
+#removes close minimize... buttons from gtk apps Thanks:- https://www.reddit.com/r/swaywm/comments/uqyqrp/solution_to_buttons_in_gnome_applications/
+gsettings set org.gnome.desktop.wm.preferences button-layout ""
