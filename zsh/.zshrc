@@ -20,11 +20,12 @@ zstyle ':vcs_info:*' enable git
 
 # History:
 setopt APPEND_HISTORY # adds history
-setopt CORRECT
-setopt COMPLETE_IN_WORD
-setopt INC_APPEND_HISTORY SHARE_HISTORY  # adds history incrementally and share it across sessions
-#setopt HIST_IGNORE_ALL_DUPS  # don't record dupes in history
-#setopt EXTENDED_HISTORY # add timestamps to history
+#setopt CORRECT
+#setopt COMPLETE_IN_WORD
+#setopt INC_APPEND_HISTORY SHARE_HISTORY  # adds history incrementally and share it across sessions
+setopt SHARE_HISTORY  # acc. to man zshoptions INC_APPEND_HISTORY should be turned off, if this is on
+setopt HIST_IGNORE_ALL_DUPS  # don't record dupes in history
+setopt EXTENDED_HISTORY # add timestamps to history
 HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE=~/.config/zsh/history 
@@ -98,4 +99,6 @@ bindkey '^t' edit-command-line
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
+
+#startup stuff
 neofetch | lolcat 
