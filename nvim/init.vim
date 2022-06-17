@@ -8,6 +8,7 @@ Plug 'itchyny/lightline.vim'
 Plug 'morhetz/gruvbox'
 Plug 'sainnhe/everforest'
 Plug 'vimwiki/vimwiki'
+Plug 'preservim/nerdcommenter'
 
 "List ends here. Plugins become visible to Vim after this call.
 call plug#end()
