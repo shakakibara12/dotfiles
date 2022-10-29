@@ -20,8 +20,9 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
 #Importing the gtk,icon, and cursor themes:
 exec_always ~/.config/sway/import-gsettings
-#exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
+#exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec /usr/lib/polkit-kde-authentication-agent-1
 #xorg support
 xwayland enable
 
@@ -41,11 +42,11 @@ set $right l
 
 #Set variables here:
 
-set $filemanager nautilus
+set $filemanager dolphin
 set $browser librewolf
 set $term footclient
 set $mediaplayer footclient -e ncspot
-set $mail mailspring
+set $mail thunderbird
 
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
@@ -70,12 +71,16 @@ exec swayidle -w \
          timeout 290 'notify-send "Locking screen in 10 seconds" ' \
          timeout 300 'swaylock -f' \
          timeout 310 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -f'
+         before-sleep 'swaylock -f' \
+         lock 'swaylock -f'
 #
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
+set $laptop "eDP-1"
+#bindswitch --reload --locked lid:on output $laptop disable
+#bindswitch --reload --locked lid:off output $laptop enable
 ### Input configuration
 #
 # Example configuration:
@@ -94,12 +99,29 @@ exec swayidle -w \
 
 input * accel_profile flat
 
-input "6392:4742:input-remapper_USB_GAMING_MOUSE__forwarded" {
+input "1241:41132:E-Signal_USB_Gaming_Mouse" {
     scroll_factor 1.3
+}
+
+input "1739:0:Synaptics_TM3127-001" {
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
 }
 
 #enable numlock in keyboard
 input "1:1:AT_Translated_Set_2_keyboard" {
+    repeat_delay 300
+    repeat_rate 30
+    xkb_numlock enabled
+}
+input "6700:37622:SEMICO___Redgear_Shadow_Blade_Mechanical_Keyboard" {
+    repeat_delay 300
+    repeat_rate 30
+    xkb_numlock enabled
+}
+
+input "7247:2:SIGMACHIP_USB_Keyboard" {
     repeat_delay 300
     repeat_rate 30
     xkb_numlock enabled
@@ -250,7 +272,7 @@ mode "$mode_resize" {
 
 #Use waybar
 bar {
-    swaybar_command waybar
+    swaybar_command waybar 
 }
 
 # Notification Daemon
@@ -261,6 +283,8 @@ bindsym $mod+Shift+i exec swaync-client -t -sw
 
 
 include /etc/sway/config.d/*
+include ~/.config/sway/outputs
+include ~/.config/sway/workspaces
 
 #My Bindings
 # install ttf-font-awesome 6.xx
@@ -316,8 +340,8 @@ bindsym $mod+o exec ~/.config/sway/audio_output.sh
 bindsym $mod+u exec ~/scripts/mpv.sh 
 bindsym $mod+m exec ~/scripts/rclone.sh
 #Laptop stuff
-bindsym XF86MonBrightnessUp exec brightnessctl s +10%
-bindsym XF86MonBrightnessDown exec brightnessctl s 10%-
+bindsym --locked XF86MonBrightnessUp exec brightnessctl s +10%
+bindsym --locked XF86MonBrightnessDown exec brightnessctl s 10%-
 #Screenshot bebe
 #copy a section of screen and edit with swappy
 bindsym Control+Shift+s exec grim -g "$(slurp)" - | swappy -f - 
@@ -348,9 +372,12 @@ exec --no-startup-id autotiling
 #this is really cool
 exec --no-startup-id playerctld daemon
 exec --no-startup-id foot --server
-exec --no-startup-id ~/scripts/fuckem.sh
-exec --no-startup-id gammastep -l 29.9:78.0
-exec --no-startup-id nwg-wrapper -s ~/scripts/nwg.sh -p top -a start -r 10000
+exec --no-startup-id syncthing --no-browser
+exec --no-startup-id wayvnc
+exec --no-startup-id exec /usr/lib/kdeconnectd
+#exec --no-startup-id ~/scripts/fuckem.sh
+#exec --no-startup-id gammastep -l 29.9:78.0
+#exec --no-startup-id nwg-wrapper -s ~/scripts/nwg.sh -p top -a start -r 10000
 #using mpvpaper as live wallpaper ( nvm it fills my swap and then fucks my pc, will try it later when its fixed or i will fix it myself & send pr )
 #exec --no-startup-id ~/.config/sway/wallpaper.sh -v
 
@@ -361,8 +388,8 @@ for_window [app_id="io.bassi.Amberol"] floating enable
 for_window [app_id="gnome-pomodoro"] floating enable
 for_window [app_id="org.gnome.clocks"] floating enable
 for_window [app_id="connman-gtk"] floating enable
+for_window [app_id="org.kde.polkit-kde-authentication-agent-1"] floating enable
 for_window [app_id="foot"] opacity 0.98
 #Open programs in different workspace
-for_window [app_id="org.qbittorrent.qBittorrent"] move to workspace 4
-
-for_window [app_id="^mpv$"] inhibit_idle fullscreen
+#for_window [app_id="org.qbittorrent.qBittorrent"] move to workspace 4
+#for_window [app_id="chromium-browser"] border none
