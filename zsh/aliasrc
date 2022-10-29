@@ -1,5 +1,5 @@
 #list
-alias ls='exa -al --group-directories-first'
+alias ls='exa --icons -al --group-directories-first'
 alias update='sudo pacman -Syu'
 alias rm='rm -i'
 alias ins='sudo pacman -Sy'
@@ -68,4 +68,5 @@ ex ()
     echo "'$1' is not a valid file"
   fi
 }
-eval $(thefuck --alias)
+
+alias kde='sudo pacman -Sy plasma-nm bluedevil xdg-desktop-portal-kde'

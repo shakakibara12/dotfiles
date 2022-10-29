@@ -31,10 +31,10 @@ SAVEHIST=100000
 HISTFILE=~/.config/zsh/history 
 
 # Compile the completion dump to increase startup speed.
-zcompdump=~/.config/zsh/.zcompdump
-if [[ "$zcompdump" -nt "${zcompdump}.zwc" || ! -s "${zcompdump}.zwc" ]]; then
-zcompile "$zcompdump"
-fi
+#zcompdump=~/.config/zsh/.zcompdump
+#if [[ "$zcompdump" -nt "${zcompdump}.zwc" || ! -s "${zcompdump}.zwc" ]]; then
+#zcompile "$zcompdump"
+#fi
 
 # Load aliases and shortcuts if existent.
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc"
@@ -43,9 +43,16 @@ fi
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} #add colors in tab completion
 zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'  'r:|=*' 'l:|=* r:|=*' #case insensitive tab completion
-autoload -Uz compinit && compinit
+
+#Speed up zsh compinit :- https://gist.github.com/ctechols/ca1035271ad134841284
+#autoload -Uz compinit && compinit
+autoload -Uz compinit
+for dump in ~/.config/zsh/zcompdump(N.mh+24); do
+  compinit
+done
+compinit -C
+
 zmodload zsh/complist
-compinit
 _comp_options+=(globdots)		# Include hidden files.
 
 
@@ -99,6 +106,3 @@ bindkey '^t' edit-command-line
 # Load syntax highlighting; should be last.
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2>/dev/null
 
-
-#startup stuff
-neofetch | lolcat 
