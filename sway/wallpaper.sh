@@ -23,7 +23,7 @@ video(){
     pidof "mpvpaper" && pkill mpvpaper > /dev/null
     path2="$HOME/Downloads/Vid_wallpapers"
     video=$(/usr/bin/ls "$path2" | shuf -n 1)
-    mpvpaper -f -p -o "hwdec=auto panscan=1 no-audio loop" HDMI-A-1 "$path2"/"$video" 1>/dev/null
+    mpvpaper -f -p -o "hwdec=auto panscan=1 no-audio loop" eDP-1 "$path2"/"$video" 1>/dev/null
 
 }
 

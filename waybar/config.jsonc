@@ -75,7 +75,7 @@
     "interval": 3
   },
   "network": {
-    "interface": "wlo1", // (Optional) To force the use of this interface
+    //"interface": "wlo1", // (Optional) To force the use of this interface
     "interval": 1,
 //    "format-wifi": "󰤨 {essid} {signalStrength}%",
     "format-wifi": " {bandwidthDownBits} | ︁ {bandwidthUpBits}",

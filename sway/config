@@ -22,7 +22,9 @@ client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 exec_always ~/.config/sway/import-gsettings
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 #exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
-exec /usr/lib/polkit-kde-authentication-agent-1
+#for fedora
+exec /usr/libexec/polkit-gnome-authentication-agent-1
+#exec /usr/lib/polkit-kde-authentication-agent-1
 #xorg support
 xwayland enable
 
@@ -291,7 +293,7 @@ include ~/.config/sway/workspaces
 bindsym $mod+x exec waylogout \
                     --hide-cancel \
                     --screenshots \
-                    --font="Baloo 2" \
+                    --font="Roboto Mono Medium" \
                     --effect-blur=7x5 \
                     --indicator-thickness=10 \
                     --ring-color=888888aa \
@@ -322,10 +324,12 @@ bindsym Control+Alt+b exec $filemanager
 bindsym Control+Alt+m exec $mail 
 bindsym Control+Alt+s exec $mediaplayer
 #bindsym Control+Alt+d exec discord-canary
-bindsym XF86AudioRaiseVolume exec pamixer -i 2 #increase audio 
+#bindsym XF86AudioRaiseVolume exec pamixer -i 2 #increase audio 
 #bindsym $mod+Shift+$down exec amixer set Master 2%-       #decrease audio
 #bindsym $mod+Shift+$up exec amixer set Master 2%+            #increase audio 
-bindsym XF86AudioLowerVolume exec pamixer -d 2 #decrease audio
+bindsym XF86AudioRaiseVolume  exec amixer set Master 2%-       #decrease audio
+bindsym XF86AudioLowerVolume exec amixer set Master 2%+            #increase audio 
+#bindsym XF86AudioLowerVolume exec pamixer -d 2 #decrease audio
 bindsym $mod+Shift+m exec amixer set Master toggle      #mute audio 
 
 #Media keys supported by vlc, spotify, audacious, xmm2, ...
@@ -372,9 +376,9 @@ exec --no-startup-id autotiling
 #this is really cool
 exec --no-startup-id playerctld daemon
 exec --no-startup-id foot --server
-exec --no-startup-id syncthing --no-browser
-exec --no-startup-id wayvnc
-exec --no-startup-id exec /usr/lib/kdeconnectd
+#exec --no-startup-id syncthing --no-browser
+#exec --no-startup-id wayvnc
+#exec --no-startup-id exec /usr/lib/kdeconnectd
 #exec --no-startup-id ~/scripts/fuckem.sh
 #exec --no-startup-id gammastep -l 29.9:78.0
 #exec --no-startup-id nwg-wrapper -s ~/scripts/nwg.sh -p top -a start -r 10000
@@ -388,7 +392,7 @@ for_window [app_id="io.bassi.Amberol"] floating enable
 for_window [app_id="gnome-pomodoro"] floating enable
 for_window [app_id="org.gnome.clocks"] floating enable
 for_window [app_id="connman-gtk"] floating enable
-for_window [app_id="org.kde.polkit-kde-authentication-agent-1"] floating enable
+for_window [app_id="polkit-gnome-authentication-agent-1"] floating enable
 for_window [app_id="foot"] opacity 0.98
 #Open programs in different workspace
 #for_window [app_id="org.qbittorrent.qBittorrent"] move to workspace 4
