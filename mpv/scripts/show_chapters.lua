@@ -73,7 +73,7 @@ function show_chapters()
             
             -- from overshooting backwards
             if ch_index + i_ch < 0 then
-                goto continue
+                goto = continue
             end
 
             title = mp.get_property_osd("chapter-list/" .. tostring(ch_index + i_ch) .. "/title")
@@ -103,7 +103,7 @@ function show_chapters()
 
             ass:append('[' .. time .. "]  " .. title)
             
-            ::continue::
+            'continue'
         end
     end
 
