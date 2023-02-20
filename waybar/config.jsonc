@@ -71,12 +71,12 @@
     }
   },
   "memory": {
-    "format": "󰍛 {used:0.1f}GB ({percentage}%) / {total:0.1f}GB",
+    "format": "󰍛 {percentage}%",
     "interval": 3
   },
   "network": {
     //"interface": "wlo1", // (Optional) To force the use of this interface
-    "interval": 1,
+    "interval": 2,
 //    "format-wifi": "󰤨 {essid} {signalStrength}%",
     "format-wifi": " {bandwidthDownBits} | ︁ {bandwidthUpBits}",
 
@@ -84,7 +84,7 @@
     "tooltip-format": "{ifname} via {gwaddr} ",
     "format-linked": "{ifname} (No IP) ",
     "format-disconnected": "Disconnected",
-    "format-alt": "{ifname}: {ipaddr}/{cidr}"
+    "format-alt": "{essid}: {ipaddr}/{cidr}"
   },
   "pulseaudio": {
     "format": "{icon} {volume}% {format_source}",
@@ -93,8 +93,8 @@
     "format-muted": "󰖁 {format_source}",
     "format-source": "󰍬 {volume}",
     "format-source-muted": "󰍭",
-    "on-scroll-up": "pamixer -i 2",
-    "on-scroll-down": "pamixer -d 2",
+    "on-scroll-up": "amixer set Master 2%+",
+    "on-scroll-down": "amixer set Master 2%-",
     "on-click": "pactl set-sink-mute 0 toggle",
     "on-click-right": "pactl set-source-mute 0 toggle",
     "on-click-middle": "pavucontrol",
