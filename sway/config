@@ -19,7 +19,8 @@ client.urgent           #2f343a #900000 #ffffff #900000   #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
 #Importing the gtk,icon, and cursor themes:
-exec_always ~/.config/sway/import-gsettings
+#exec_always ~/.config/sway/import-gsettings
+exec_always { gsettings set org.gnome.desktop.interface gtk-theme "adw-gtk3-dark" gsettings set org.gnome.desktop.interface icon-theme "Adwaita" gsettings set org.gnome.desktop.wm.preferences button-layout "" gsettings set org.gnome.desktop.interface color-scheme prefer-dark}
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 #exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #for fedora
@@ -44,8 +45,8 @@ set $right l
 
 #Set variables here:
 
-set $filemanager dolphin
-set $browser librewolf
+set $filemanager nautilus
+set $browser flatpak run io.gitlab.librewolf-community
 set $term footclient
 set $mediaplayer footclient -e ncspot
 set $mail thunderbird
@@ -53,12 +54,13 @@ set $mail thunderbird
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 #set $menu wofi --show drun -i | xargs swaymsg exec --
-set $menu fuzzel -i Tela-circle-dark -b 1a1a1aff --font='Hack:weight=bold:size=13'
+set $menu fuzzel -i Tela-circle-dark -b 1a1a1aff --font='Hack:weight=bold:size=12'
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg ~/Pictures/Wallpapers/wallpaper fill
-#
+#max_render_time fixes the half refresh rate fps problem in games i.e., getting 72 fps in all fullscreen games
+output eDP-1 mode 1920x1080@144.149Hz max_render_time 1
 # Example configuration:
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
@@ -69,15 +71,25 @@ output * bg ~/Pictures/Wallpapers/wallpaper fill
 #
 # Example configuration:
 #
+#Thanks to https://codesti.com/issue/swaywm/swayidle/128
+### Idle configuration #1 For manually lock the screen via Mod + Esc
 exec swayidle -w \
-         timeout 290 'notify-send "Locking screen in 10 seconds" ' \
-         timeout 300 'swaylock -f' \
-         timeout 310 'swaymsg "output * dpms off"' resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -f' \
-         lock 'swaylock -f'
-#
+        timeout 10 'if pgrep -x swaylock; then swaymsg "output * dpms off"; fi' \
+        resume 'swaymsg "output * dpms on"'
+# This will turn off your displays after 10 seconds when the screen is locked, and turn your screens back on when
+# resumed. It will also lock your screen before your computer goes to sleep.
+
+### Idle configuration #2 For lock the screen and turn off display after idle sometime
+exec swayidle -w \
+        timeout 290 'notify-send "Locking screen in 10 seconds" ' \
+        timeout 300 'swaylock -f' \
+        timeout 310 'swaymsg "output * dpms off"' \
+        resume 'swaymsg "output * dpms on"' \
+        before-sleep 'playerctl pause' \
+        before-sleep 'swaylock -f' \
+        lock 'swaylock -f'
 # This will lock your screen after 300 seconds of inactivity, then turn off
-# your displays after another 300 seconds, and turn your screens back on when
+# your displays after another 10 seconds, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
 set $laptop "eDP-1"
@@ -105,22 +117,10 @@ input "1241:41132:E-Signal_USB_Gaming_Mouse" {
     scroll_factor 1.3
 }
 
-input "1739:0:Synaptics_TM3127-001" {
+input "1267:12642:ELAN0412:01_04F3:3162_Touchpad" {
     tap enabled
     natural_scroll enabled
     middle_emulation enabled
-}
-
-#enable numlock in keyboard
-input "1:1:AT_Translated_Set_2_keyboard" {
-    repeat_delay 300
-    repeat_rate 30
-    xkb_numlock enabled
-}
-input "6700:37622:SEMICO___Redgear_Shadow_Blade_Mechanical_Keyboard" {
-    repeat_delay 300
-    repeat_rate 30
-    xkb_numlock enabled
 }
 
 input "7247:2:SIGMACHIP_USB_Keyboard" {
@@ -285,8 +285,8 @@ bindsym $mod+Shift+i exec swaync-client -t -sw
 
 
 include /etc/sway/config.d/*
-include ~/.config/sway/outputs
-include ~/.config/sway/workspaces
+#include ~/.config/sway/outputs
+#include ~/.config/sway/workspaces
 
 #My Bindings
 # install ttf-font-awesome 6.xx
@@ -304,8 +304,8 @@ bindsym $mod+x exec waylogout \
                     --inside-selection-color=1a1a1aff \
                     --text-selection-color=eaeaeaaa \
                     --line-selection-color=00000000 \
-                    --lock-command="/sbin/swaylock" \
-                    --logout-command="/sbin/swaymsg exit" \
+                    --lock-command="/usr/bin/swaylock" \
+                    --logout-command="/usr/bin/swaymsg exit" \
                     --poweroff-command="/sbin/shutdown -a now" \
                     --reboot-command="/sbin/shutdown -r now" \
                     --selection-label
@@ -313,22 +313,25 @@ bindsym $mod+x exec waylogout \
 #bindsym $mod+v exec copyq toggle
 bindsym $mod+v exec clipman pick --tool=wofi
 
+#Lockscreen
+bindsym $mod+Escape exec swaylock
+
 #these ugly shortcuts are for mouse bindings!
 #https://github.com/sezanzeb/input-remapper
-bindsym Control+Shift+t workspace next
-bindsym Control+Shift+y workspace prev
+#bindsym Control+Shift+t workspace next
+#bindsym Control+Shift+y workspace prev
 
 #bindsym $mod+F3 exec playerctl play-pause 
-bindsym Control+Alt+w exec $browser
-bindsym Control+Alt+b exec $filemanager 
-bindsym Control+Alt+m exec $mail 
-bindsym Control+Alt+s exec $mediaplayer
+bindsym $mod+Control+w exec $browser
+bindsym $mod+Control+b exec $filemanager 
+bindsym $mod+Control+m exec $mail 
+#bindsym $mod+Control+s exec $mediaplayer
 #bindsym Control+Alt+d exec discord-canary
 #bindsym XF86AudioRaiseVolume exec pamixer -i 2 #increase audio 
 #bindsym $mod+Shift+$down exec amixer set Master 2%-       #decrease audio
 #bindsym $mod+Shift+$up exec amixer set Master 2%+            #increase audio 
-bindsym XF86AudioRaiseVolume  exec amixer set Master 2%-       #decrease audio
-bindsym XF86AudioLowerVolume exec amixer set Master 2%+            #increase audio 
+bindsym XF86AudioLowerVolume  exec amixer set Master 2%-       #decrease audio
+bindsym XF86AudioRaiseVolume exec amixer set Master 2%+            #increase audio 
 #bindsym XF86AudioLowerVolume exec pamixer -d 2 #decrease audio
 bindsym $mod+Shift+m exec amixer set Master toggle      #mute audio 
 
@@ -348,7 +351,7 @@ bindsym --locked XF86MonBrightnessUp exec brightnessctl s +10%
 bindsym --locked XF86MonBrightnessDown exec brightnessctl s 10%-
 #Screenshot bebe
 #copy a section of screen and edit with swappy
-bindsym Control+Shift+s exec grim -g "$(slurp)" - | swappy -f - 
+bindsym $mod+Control+s exec grim -g "$(slurp)" - | swappy -f - 
 #copy a section of screen and copy to clipboard
 bindsym $mod+Shift+s exec grimshot --notify copy area
 #Copy screenshot to clipboard
