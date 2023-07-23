@@ -1,1 +1,1 @@
-/usr/lib/mpv/sponsorblock-minimal.lua
+unsupported reparse tag 0xa000000c
