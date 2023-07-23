@@ -54,7 +54,7 @@ set $mail thunderbird
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 #set $menu wofi --show drun -i | xargs swaymsg exec --
-set $menu fuzzel -i Tela-circle-dark -b 1a1a1aff --font='Hack:weight=bold:size=12'
+set $menu fuzzel -i -b 1a1a1aff --font='Roboto:weight=bold:size=13'
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
@@ -93,8 +93,8 @@ exec swayidle -w \
 # resumed. It will also lock your screen before your computer goes to sleep.
 
 set $laptop "eDP-1"
-#bindswitch --reload --locked lid:on output $laptop disable
-#bindswitch --reload --locked lid:off output $laptop enable
+bindswitch --reload --locked lid:on output $laptop disable
+bindswitch --reload --locked lid:off output $laptop enable
 ### Input configuration
 #
 # Example configuration:
@@ -285,6 +285,7 @@ bindsym $mod+Shift+i exec swaync-client -t -sw
 
 
 include /etc/sway/config.d/*
+#include ~/.config/sway/theme
 #include ~/.config/sway/outputs
 #include ~/.config/sway/workspaces
 
@@ -292,8 +293,9 @@ include /etc/sway/config.d/*
 # install ttf-font-awesome 6.xx
 bindsym $mod+x exec waylogout \
                     --hide-cancel \
+                    --fade-in 3 \
                     --screenshots \
-                    --font="Roboto Mono Medium" \
+                    --font="Roboto Medium" \
                     --effect-blur=7x5 \
                     --indicator-thickness=10 \
                     --ring-color=888888aa \
@@ -306,6 +308,7 @@ bindsym $mod+x exec waylogout \
                     --line-selection-color=00000000 \
                     --lock-command="/usr/bin/swaylock" \
                     --logout-command="/usr/bin/swaymsg exit" \
+                    --suspend-command="/usr/bin/systemctl suspend" \
                     --poweroff-command="/sbin/shutdown -a now" \
                     --reboot-command="/sbin/shutdown -r now" \
                     --selection-label
@@ -330,7 +333,7 @@ bindsym $mod+Control+m exec $mail
 #bindsym XF86AudioRaiseVolume exec pamixer -i 2 #increase audio 
 #bindsym $mod+Shift+$down exec amixer set Master 2%-       #decrease audio
 #bindsym $mod+Shift+$up exec amixer set Master 2%+            #increase audio 
-bindsym XF86AudioLowerVolume  exec amixer set Master 2%-       #decrease audio
+bindsym XF86AudioLowerVolume exec amixer set Master 2%-       #decrease audio
 bindsym XF86AudioRaiseVolume exec amixer set Master 2%+            #increase audio 
 #bindsym XF86AudioLowerVolume exec pamixer -d 2 #decrease audio
 bindsym $mod+Shift+m exec amixer set Master toggle      #mute audio 
