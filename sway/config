@@ -166,12 +166,22 @@ input "1267:12642:ELAN0412:01_04F3:3162_Touchpad" {
     tap enabled
     natural_scroll enabled
     middle_emulation enabled
+    pointer_accel 0.8
+    dwt disabled
 }
 
 input "7247:2:SIGMACHIP_USB_Keyboard" {
     repeat_delay 300
     repeat_rate 30
     xkb_numlock enabled
+    xkb_options caps:escape
+}
+
+input "1:1:AT_Translated_Set_2_keyboard" {
+    repeat_delay 300
+    repeat_rate 30
+    xkb_numlock enabled
+    xkb_options caps:escape
 }
 
 ### Key bindings
@@ -397,6 +407,8 @@ bindsym $mod+m exec ~/scripts/rclone.sh
 #Laptop stuff
 bindsym --locked XF86MonBrightnessUp exec brightnessctl s +10%
 bindsym --locked XF86MonBrightnessDown exec brightnessctl s 10%-
+#Disable Touchpad
+bindsym XF86TouchpadToggle input type:touchpad events toggle enabled disabled
 #Screenshot bebe
 #copy a section of screen and edit with swappy
 bindsym $mod+Control+s exec grim -g "$(slurp)" - | swappy -f - 
@@ -415,18 +427,21 @@ bindsym $mod+Shift+F12 exec ~/.config/sway/record.sh -g
 
 #Startup Apps
 
-#exec --no-startup-id qbittorrent
+exec --no-startup-id qbittorrent
 #exec --no-startup-id input-remapper-control --command autoload
 #exec --no-startup-id xhost +SI:localuser:root          #fix cannot open display: :0 error
 #better and secure alternative is using a polkit as mentioned here 
 #    https://www.reddit.com/r/swaywm/comments/r1218i/this_is_my_sway_is_fantastic_post/
 #or use `sudo -E program`
-exec --no-startup-id xrdb -merge ~/.Xresources          #use colours and font from Xdefaults ( for sxiv and other apps )
-exec --no-startup-id wl-paste -t text --watch clipman store --max-items=30
+#exec --no-startup-id wl-paste -t text --watch clipman store --max-items=30
 exec --no-startup-id autotiling
 #this is really cool
 exec --no-startup-id playerctld daemon
 exec --no-startup-id foot --server
+exec --no-startup-id nm-applet
+exec --no-startup-id batsignal -b -c 30 -d 20 -f 90 -m 15
+#use colours and font from Xdefaults ( for sxiv and other apps )
+exec_always --no-startup-id xrdb -merge ~/.Xresources 
 #exec --no-startup-id syncthing --no-browser
 #exec --no-startup-id wayvnc
 #exec --no-startup-id exec /usr/lib/kdeconnectd
@@ -443,8 +458,17 @@ for_window [app_id="io.bassi.Amberol"] floating enable
 for_window [app_id="gnome-pomodoro"] floating enable
 for_window [app_id="org.gnome.clocks"] floating enable
 for_window [app_id="connman-gtk"] floating enable
+for_window [class="Steam"] floating enable
 for_window [app_id="polkit-gnome-authentication-agent-1"] floating enable
+for_window [app_id="signal"] floating enable
 for_window [app_id="foot"] opacity 0.98
+# Brave, chrome, chromium
+for_window [title="Picture-in-picture"] floating enable
+#Disable screelock when anything is fullscreen
+for_window [app_id="mpv"] inhibit_idle fullscreen
+for_window [app_id="mpv"] border pixel 0
+
+
 #Open programs in different workspace
-#for_window [app_id="org.qbittorrent.qBittorrent"] move to workspace 4
+for_window [app_id="org.qbittorrent.qBittorrent"] move to workspace 4
 #for_window [app_id="chromium-browser"] border none
