@@ -93,7 +93,7 @@ echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
 #cd into directory with fzf epic
-#bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
+bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
 
 #https://github.com/ohmyzsh/ohmyzsh/issues/3440
 #no longer need to reload shell after installing a package
@@ -104,5 +104,7 @@ autoload edit-command-line; zle -N edit-command-line
 bindkey '^t' edit-command-line
 
 # Load syntax highlighting; should be last.
-source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2> /dev/null
+#source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2> /dev/null
+source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2> /dev/null
 
+#export PATH=$PATH:/home/shaka/.spicetify

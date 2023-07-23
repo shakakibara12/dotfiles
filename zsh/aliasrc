@@ -1,8 +1,10 @@
 #list
 alias ls='exa --icons -al --group-directories-first'
-alias update='sudo dnf update && sudo dnf upgrade'
+#alias update='sudo dnf update && sudo dnf upgrade'
+alias update='sudo pacman -Syu'
 alias rm='rm -i'
-alias ins='sudo dnf install'
+#alias ins='sudo dnf install'
+alias ins='sudo pacman -Sy'
 alias v='nvim'
 alias history='history 0' #fixes history only showing 16 results
 alias rsync='rsync -vh'
@@ -16,7 +18,7 @@ alias df='df -h'
 #free
 alias free="free -mt"
 alias wget="wget -c"
-#alias pacman='sudo pacman --color auto'
+alias pacman='sudo pacman --color auto'
 
 #grub update
 #alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
@@ -26,7 +28,7 @@ alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
 alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
 
 #get fastest mirrors in your neighborhood
-#alias mirror="sudo reflector --protocol https -f 30 -l 30 --threads 4 --number 5 --verbose --save /etc/pacman.d/mirrorlist"
+alias mirror="sudo reflector --protocol https -f 30 -l 30 --threads 4 --number 5 --verbose --save /etc/pacman.d/mirrorlist"
 
 alias ytv-best="yt-dlp -f bestvideo+bestaudio "
 alias yta-best="yt-dlp --extract-audio --audio-format best "
@@ -34,7 +36,7 @@ alias yta-best="yt-dlp --extract-audio --audio-format best "
 alias iso="cat /etc/dev-rel | awk -F '=' '/ISO/ {print $2}'"
 
 #Cleanup orphaned packages
-alias cleanup='sudo dnf autoremove && sudo dnf clean'
+#alias cleanup='sudo dnf autoremove && sudo dnf clean'
 
 #get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
@@ -47,7 +49,7 @@ alias sr="sudo reboot"
 alias connect='bash ~/scripts/lpu_net.sh login'
 alias disconnect='bash ~/scripts/lpu_net.sh logout'
 alias torrent="webtorrent -o ~/.local/share/webtorrent/ --mpv $1"
-alias sudo='doas'
+#alias sudo='doas'
 
 # # ex = EXtractor for all kinds of archives
 # # usage: ex <file>
@@ -74,6 +76,4 @@ ex ()
     echo "'$1' is not a valid file"
   fi
 }
-
-
 
