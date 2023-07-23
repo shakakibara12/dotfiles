@@ -3,7 +3,9 @@
 /* Download icons font: https://github.com/Templarian/MaterialDesign-Font */
 * {
   font-family: "Roboto Mono", "Material Design Icons Desktop";
+  font-weight: 500;
   font-size: 16px;
+
 }
 
 /* Waybar */
