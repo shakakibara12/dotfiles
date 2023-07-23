@@ -2,29 +2,74 @@
 gaps inner 10 
 gaps outer 5 
 
-default_border pixel 2 #disable windows titlebar
-default_floating_border pixel 2 #disable floating windows titlebar
+#disable windows titlebar
+default_border pixel 2 
+
+#disable floating windows titlebar
+default_floating_border pixel 2 
 
 #Font
-font pango:DejaVu Sans Mono 12
+font pango:Roboto 13
 #align  title
 title_align center
 #exec /usr/share/sway-git/scripts/inactive-windows-transparency.py --opacity 0.85
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #0039e6 #315B30 #ffffff #2e9ef4   #0039e6
+client.focused          #0039e6 #333f6b #ffffff #2e9ef4   #0039e6
 client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
 client.unfocused        #333333 #222222 #888888 #292d2e   #222222
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
+## Base16 Tokyo Night Dark
+# Author: Michaël Ball
+
+#set $base00 #1a1b26
+#set $base01 #16161e
+#set $base02 #2f3549
+#set $base03 #444b6a
+#set $base04 #787c99
+#set $base05 #a9b1d6
+#set $base06 #cbccd1
+#set $base07 #d5d6db
+#set $base08 #c0caf5
+#set $base09 #a9b1d6
+#set $base0A #0db9d7
+#set $base0B #9ece6a
+#set $base0C #b4f9f8
+#set $base0D #2ac3de
+#set $base0E #bb9af7
+#set $base0F #f7768e
+
+# Basic color configuration using the Base16 variables for windows and borders.
+# Property Name         Border  BG      Text    Indicator Child Border
+#client.focused          $base05 $base0D $base00 $base0D $base0D
+#client.focused_inactive $base01 $base01 $base05 $base03 $base01
+#client.unfocused        $base01 $base00 $base05 $base01 $base01
+#client.urgent           $base08 $base08 $base00 $base08 $base08
+#client.placeholder      $base00 $base00 $base05 $base00 $base00
+#client.background       $base07
+
 #Importing the gtk,icon, and cursor themes:
 #exec_always ~/.config/sway/import-gsettings
-exec_always { gsettings set org.gnome.desktop.interface gtk-theme "adw-gtk3-dark" gsettings set org.gnome.desktop.interface icon-theme "Adwaita" gsettings set org.gnome.desktop.wm.preferences button-layout "" gsettings set org.gnome.desktop.interface color-scheme prefer-dark}
+set $gnome-schema org.gnome.desktop.interface
+
+exec_always {
+    gsettings set $gnome-schema gtk-theme 'adw-gtk3-dark'
+    gsettings set $gnome-schema icon-theme 'Adwaita'
+    gsettings set $gnome-schema cursor-theme 'Adwaita'
+    gsettings set $gnome-schema font-name 'Roboto 13'
+    gsettings set $gnome-schema document-font-name 'Roboto 13'
+    gsettings set $gnome-schema monospace-font-name 'Roboto 13'
+    gsettings set $gnome-schema color-scheme prefer-dark
+    gsettings set $gnome-schema enable-animations true
+    gsettings set org.gnome.desktop.wm.preferences button-layout "" 
+    seat * xcursor_theme 'Adwaita' 24
+}
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
-#exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
+exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #for fedora
-exec /usr/libexec/polkit-gnome-authentication-agent-1
+#exec /usr/libexec/polkit-gnome-authentication-agent-1
 #exec /usr/lib/polkit-kde-authentication-agent-1
 #xorg support
 xwayland enable
@@ -74,18 +119,18 @@ output eDP-1 mode 1920x1080@144.149Hz max_render_time 1
 #Thanks to https://codesti.com/issue/swaywm/swayidle/128
 ### Idle configuration #1 For manually lock the screen via Mod + Esc
 exec swayidle -w \
-        timeout 10 'if pgrep -x swaylock; then swaymsg "output * dpms off"; fi' \
-        resume 'swaymsg "output * dpms on"'
+        timeout 10 'if pgrep -x swaylock; then playerctl pause & pactl set-sink-mute 0 toggle & swaymsg "output * power off"; fi' \
+        resume 'swaymsg "output * power on"'
 # This will turn off your displays after 10 seconds when the screen is locked, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Idle configuration #2 For lock the screen and turn off display after idle sometime
 exec swayidle -w \
         timeout 290 'notify-send "Locking screen in 10 seconds" ' \
-        timeout 300 'swaylock -f' \
-        timeout 310 'swaymsg "output * dpms off"' \
-        resume 'swaymsg "output * dpms on"' \
-        before-sleep 'playerctl pause' \
+        timeout 300 'playerctl pause & pactl set-sink-mute 0 toggle & swaylock -f' \
+        timeout 310 'swaymsg "output * power off"' \
+        resume 'pactl set-sink-mute 0 toggle & swaymsg "output * power on"' \
+        before-sleep 'playerctl pause & pactl set-sink-mute 0 toggle'
         before-sleep 'swaylock -f' \
         lock 'swaylock -f'
 # This will lock your screen after 300 seconds of inactivity, then turn off
