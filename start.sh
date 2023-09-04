@@ -7,11 +7,7 @@ export XDG_CURRENT_DESKTOP=sway
 # If running from tty1 start sway
 #[ "$(tty)" = "/dev/tty1" ] && exec sway
 
-<<<<<<< HEAD
 val=$(udevadm info -a -n /dev/dri/card1 | grep boot_vga | rev | cut -c 2)
-WLR_DRM_DEVICE=/dev/dri/card$val sway --unsupported-gpu 2>/tmp/sway.log
-=======
-#WLR_DRM_DEVICE=/dev/dri/card0 sway --unsupported-gpu 2>/tmp/sway.log
+#WLR_DRM_DEVICE=/dev/dri/card$val sway --unsupported-gpu 2>/tmp/sway.log
 sway 2>/tmp/sway.log
->>>>>>> 70fc7ee (local)
 #Hyprland
