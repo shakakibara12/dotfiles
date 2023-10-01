@@ -1,142 +1,109 @@
 {
-  "layer": "top", // Waybar at top layer
-  "position": "top", // Waybar position (top|bottom|left|right)
-  "height": 36, // Waybar height (to be removed for auto height)
-  // "width": 1350, // Waybar width
-  // "spacing": 6, // Gaps between modules (4px)
-  // "gtk-layer-shell": false,
-  // Choose the order of the modules
+  "position": "top",
   "modules-left": ["sway/workspaces", "custom/spotify"],
   "modules-center": [],
-  "modules-right": [
-    "cpu",
-    "memory",
-    "backlight",
-    "pulseaudio",
-    "network",
-    "battery",
-    "clock",
-    "tray"
-  ],
-
-  "sway/workspaces": {
-    "disable-scroll": true
-  },
-
+  "modules-right": ["network", "pulseaudio", "backlight", "battery", "clock", "tray"],
   // Modules configuration
-  "backlight": {
-    "format": "{icon} {percent}%",
-    "format-icons": ["󰃟"]
-  },
-  "battery": {
-    "states": {
-      "good": 80,
-      "warning": 20,
-      "critical": 15
+  "sway/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{icon}",
+    "persistent_workspaces": {
+      "1": [],
+      "2": [],
+      "3": [],
+      "4": [],
+      "5": [],
+      "6": [],
+      "7": [],
+      "8": [],
+      "9": [],
+      "10": []
     },
-    "format": "{icon} {capacity}%",
-    "format-charging": "󰂄 {capacity}%",
-    "format-plugged": " {capacity}%",
-    "format-alt": "{icon} {time}",
-    // "format-good": "", // An empty format will hide the module
-    // "format-full": "",
-    "format-icons": ["󰁺", "󰁻", "󰁼", "󰁽", "󰁾", "󰁿", "󰂀", "󰂁", "󰂂", "󰁹"]
-  },
-  "bluetooth":  {
-    "format-disabled": "󰂯 {status}",
-    "format-off": "󰂯",
-    "format-on": "󰂯",
-    "format-connected": "󰂯 {device_alias}",
-    "format-connected-battery": "󰂯 {device_alias} 󰂄 {device_battery_percentage}%"
-  },
-  "clock": {
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "format": "󰥔 {:%I:%M %p}",
-    "format-alt": "{:󰣆 %A %d %B - 󰥔 %I:%M %p}"
-  },
-  "cpu": {
-    "format": "󰻠 {usage}%",
-    "tooltip": false,
-    "interval": 3
-
-    // "tooltip": false
-  },
-  "keyboard-state": {
-    "numlock": true,
-    "capslock": true,
-    "format": "{name} {icon}",
     "format-icons": {
-      "locked": "",
-      "unlocked": ""
+      "default": "",
+      "urgent": "",
+      "focused": ""
     }
   },
-  "memory": {
-    "format": "󰍛 {percentage}%",
-    "interval": 3
+  "custom/spotify": {
+    "format": "<span foreground='#E5B4E2'>󰝚 </span><span font='OperatorMono Nerd Font weight=325 Italic'>{}</span>",
+    "interval": 2,
+    "exec-if": "pgrep spotify",
+    "on-click": "playerctl -p spotify play-pause",
+    "on-scroll-up": "playerctl -p spotify previous",
+    "on-scroll-down": "playerctl -p spotify next",
+    "tooltip": false,
+    "escape": true,
+    "max-length": 60,
+    "exec": "$HOME/.config/waybar/mediaplayer.sh"
+  },
+
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": ["󰃟"],
+    "on-scroll-up": "brightnessctl s +5%",
+    "on-scroll-down": "brightnessctl s 5%-"
+  },
+
+  "clock": {
+    "format": "<span foreground='#C6AAE8'> </span>{:%a %d %I:%M}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+
+    "format": "<span size='13000' foreground='#B1E3AD'>{icon}</span> {capacity}%",
+    "format-warning": "<span size='13000' foreground='#B1E3AD'>{icon}</span> {capacity}%",
+    "format-critical": "<span size='13000' foreground='#E38C8F'>{icon}</span> {capacity}%",
+    "format-charging": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
+    "format-plugged": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
+    "format-alt": "<span size='13000' foreground='#B1E3AD'>{icon}</span> {time}",
+    "format-full": "<span size='13000' foreground='#B1E3AD'>󰁹 </span>{capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip-format": "{time}"
   },
   "network": {
-    //"interface": "wlo1", // (Optional) To force the use of this interface
+    //"format-wifi": "<span size='13000' foreground='#F2CECF'> </span>{essid}",
+    //"format-ethernet": "<span size='13000' foreground='#F2CECF'>󰤭</span> Disconnected",
     "interval": 2,
-    //"format-wifi": "󰤨 {essid} {signalStrength}%",
-    "format-wifi": " {bandwidthDownBytes} | ︁ {bandwidthUpBytes}",
-    "format-ethernet": " {bandwidthDownBytes} | ︁ {bandwidthUpBytes}",
-    "tooltip-format": "{ifname} via {gwaddr} ",
+    "format-wifi": "<span size='13000' foreground='#F2CECF'></span> {bandwidthDownBytes} | <span size='13000' foreground='#F2CECF'>︁</span> {bandwidthUpBytes} ",
+    "format-ethernet": "<span size='13000' foreground='#F2CECF'></span> {bandwidthDownBytes} | <span size='13000' foreground='#F2CECF'>︁</span> {bandwidthUpBytes} ",
     "format-linked": "{ifname} (No IP) ",
-    "format-disconnected": "Disconnected",
-    "format-alt": "{essid}: {ipaddr}/{cidr}"
+    "format-disconnected": "<span size='13000' foreground='#F2CECF'> </span>Disconnected",
+    "format-alt": "{essid}: {ipaddr}/{cidr}",
+    "tooltip-format-wifi": "Signal Strenght: {signalStrength}%"
   },
+
+  "tray": {
+    // "icon-size": 21,
+    "spacing": 10
+  },
+
   "pulseaudio": {
-    "format": "{icon} {volume}% {format_source}",
-    "format-bluetooth": "{icon} {volume}% 󰂯 {format_source}",
-    "format-bluetooth-muted": "󰖁 {icon}󰂯 {format_source}",
-    "format-muted": "󰖁 {format_source}",
-    "format-source": "󰍬 {volume}",
-    "format-source-muted": "󰍭",
+    "on-click": "pactl set-sink-mute 0 toggle",
     "on-scroll-up": "amixer set Master 2%+",
     "on-scroll-down": "amixer set Master 2%-",
     "on-click": "pactl set-sink-mute 0 toggle",
     "on-click-right": "pactl set-source-mute 0 toggle",
     "on-click-middle": "pavucontrol",
+    "format": "<span size='13000' foreground='#EBDDAA'>{icon}</span> {volume}% | {format_source}",
+    "format-muted": "<span size='14000' foreground='#EBDDAA'>󰖁</span> | {format_source}",
+    "format-source": "<span size='13000' foreground='#EBDDAA'>󰍬 </span>{volume}%",
+    "format-source-muted": "<span size='13000' foreground='#EBDDAA'>󰍭</span>",
     "format-icons": {
-      "headphone": "󰋋",
-      "hands-free": "",
-      "headset": "",
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
       "phone": "",
       "portable": "",
       "car": "",
-      "default": ["󰕿", "󰖀", "󰕾"]
-    },
-//    "on-click": "pavucontrol"
-  },
-  "tray": {
-    // "icon-size": 21,
-    "spacing": 10
-  },
-  "custom/spotify": {
-    "format": "  {} ",
-    "escape": true,
-    "return-type": "$text",
-    "interval": 10,
-    "max-length": 35,
-    "exec": "$HOME/.config/waybar/mediaplayer.sh 2> /dev/null",
-   //   "exec-if": "pgrep ncspot spotify spotifyd",
-    "on-click": "$HOME/.config/waybar/mediaplayer.sh -p 2> /dev/null"
-    },
-
-  "wlr/workspaces": {
-    "on-click": "activate",
-    "format": "{icon}",
-    "format-icons": {
-      "1": "1",
-      "2": "2",
-      "3": "3",
-      "4": "4",
-      "5": "5",
-      "6": "6",
-      "7": "7",
-      "8": "8",
-      "9": "9",
-      "default": "1"
+      "default": ["", ""]
     }
   }
 }
+

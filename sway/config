@@ -99,7 +99,7 @@ set $mail thunderbird
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 #set $menu wofi --show drun -i | xargs swaymsg exec --
-set $menu fuzzel -i -b 1a1a1aff --font='Roboto:weight=bold:size=13'
+set $menu fuzzel -i -b 1a1a1aff --font='Roboto:weight=bold:size=12'
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
@@ -119,7 +119,8 @@ output eDP-1 mode 1920x1080@144.149Hz max_render_time 1
 #Thanks to https://codesti.com/issue/swaywm/swayidle/128
 ### Idle configuration #1 For manually lock the screen via Mod + Esc
 exec swayidle -w \
-        timeout 10 'if pgrep -x swaylock; then playerctl pause & pactl set-sink-mute 0 toggle & swaymsg "output * power off"; fi' \
+        #timeout 10 'if pgrep -x swaylock; then playerctl pause & pactl set-sink-mute 0 toggle & swaymsg "output * power off"; fi' \
+        timeout 10 'if pgrep -x swaylock; then playerctl pause & swaymsg "output * power off"; fi' \
         resume 'swaymsg "output * power on"'
 # This will turn off your displays after 10 seconds when the screen is locked, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
@@ -127,10 +128,11 @@ exec swayidle -w \
 ### Idle configuration #2 For lock the screen and turn off display after idle sometime
 exec swayidle -w \
         timeout 290 'notify-send "Locking screen in 10 seconds" ' \
-        timeout 300 'playerctl pause & pactl set-sink-mute 0 toggle & swaylock -f' \
+        timeout 300 'playerctl pause & swaylock -f' \
+        #timeout 300 'playerctl pause & pactl set-sink-mute 0 toggle & swaylock -f' \
         timeout 310 'swaymsg "output * power off"' \
         resume 'pactl set-sink-mute 0 toggle & swaymsg "output * power on"' \
-        before-sleep 'playerctl pause & pactl set-sink-mute 0 toggle'
+        before-sleep 'playerctl pause & pactl set-sink-mute 0 toggle' \
         before-sleep 'swaylock -f' \
         lock 'swaylock -f'
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -155,34 +157,36 @@ bindswitch --reload --locked lid:off output $laptop enable
 # Read `man 5 sway-input` for more information about this section.
 
 # disable mouse acceleration
+input * {
+    accel_profile flat
+}
 
-input * accel_profile flat
+input type:keyboard {
+    repeat_delay 300
+    repeat_rate 30
+    xkb_options caps:escape
+}
+
 
 input "1241:41132:E-Signal_USB_Gaming_Mouse" {
     scroll_factor 1.3
 }
 
-input "1267:12642:ELAN0412:01_04F3:3162_Touchpad" {
+input type:touchpad {
     tap enabled
     natural_scroll enabled
     middle_emulation enabled
     pointer_accel 0.8
-    dwt disabled
+    dwt enabled
 }
 
-input "7247:2:SIGMACHIP_USB_Keyboard" {
-    repeat_delay 300
-    repeat_rate 30
-    xkb_numlock enabled
-    xkb_options caps:escape
+input "9610:73:BY_Tech_Gaming_Keyboard" {
+    #Thanks to https://lokcon.me/2021/10/17/remapping-esc-grave-tilde-sway
+    #It really took a lot of time, that blog really saved me Thank you!!!
+    #~/.xkb/symbols/65-percent-escape-tilde-grave
+    xkb_layout "65-percent-escape-tilde-grave"
 }
 
-input "1:1:AT_Translated_Set_2_keyboard" {
-    repeat_delay 300
-    repeat_rate 30
-    xkb_numlock enabled
-    xkb_options caps:escape
-}
 
 ### Key bindings
 #
@@ -433,7 +437,7 @@ exec --no-startup-id qbittorrent
 #better and secure alternative is using a polkit as mentioned here 
 #    https://www.reddit.com/r/swaywm/comments/r1218i/this_is_my_sway_is_fantastic_post/
 #or use `sudo -E program`
-#exec --no-startup-id wl-paste -t text --watch clipman store --max-items=30
+exec --no-startup-id wl-paste -t text --watch clipman store --max-items=100
 exec --no-startup-id autotiling
 #this is really cool
 exec --no-startup-id playerctld daemon
@@ -441,7 +445,7 @@ exec --no-startup-id foot --server
 exec --no-startup-id nm-applet
 exec --no-startup-id batsignal -b -c 30 -d 20 -f 90 -m 15
 #use colours and font from Xdefaults ( for sxiv and other apps )
-exec_always --no-startup-id xrdb -merge ~/.Xresources 
+exec --no-startup-id xrdb ~/.Xresources 
 #exec --no-startup-id syncthing --no-browser
 #exec --no-startup-id wayvnc
 #exec --no-startup-id exec /usr/lib/kdeconnectd
