@@ -1,7 +1,6 @@
 #list
-alias ls='exa --icons -al --group-directories-first'
-#alias update='sudo dnf update && sudo dnf upgrade'
-alias update='sudo pacman -Syu'
+alias ls='eza --icons -al --group-directories-first'
+alias update='sudo pacman -Syyu'
 alias rm='rm -i'
 #alias ins='sudo dnf install'
 alias ins='sudo pacman -Sy'
@@ -18,10 +17,13 @@ alias df='df -h'
 #free
 alias free="free -mt"
 alias wget="wget -c"
-alias pacman='sudo pacman --color auto'
+#alias pacman='sudo pacman --color auto'
+
+#Sussy baka
+alias sus="systemctl suspend"
 
 #grub update
-#alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
+alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 
 #switch between bash and zsh
 alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
@@ -34,9 +36,6 @@ alias ytv-best="yt-dlp -f bestvideo+bestaudio "
 alias yta-best="yt-dlp --extract-audio --audio-format best "
 
 alias iso="cat /etc/dev-rel | awk -F '=' '/ISO/ {print $2}'"
-
-#Cleanup orphaned packages
-#alias cleanup='sudo dnf autoremove && sudo dnf clean'
 
 #get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
@@ -76,4 +75,6 @@ ex ()
     echo "'$1' is not a valid file"
   fi
 }
+
+
 
