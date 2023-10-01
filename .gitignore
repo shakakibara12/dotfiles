@@ -4,3 +4,4 @@ mpv/scripts/mpv-webtorrent-hook
 zsh/.zcompdump*
 nvim/plugged/
 zsh/history
+nvim/lazy-lock.json
