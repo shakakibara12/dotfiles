@@ -227,10 +227,10 @@ input "9610:73:BY_Tech_Gaming_Keyboard" {
     bindsym $mod+Right focus right
 
     # Move the focused window with the same, but add Shift
-    bindsym $mod+Shift+$left move left
-    bindsym $mod+Shift+$down move down
-    bindsym $mod+Shift+$up move up
-    bindsym $mod+Shift+$right move right
+    bindsym $mod+Shift+$left move left 50px
+    bindsym $mod+Shift+$down move down 50px
+    bindsym $mod+Shift+$up move up 50px
+    bindsym $mod+Shift+$right move right 50px
     # Ditto, with arrow keys
     bindsym $mod+Shift+Left move left
     bindsym $mod+Shift+Down move down
@@ -398,21 +398,26 @@ bindsym XF86AudioRaiseVolume exec amixer set Master 2%+            #increase aud
 bindsym $mod+Shift+m exec amixer set Master toggle      #mute audio 
 
 #Media keys supported by vlc, spotify, audacious, xmm2, ...
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-bindsym XF86AudioStop exec playerctl stop
-bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle              #mute audio 
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioPrev exec playerctl previous
+bindsym --locked XF86AudioStop exec playerctl stop
+bindsym --locked XF86AudioMute exec pactl set-sink-mute 0 toggle              #mute audio 
 #scripts
 bindsym $mod+p exec ~/.config/sway/wallpaper.sh -w
 bindsym $mod+o exec ~/.config/sway/audio_output.sh
 bindsym $mod+u exec ~/scripts/mpv.sh 
-bindsym $mod+m exec ~/scripts/rclone.sh
+#bindsym $mod+m exec ~/scripts/rclone.sh
 #Laptop stuff
 bindsym --locked XF86MonBrightnessUp exec brightnessctl s +10%
 bindsym --locked XF86MonBrightnessDown exec brightnessctl s 10%-
 #Disable Touchpad
 bindsym XF86TouchpadToggle input type:touchpad events toggle enabled disabled
+# Move floating container to the center of all outputs
+bindsym $mod+c move absolute position center
+
+# Move container to the current position of the cursor
+bindsym $mod+m move position mouse
 #Screenshot bebe
 #copy a section of screen and edit with swappy
 bindsym $mod+Control+s exec grim -g "$(slurp)" - | swappy -f - 
@@ -431,7 +436,6 @@ bindsym $mod+Shift+F12 exec ~/.config/sway/record.sh -g
 
 #Startup Apps
 
-exec --no-startup-id qbittorrent
 #exec --no-startup-id input-remapper-control --command autoload
 #exec --no-startup-id xhost +SI:localuser:root          #fix cannot open display: :0 error
 #better and secure alternative is using a polkit as mentioned here 
@@ -445,7 +449,9 @@ exec --no-startup-id foot --server
 exec --no-startup-id nm-applet
 exec --no-startup-id batsignal -b -c 30 -d 20 -f 90 -m 15
 #use colours and font from Xdefaults ( for sxiv and other apps )
-exec --no-startup-id xrdb ~/.Xresources 
+#add a little sleep to make qbittorrent apear in tray.
+exec --no-startup-id sleep 5 && qbittorrent
+exec --no-startup-id xrdb ~/.Xdefaults
 #exec --no-startup-id syncthing --no-browser
 #exec --no-startup-id wayvnc
 #exec --no-startup-id exec /usr/lib/kdeconnectd
