@@ -2,7 +2,7 @@
   "position": "top",
   "modules-left": ["sway/workspaces", "custom/spotify"],
   "modules-center": [],
-  "modules-right": ["network", "pulseaudio", "backlight", "battery", "clock", "tray"],
+  "modules-right": ["network", "pulseaudio", "cpu", "backlight", "battery", "clock", "tray"],
   // Modules configuration
   "sway/workspaces": {
     "disable-scroll": true,
@@ -37,6 +37,13 @@
     "escape": true,
     "max-length": 60,
     "exec": "$HOME/.config/waybar/mediaplayer.sh"
+  },
+
+  "cpu": {
+    "format": "{icon} {usage}%",
+    "format-icons": [""],
+    "tooltip": false,
+    "interval": 3
   },
 
   "backlight": {

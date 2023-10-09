@@ -47,7 +47,7 @@ tooltip {
 	color: #A4B9EF;
 }
 
-#clock, #battery, #pulseaudio, #workspaces, #backlight{
+#clock, #battery, #pulseaudio, #workspaces, #cpu, #backlight{
 	padding: 2px 10px;
     background: #332E41;
     margin-top: 5px;
