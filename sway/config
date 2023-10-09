@@ -119,7 +119,6 @@ output eDP-1 mode 1920x1080@144.149Hz max_render_time 1
 #Thanks to https://codesti.com/issue/swaywm/swayidle/128
 ### Idle configuration #1 For manually lock the screen via Mod + Esc
 exec swayidle -w \
-        #timeout 10 'if pgrep -x swaylock; then playerctl pause & pactl set-sink-mute 0 toggle & swaymsg "output * power off"; fi' \
         timeout 10 'if pgrep -x swaylock; then playerctl pause & swaymsg "output * power off"; fi' \
         resume 'swaymsg "output * power on"'
 # This will turn off your displays after 10 seconds when the screen is locked, and turn your screens back on when
@@ -129,7 +128,6 @@ exec swayidle -w \
 exec swayidle -w \
         timeout 290 'notify-send "Locking screen in 10 seconds" ' \
         timeout 300 'playerctl pause & swaylock -f' \
-        #timeout 300 'playerctl pause & pactl set-sink-mute 0 toggle & swaylock -f' \
         timeout 310 'swaymsg "output * power off"' \
         resume 'pactl set-sink-mute 0 toggle & swaymsg "output * power on"' \
         before-sleep 'playerctl pause & pactl set-sink-mute 0 toggle' \

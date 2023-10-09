@@ -1,5 +1,8 @@
 #!/bin/sh
 
+if [[ $(xrdb -query) == "" ]]; then
+    xrdb "$HOME/.Xdefaults"
+fi
 
 image(){
 
