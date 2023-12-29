@@ -2,5 +2,5 @@ mpv/watch_later
 mpv/history.log
 mpv/scripts/mpv-webtorrent-hook
 zsh/.zcompdump*
-nvim/plugged/
+nvim/plugin
 zsh/history
