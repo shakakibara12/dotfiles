@@ -20,7 +20,7 @@
   ],
 
   "sway/workspaces": {
-    "disable-scroll": true
+     "disable-scroll": true,
   },
 
   // Modules configuration
@@ -30,8 +30,8 @@
   },
   "battery": {
     "states": {
-      "good": 80,
-      "warning": 20,
+      // "good": 95,
+      "warning": 30,
       "critical": 15
     },
     "format": "{icon} {capacity}%",
@@ -77,9 +77,11 @@
   "network": {
     //"interface": "wlo1", // (Optional) To force the use of this interface
     "interval": 2,
-    //"format-wifi": "󰤨 {essid} {signalStrength}%",
+//    "format-wifi": "󰤨 {essid} {signalStrength}%",
     "format-wifi": " {bandwidthDownBytes} | ︁ {bandwidthUpBytes}",
     "format-ethernet": " {bandwidthDownBytes} | ︁ {bandwidthUpBytes}",
+
+    //"format-ethernet": "{ipaddr}/{cidr} ",
     "tooltip-format": "{ifname} via {gwaddr} ",
     "format-linked": "{ifname} (No IP) ",
     "format-disconnected": "Disconnected",

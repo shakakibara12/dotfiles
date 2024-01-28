@@ -734,3 +734,4 @@ mp.register_script_message("mpv_thumbnail_script-slaved", function()
     msg.debug("Successfully registered with master")
     register_timer:stop()
 end)
+

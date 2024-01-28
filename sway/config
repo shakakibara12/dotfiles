@@ -1,71 +1,35 @@
 # Read `man 5 sway` for a complete reference.
-gaps inner 10 
-gaps outer 5 
+gaps inner 10
+gaps outer 5
 
 #disable windows titlebar
-default_border pixel 2 
-
+default_border pixel 2
 #disable floating windows titlebar
-default_floating_border pixel 2 
+default_floating_border pixel 2
 
 #Font
-font pango:Roboto 13
+font pango:Noto Sans Medium 12
 #align  title
 title_align center
 #exec /usr/share/sway-git/scripts/inactive-windows-transparency.py --opacity 0.85
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #0039e6 #333f6b #ffffff #2e9ef4   #0039e6
+client.focused          #0039e6 #315B30 #ffffff #2e9ef4   #0039e6
 client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
 client.unfocused        #333333 #222222 #888888 #292d2e   #222222
 client.urgent           #2f343a #900000 #ffffff #900000   #900000
 client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
 
-## Base16 Tokyo Night Dark
-# Author: Michaël Ball
-
-#set $base00 #1a1b26
-#set $base01 #16161e
-#set $base02 #2f3549
-#set $base03 #444b6a
-#set $base04 #787c99
-#set $base05 #a9b1d6
-#set $base06 #cbccd1
-#set $base07 #d5d6db
-#set $base08 #c0caf5
-#set $base09 #a9b1d6
-#set $base0A #0db9d7
-#set $base0B #9ece6a
-#set $base0C #b4f9f8
-#set $base0D #2ac3de
-#set $base0E #bb9af7
-#set $base0F #f7768e
-
-# Basic color configuration using the Base16 variables for windows and borders.
-# Property Name         Border  BG      Text    Indicator Child Border
-#client.focused          $base05 $base0D $base00 $base0D $base0D
-#client.focused_inactive $base01 $base01 $base05 $base03 $base01
-#client.unfocused        $base01 $base00 $base05 $base01 $base01
-#client.urgent           $base08 $base08 $base00 $base08 $base08
-#client.placeholder      $base00 $base00 $base05 $base00 $base00
-#client.background       $base07
-
 #Importing the gtk,icon, and cursor themes:
 #exec_always ~/.config/sway/import-gsettings
-set $gnome-schema org.gnome.desktop.interface
-
-exec_always {
-    gsettings set $gnome-schema gtk-theme 'adw-gtk3-dark'
-    gsettings set $gnome-schema icon-theme 'Adwaita'
-    gsettings set $gnome-schema cursor-theme 'Adwaita'
-    gsettings set $gnome-schema font-name 'Roboto 13'
-    gsettings set $gnome-schema document-font-name 'Roboto 13'
-    gsettings set $gnome-schema monospace-font-name 'Roboto 13'
-    gsettings set $gnome-schema color-scheme prefer-dark
-    gsettings set $gnome-schema enable-animations true
-    gsettings set org.gnome.desktop.wm.preferences button-layout "" 
-    seat * xcursor_theme 'Adwaita' 24
-}
+set $interface 'org.gnome.desktop.interface'
+exec_always gsettings set $interface gtk-theme "adw-gtk3-dark"
+exec_always gsettings set $interface icon-theme "Adwaita"
+exec gsettings set $interface color-scheme 'prefer-dark'
+exec_always gsettings set $interface document-font-name 'Noto Sans Medium 12'
+exec_always gsettings set $interface font-name 'Noto Sans Medium 12'
+exec_always gsettings set $interface monospace-font-name 'Noto Sans Mono Medium 12'
+exec gsettings set org.gnome.desktop.wm.preferences button-layout ""
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
 exec /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 #for fedora
@@ -78,6 +42,7 @@ xwayland enable
 
 focus_follows_mouse yes
 
+seat * xcursor_theme Adwaita 24
 
 ### Variables
 # Logo key. Use Mod1 for Alt.
@@ -99,13 +64,14 @@ set $mail thunderbird
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 #set $menu wofi --show drun -i | xargs swaymsg exec --
-set $menu fuzzel -i -b 1a1a1aff --font='Roboto:weight=bold:size=13'
+set $menu fuzzel -i Adwaita -b 1a1a1aff --font='Hack:weight=bold:size=12'
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * bg ~/Pictures/Wallpapers/wallpaper fill
 #max_render_time fixes the half refresh rate fps problem in games i.e., getting 72 fps in all fullscreen games
-output eDP-1 mode 1920x1080@144.149Hz max_render_time 1
+#output eDP-1 mode 1920x1080@144.149Hz max_render_time 1
+output eDP-1 mode 1920x1080@60.008Hz scale 1.25
 # Example configuration:
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
@@ -119,18 +85,18 @@ output eDP-1 mode 1920x1080@144.149Hz max_render_time 1
 #Thanks to https://codesti.com/issue/swaywm/swayidle/128
 ### Idle configuration #1 For manually lock the screen via Mod + Esc
 exec swayidle -w \
-        timeout 10 'if pgrep -x swaylock; then playerctl pause & pactl set-sink-mute 0 toggle & swaymsg "output * power off"; fi' \
-        resume 'swaymsg "output * power on"'
+        timeout 10 'if pgrep -x swaylock; then swaymsg "output * dpms off"; fi' \
+        resume 'swaymsg "output * dpms on"'
 # This will turn off your displays after 10 seconds when the screen is locked, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
 
 ### Idle configuration #2 For lock the screen and turn off display after idle sometime
 exec swayidle -w \
         timeout 290 'notify-send "Locking screen in 10 seconds" ' \
-        timeout 300 'playerctl pause & pactl set-sink-mute 0 toggle & swaylock -f' \
-        timeout 310 'swaymsg "output * power off"' \
-        resume 'pactl set-sink-mute 0 toggle & swaymsg "output * power on"' \
-        before-sleep 'playerctl pause & pactl set-sink-mute 0 toggle'
+        timeout 300 'swaylock -f' \
+        timeout 310 'swaymsg "output * dpms off"' \
+        resume 'swaymsg "output * dpms on"' \
+        before-sleep 'playerctl pause' \
         before-sleep 'swaylock -f' \
         lock 'swaylock -f'
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -156,32 +122,38 @@ bindswitch --reload --locked lid:off output $laptop enable
 
 # disable mouse acceleration
 
-input * accel_profile flat
+input * {
+    accel_profile flat
+}
+
+input type:keyboard {
+    repeat_delay 300
+    repeat_rate 30
+    xkb_options caps:escape
+}
+
+input "1739:0:Synaptics_TM3127-001" {
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}
 
 input "1241:41132:E-Signal_USB_Gaming_Mouse" {
     scroll_factor 1.3
 }
 
-input "1267:12642:ELAN0412:01_04F3:3162_Touchpad" {
-    tap enabled
-    natural_scroll enabled
-    middle_emulation enabled
-    pointer_accel 0.8
-    dwt disabled
-}
+#input "1267:12642:ELAN0412:01_04F3:3162_Touchpad" {
+#    tap enabled
+#    natural_scroll enabled
+#    middle_emulation enabled
+#}
+#
 
-input "7247:2:SIGMACHIP_USB_Keyboard" {
-    repeat_delay 300
-    repeat_rate 30
-    xkb_numlock enabled
-    xkb_options caps:escape
-}
-
-input "1:1:AT_Translated_Set_2_keyboard" {
-    repeat_delay 300
-    repeat_rate 30
-    xkb_numlock enabled
-    xkb_options caps:escape
+input "9610:73:BY_Tech_Gaming_Keyboard" {
+    #Thanks to https://lokcon.me/2021/10/17/remapping-esc-grave-tilde-sway
+    #It really took a lot of time, that blog really saved me Thank you!!!
+    #~/.xkb/symbols/65-percent-escape-tilde-grave
+    xkb_layout "65-percent-escape-tilde-grave"
 }
 
 ### Key bindings
@@ -299,7 +271,7 @@ input "1:1:AT_Translated_Set_2_keyboard" {
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+Shift+n scratchpad show, floating toggle 
+    bindsym $mod+Shift+n scratchpad show, floating toggle
 #
 # Resizing containers:
 
@@ -329,7 +301,7 @@ mode "$mode_resize" {
 
 #Use waybar
 bar {
-    swaybar_command waybar 
+    swaybar_command waybar
 }
 
 # Notification Daemon
@@ -340,7 +312,6 @@ bindsym $mod+Shift+i exec swaync-client -t -sw
 
 
 include /etc/sway/config.d/*
-#include ~/.config/sway/theme
 #include ~/.config/sway/outputs
 #include ~/.config/sway/workspaces
 
@@ -348,9 +319,8 @@ include /etc/sway/config.d/*
 # install ttf-font-awesome 6.xx
 bindsym $mod+x exec waylogout \
                     --hide-cancel \
-                    --fade-in 3 \
                     --screenshots \
-                    --font="Roboto Medium" \
+                    --font="RobotoMono Nerd Font Regular 12" \
                     --effect-blur=7x5 \
                     --indicator-thickness=10 \
                     --ring-color=888888aa \
@@ -363,7 +333,6 @@ bindsym $mod+x exec waylogout \
                     --line-selection-color=00000000 \
                     --lock-command="/usr/bin/swaylock" \
                     --logout-command="/usr/bin/swaymsg exit" \
-                    --suspend-command="/usr/bin/systemctl suspend" \
                     --poweroff-command="/sbin/shutdown -a now" \
                     --reboot-command="/sbin/shutdown -r now" \
                     --selection-label
@@ -379,39 +348,37 @@ bindsym $mod+Escape exec swaylock
 #bindsym Control+Shift+t workspace next
 #bindsym Control+Shift+y workspace prev
 
-#bindsym $mod+F3 exec playerctl play-pause 
+#bindsym $mod+F3 exec playerctl play-pause
 bindsym $mod+Control+w exec $browser
-bindsym $mod+Control+b exec $filemanager 
-bindsym $mod+Control+m exec $mail 
+bindsym $mod+Control+b exec $filemanager
+bindsym $mod+Control+m exec $mail
 #bindsym $mod+Control+s exec $mediaplayer
 #bindsym Control+Alt+d exec discord-canary
-#bindsym XF86AudioRaiseVolume exec pamixer -i 2 #increase audio 
+#bindsym XF86AudioRaiseVolume exec pamixer -i 2 #increase audio
 #bindsym $mod+Shift+$down exec amixer set Master 2%-       #decrease audio
-#bindsym $mod+Shift+$up exec amixer set Master 2%+            #increase audio 
-bindsym XF86AudioLowerVolume exec amixer set Master 2%-       #decrease audio
-bindsym XF86AudioRaiseVolume exec amixer set Master 2%+            #increase audio 
+#bindsym $mod+Shift+$up exec amixer set Master 2%+            #increase audio
+bindsym XF86AudioLowerVolume  exec amixer set Master 2%-       #decrease audio
+bindsym XF86AudioRaiseVolume exec amixer set Master 2%+            #increase audio
 #bindsym XF86AudioLowerVolume exec pamixer -d 2 #decrease audio
-bindsym $mod+Shift+m exec amixer set Master toggle      #mute audio 
+bindsym $mod+Shift+m exec amixer set Master toggle      #mute audio
 
 #Media keys supported by vlc, spotify, audacious, xmm2, ...
-bindsym XF86AudioPlay exec playerctl play-pause
-bindsym XF86AudioNext exec playerctl next
-bindsym XF86AudioPrev exec playerctl previous
-bindsym XF86AudioStop exec playerctl stop
-bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle              #mute audio 
+bindsym --locked XF86AudioPlay exec playerctl play-pause
+bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked XF86AudioPrev exec playerctl previous
+bindsym --locked XF86AudioStop exec playerctl stop
+bindsym --locked XF86AudioMute exec pactl set-sink-mute 0 toggle              #mute audio
 #scripts
 bindsym $mod+p exec ~/.config/sway/wallpaper.sh -w
 bindsym $mod+o exec ~/.config/sway/audio_output.sh
-bindsym $mod+u exec ~/scripts/mpv.sh 
+bindsym $mod+u exec ~/scripts/mpv.sh
 bindsym $mod+m exec ~/scripts/rclone.sh
 #Laptop stuff
 bindsym --locked XF86MonBrightnessUp exec brightnessctl s +10%
 bindsym --locked XF86MonBrightnessDown exec brightnessctl s 10%-
-#Disable Touchpad
-bindsym XF86TouchpadToggle input type:touchpad events toggle enabled disabled
 #Screenshot bebe
 #copy a section of screen and edit with swappy
-bindsym $mod+Control+s exec grim -g "$(slurp)" - | swappy -f - 
+bindsym $mod+Control+s exec grim -g "$(slurp)" - | swappy -f -
 #copy a section of screen and copy to clipboard
 bindsym $mod+Shift+s exec grimshot --notify copy area
 #Copy screenshot to clipboard
@@ -419,30 +386,31 @@ bindsym Control+Print exec grimshot --notify copy screen
 #Grab a swappshot from a specific window under Sway, using swaymsg and jq:
 bindsym $mod+Print exec ~/.config/sway/screenshot.sh
 #save full screen screenshot
-bindsym Print exec grimshot --notify save screen 
+bindsym Print exec grimshot --notify save screen
 #Record
 bindsym $mod+F12 exec ~/.config/sway/record.sh -s
 bindsym $mod+Shift+F12 exec ~/.config/sway/record.sh -g
 
+bindgesture swipe:right workspace prev
+bindgesture swipe:left workspace next
+
 
 #Startup Apps
 
-exec --no-startup-id qbittorrent
+#exec --no-startup-id qbittorrent
 #exec --no-startup-id input-remapper-control --command autoload
 #exec --no-startup-id xhost +SI:localuser:root          #fix cannot open display: :0 error
-#better and secure alternative is using a polkit as mentioned here 
+#better and secure alternative is using a polkit as mentioned here
 #    https://www.reddit.com/r/swaywm/comments/r1218i/this_is_my_sway_is_fantastic_post/
 #or use `sudo -E program`
-#exec --no-startup-id wl-paste -t text --watch clipman store --max-items=30
+#exec_always --no-startup-id xrdb -merge ~/.Xresources          #use colours and font from Xdefaults ( for sxiv and other apps )
+exec --no-startup-id wl-paste -t text --watch clipman store --max-items=30
 exec --no-startup-id autotiling
 #this is really cool
 exec --no-startup-id playerctld daemon
 exec --no-startup-id foot --server
 exec --no-startup-id nm-applet
-exec --no-startup-id batsignal -b -c 30 -d 20 -f 90 -m 15
-#use colours and font from Xdefaults ( for sxiv and other apps )
-exec_always --no-startup-id xrdb -merge ~/.Xresources 
-#exec --no-startup-id syncthing --no-browser
+exec --no-startup-id syncthing --no-browser
 #exec --no-startup-id wayvnc
 #exec --no-startup-id exec /usr/lib/kdeconnectd
 #exec --no-startup-id ~/scripts/fuckem.sh
@@ -454,21 +422,14 @@ exec_always --no-startup-id xrdb -merge ~/.Xresources
 
 #Start window in floating mode
 for_window [app_id="copyq"] floating enable
+for_window [shell=".*"] inhibit_idle fullscreen
 for_window [app_id="io.bassi.Amberol"] floating enable
 for_window [app_id="gnome-pomodoro"] floating enable
 for_window [app_id="org.gnome.clocks"] floating enable
 for_window [app_id="connman-gtk"] floating enable
-for_window [class="Steam"] floating enable
+#for_window [app_id="signal"] floating enable, resize set 680 379, move position 432 42
 for_window [app_id="polkit-gnome-authentication-agent-1"] floating enable
-for_window [app_id="signal"] floating enable
-for_window [app_id="foot"] opacity 0.98
-# Brave, chrome, chromium
-for_window [title="Picture-in-picture"] floating enable
-#Disable screelock when anything is fullscreen
-for_window [app_id="mpv"] inhibit_idle fullscreen
-for_window [app_id="mpv"] border pixel 0
-
-
+for_window [app_id="foot"] opacity 0.95
 #Open programs in different workspace
-for_window [app_id="org.qbittorrent.qBittorrent"] move to workspace 4
-#for_window [app_id="chromium-browser"] border none
+#for_window [app_id="org.qbittorrent.qBittorrent"] move to workspace 4
+for_window [app_id="chromium-browser"] border none
