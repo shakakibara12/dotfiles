@@ -1,0 +1,107 @@
+{
+  "position": "top",
+  "layer": "top",
+  "modules-left": ["hyprland/workspaces", "custom/spotify"],
+  "modules-center": [],
+  "modules-right": ["network", "pulseaudio", "cpu", "backlight", "battery", "clock", "tray"],
+  // Modules configuration
+  "hyprland/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{icon}",
+    "persistent_workspaces": {
+        "*": 10, // 10 workspaces by default on every monitor
+    },
+    "format-icons": {
+      "default": "",
+      "empty": "",
+      "urgent": "",
+      "active": ""
+    }
+  },
+  "custom/spotify": {
+    "format": "<span foreground='#E5B4E2'>󰝚 </span><span font='OperatorMono Nerd Font weight=325 Italic'>{}</span>",
+    "interval": 3,
+    "exec-if": "pgrep spotify",
+    "on-click": "playerctl -p spotify play-pause",
+    "on-scroll-up": "playerctl -p spotify next",
+    "on-scroll-down": "playerctl -p spotify previous",
+    "tooltip": false,
+    "escape": false,
+    "max-length": 15,
+    "exec": "$HOME/.config/waybar/mediaplayer.sh"
+  },
+
+  "cpu": {
+    "format": "{icon} {usage}%",
+    "format-icons": [""],
+    "tooltip": false,
+    "interval": 3
+  },
+
+  "backlight": {
+    "format": "{icon} {percent}%",
+    "format-icons": ["󰃟"],
+    "on-scroll-up": "brightnessctl s +5%",
+    "on-scroll-down": "brightnessctl s 5%-"
+  },
+
+  "clock": {
+    "format": "<span foreground='#C6AAE8'> </span>{:%a %d %I:%M}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+  },
+
+  "battery": {
+    "states": {
+      "warning": 30,
+      "critical": 15
+    },
+
+    "format": "<span size='13000' foreground='#B1E3AD'>{icon}</span> {capacity}%",
+    "format-warning": "<span size='13000' foreground='#B1E3AD'>{icon}</span> {capacity}%",
+    "format-critical": "<span size='13000' foreground='#E38C8F'>{icon}</span> {capacity}%",
+    "format-charging": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
+    "format-plugged": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
+    "format-alt": "<span size='13000' foreground='#B1E3AD'>{icon}</span> {time}",
+    "format-full": "<span size='13000' foreground='#B1E3AD'>󰁹 </span>{capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "tooltip-format": "{time}"
+  },
+  "network": {
+    //"format-wifi": "<span size='13000' foreground='#F2CECF'> </span>{essid}",
+    //"format-ethernet": "<span size='13000' foreground='#F2CECF'>󰤭</span> Disconnected",
+    "interval": 2,
+    "format-wifi": "<span size='13000' foreground='#F2CECF'></span> {bandwidthDownBytes} | <span size='13000' foreground='#F2CECF'>︁</span> {bandwidthUpBytes} ",
+    "format-ethernet": "<span size='13000' foreground='#F2CECF'></span> {bandwidthDownBytes} | <span size='13000' foreground='#F2CECF'>︁</span> {bandwidthUpBytes} ",
+    "format-linked": "{ifname} (No IP) ",
+    "format-disconnected": "<span size='13000' foreground='#F2CECF'> </span>Disconnected",
+    "format-alt": "{essid}: {ipaddr}/{cidr}",
+    "tooltip-format-wifi": "Signal Strength: {signalStrength}%"
+  },
+
+  "tray": {
+    // "icon-size": 21,
+    "spacing": 10
+  },
+
+  "pulseaudio": {
+    "on-click": "pactl set-sink-mute 0 toggle",
+    "on-scroll-up": "amixer set Master 2%+",
+    "on-scroll-down": "amixer set Master 2%-",
+    "on-click": "pactl set-sink-mute 0 toggle",
+    "on-click-right": "pactl set-source-mute 0 toggle",
+    "on-click-middle": "pavucontrol",
+    //"ignored-sinks": ["Easy Effects Sink", "Virtual Surround Sink"],
+    "format": "<span size='13000' foreground='#EBDDAA'>{icon}</span> {volume}% | {format_source}",
+    "format-muted": "<span size='14000' foreground='#EBDDAA'>󰖁</span> | {format_source}",
+    "format-source": "<span size='13000' foreground='#EBDDAA'>󰍬 </span>{volume}%",
+    "format-source-muted": "<span size='13000' foreground='#EBDDAA'>󰍭</span>",
+    "format-icons": {
+      "headphone": "",
+      "hands-free": "",
+      "headset": "",
+      "default": ["", ""]
+    }
+  }
+}
+
