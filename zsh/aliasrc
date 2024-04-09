@@ -1,6 +1,6 @@
 #list
 alias ls='eza --icons -al --group-directories-first'
-alias update='sudo pacman -Syyu'
+alias update='sudo pacman -Syu'
 alias rm='rm -i'
 #alias ins='sudo dnf install'
 alias ins='sudo pacman -Sy'

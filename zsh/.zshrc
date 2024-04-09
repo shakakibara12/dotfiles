@@ -24,7 +24,7 @@ setopt CORRECT
 #setopt COMPLETE_IN_WORD
 #setopt INC_APPEND_HISTORY SHARE_HISTORY  # adds history incrementally and share it across sessions
 setopt HIST_IGNORE_SPACE #if command started with a space, it will not get added to history.
-#setopt SHARE_HISTORY  # acc. to man zshoptions INC_APPEND_HISTORY should be turned off, if this is on
+setopt SHARE_HISTORY  # acc. to man zshoptions INC_APPEND_HISTORY should be turned off, if this is on
 #setopt HIST_IGNORE_ALL_DUPS  # don't record dupes in history
 setopt HIST_IGNORE_DUPS # don't record dupes in history
 #setopt EXTENDED_HISTORY # add timestamps to history, not really useful.
@@ -34,6 +34,19 @@ HISTFILE=~/.config/zsh/history
 
 # Load aliases and shortcuts if existent.
 [ -f "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc" ] && source "${XDG_CONFIG_HOME:-$HOME/.config}/zsh/aliasrc"
+
+# emit OSC 7 for foot to spawn new window in same directory.
+function osc7-pwd() {
+    emulate -L zsh # also sets localoptions for us
+    setopt extendedglob
+    local LC_ALL=C
+    printf '\e]7;file://%s%s\e\' $HOST ${PWD//(#m)([^@-Za-z&-;_~])/%${(l:2::0:)$(([##16]#MATCH))}}
+}
+
+function chpwd-osc7-pwd() {
+    (( ZSH_SUBSHELL )) || osc7-pwd
+}
+add-zsh-hook -Uz chpwd chpwd-osc7-pwd
 
 #Speed up zsh compinit :- https://gist.github.com/ctechols/ca1035271ad134841284
 #autoload -Uz compinit && compinit
@@ -67,6 +80,8 @@ bindkey '^k' kill-line
 bindkey "^N" history-beginning-search-forward-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^B" backward-char
+#allow backspace to clear newline.
+bindkey '^?' backward-delete-char
 #bindkey "^F" forward-char
 bindkey "^a" beginning-of-line
 bindkey "^e" end-of-line
