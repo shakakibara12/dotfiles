@@ -1,0 +1,7 @@
+#!/bin/bash
+
+case "$1" in
+"C-f")      xclip -in -filter | tr '\n' ' ' | xclip -in -selection clipboard ;;
+"C-d")      while read file; do mv "$file" "$HOME/.local/share/Trash/files/" ; done ;;
+"C-g")      tr '\n' '\0' | xargs -0 gimp & ;;
+esac
