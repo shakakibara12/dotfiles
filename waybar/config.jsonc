@@ -35,7 +35,7 @@
     "on-scroll-down": "playerctl -p spotify next",
     "tooltip": false,
     "escape": true,
-    "max-length": 60,
+    "max-length": 30,
     "exec": "$HOME/.config/waybar/mediaplayer.sh"
   },
 
@@ -83,7 +83,7 @@
     "format-linked": "{ifname} (No IP) ",
     "format-disconnected": "<span size='13000' foreground='#F2CECF'> </span>Disconnected",
     "format-alt": "{essid}: {ipaddr}/{cidr}",
-    "tooltip-format-wifi": "Signal Strenght: {signalStrength}%"
+    "tooltip-format-wifi": "Signal Strength: {signalStrength}%"
   },
 
   "tray": {
@@ -98,6 +98,7 @@
     "on-click": "pactl set-sink-mute 0 toggle",
     "on-click-right": "pactl set-source-mute 0 toggle",
     "on-click-middle": "pavucontrol",
+    //"ignored-sinks": ["Easy Effects Sink", "Virtual Surround Sink"],
     "format": "<span size='13000' foreground='#EBDDAA'>{icon}</span> {volume}% | {format_source}",
     "format-muted": "<span size='14000' foreground='#EBDDAA'>󰖁</span> | {format_source}",
     "format-source": "<span size='13000' foreground='#EBDDAA'>󰍬 </span>{volume}%",
@@ -106,9 +107,6 @@
       "headphone": "",
       "hands-free": "",
       "headset": "",
-      "phone": "",
-      "portable": "",
-      "car": "",
       "default": ["", ""]
     }
   }

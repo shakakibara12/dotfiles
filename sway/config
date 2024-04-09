@@ -3,11 +3,11 @@ gaps inner 10
 gaps outer 5 
 
 #disable windows titlebar
-default_border pixel 2 
+default_border pixel 3
 
 #disable floating windows titlebar
-default_floating_border pixel 2 
-hide_edge_borders vertical
+default_floating_border pixel 3
+#hide_edge_borders vertical
 mouse_warping none
 #Font
 font pango:Roboto 13
@@ -110,10 +110,9 @@ exec swayidle -w \
 ### Idle configuration #2 For lock the screen and turn off display after idle sometime
 exec swayidle -w \
         timeout 290 'notify-send "Locking screen in 10 seconds" ' \
-        timeout 300 'playerctl pause & swaylock -f' \
-        timeout 310 'swaymsg "output * power off"' \
+        timeout 300 'playerctl pause & pactl set-sink-mute 0 true & swaylock -f' \
         resume 'pactl set-sink-mute 0 toggle & swaymsg "output * power on"' \
-        before-sleep 'playerctl pause & pactl set-sink-mute 0 toggle' \
+        before-sleep 'playerctl pause & pactl set-sink-mute 0 true' \
         before-sleep 'swaylock -f' \
         lock 'swaylock -f'
 # This will lock your screen after 300 seconds of inactivity, then turn off
@@ -157,7 +156,7 @@ input type:touchpad {
     tap enabled
     natural_scroll enabled
     middle_emulation enabled
-    pointer_accel 0.8
+    pointer_accel 0.6
     dwt enabled
 }
 
@@ -201,22 +200,12 @@ input "9610:73:BY_Tech_Gaming_Keyboard" {
     bindsym $mod+$down focus down
     bindsym $mod+$up focus up
     bindsym $mod+$right focus right
-    # Or use $mod+[up|down|left|right]
-    bindsym $mod+Left focus left
-    bindsym $mod+Down focus down
-    bindsym $mod+Up focus up
-    bindsym $mod+Right focus right
 
     # Move the focused window with the same, but add Shift
     bindsym $mod+Shift+$left move left 50px
     bindsym $mod+Shift+$down move down 50px
     bindsym $mod+Shift+$up move up 50px
     bindsym $mod+Shift+$right move right 50px
-    # Ditto, with arrow keys
-    bindsym $mod+Shift+Left move left
-    bindsym $mod+Shift+Down move down
-    bindsym $mod+Shift+Up move up
-    bindsym $mod+Shift+Right move right
 #
 # Workspaces:
 #
@@ -251,8 +240,8 @@ input "9610:73:BY_Tech_Gaming_Keyboard" {
     # You can "split" the current object of your focus with
     # $mod+b or $mod+v, for horizontal and vertical splits
     # respectively.
-    bindsym $mod+b splith
-    bindsym $mod+shift+v splitv
+    #bindsym $mod+b splith
+    #bindsym $mod+shift+v splitv
 
     # Switch the current container between different layout styles
     bindsym $mod+s layout stacking
@@ -361,29 +350,23 @@ bindsym $mod+Escape exec swaylock
 #bindsym Control+Shift+t workspace next
 #bindsym Control+Shift+y workspace prev
 
-#bindsym $mod+F3 exec playerctl play-pause 
-bindsym $mod+Control+w exec $browser
-bindsym $mod+Control+b exec $filemanager 
-bindsym $mod+Control+m exec $mail 
-#bindsym $mod+Control+s exec $mediaplayer
-#bindsym Control+Alt+d exec discord-canary
-#bindsym XF86AudioRaiseVolume exec pamixer -i 2 #increase audio 
-#bindsym $mod+Shift+$down exec amixer set Master 2%-       #decrease audio
-#bindsym $mod+Shift+$up exec amixer set Master 2%+            #increase audio 
+bindsym $mod+Control+Down exec amixer set Master 2%-       #decrease audio
+bindsym $mod+Control+Up exec amixer set Master 2%+            #increase audio 
 bindsym XF86AudioLowerVolume exec amixer set Master 2%-       #decrease audio
 bindsym XF86AudioRaiseVolume exec amixer set Master 2%+            #increase audio 
-#bindsym XF86AudioLowerVolume exec pamixer -d 2 #decrease audio
 bindsym $mod+Shift+m exec amixer set Master toggle      #mute audio 
 
 #Media keys supported by vlc, spotify, audacious, xmm2, ...
 bindsym --locked XF86AudioPlay exec playerctl play-pause
 bindsym --locked XF86AudioNext exec playerctl next
+bindsym --locked $mod+Shift+period exec playerctl next
 bindsym --locked XF86AudioPrev exec playerctl previous
+bindsym --locked $mod+Shift+comma exec playerctl previous
 bindsym --locked XF86AudioStop exec playerctl stop
 bindsym --locked XF86AudioMute exec pactl set-sink-mute 0 toggle              #mute audio 
 #scripts
 bindsym $mod+p exec ~/.config/sway/wallpaper.sh -w
-bindsym $mod+o exec ~/.config/sway/audio_output.sh
+#bindsym $mod+o exec ~/.config/sway/audio_output.sh
 bindsym $mod+u exec ~/scripts/mpv.sh 
 #bindsym $mod+m exec ~/scripts/rclone.sh
 #Laptop stuff
@@ -407,9 +390,12 @@ bindsym Control+Print exec grimshot --notify copy screen
 bindsym $mod+Print exec ~/.config/sway/screenshot.sh
 #save full screen screenshot
 bindsym Print exec grimshot --notify save screen 
+#image_to_ocr lets go
+bindsym $mod+Shift+t exec wl-copy "$(grim -g "$(slurp)" - | tesseract -c debug_file=/dev/null -l eng - -)"
+
 #Record
-#bindsym $mod+F12 exec ~/.config/sway/record.sh -s
-#bindsym $mod+Shift+F12 exec ~/.config/sway/record.sh -g
+bindsym $mod+F12 exec ~/.config/sway/record.sh -s
+bindsym $mod+Shift+F12 exec ~/.config/sway/record.sh -g
 
 
 #Startup Apps
@@ -428,9 +414,10 @@ exec --no-startup-id nm-applet
 exec --no-startup-id batsignal -b -c 30 -d 20 -f 90 -m 15
 #use colours and font from Xdefaults ( for sxiv and other apps )
 #add a little sleep to make qbittorrent apear in tray.
-exec --no-startup-id sleep 5 && qbittorrent
+exec --no-startup-id sleep 8 && qbittorrent
+exec --no-startup-id xsettingsd
 exec --no-startup-id xrdb ~/.Xdefaults
-#exec --no-startup-id syncthing --no-browser
+exec --no-startup-id syncthing --no-browser
 #exec --no-startup-id wayvnc
 #exec --no-startup-id exec /usr/lib/kdeconnectd
 #exec --no-startup-id ~/scripts/fuckem.sh
@@ -489,7 +476,8 @@ for_window {
     [app_id="io.bassi.Amberol"] $float
     [app_id="org.gnome.clocks"] $float
     [app_id="connman-gtk"] $float
-    [app_id="signal"] floating enable
+    # no longer needed, it doesn't crash anymore on wayland
+    #[app_id="signal"] floating enable
 
 
 	[window_role="pop-up,task_dialog,About"] $float; shadows enable
@@ -537,5 +525,5 @@ for_window {
 	[shell="xwayland"] title_format "%title [XWayland]"
 
     #Open programs in different workspace
-    [app_id="org.qbittorrent.qBittorrent"] move to workspace 4
+    #[app_id="org.qbittorrent.qBittorrent"] move to workspace 4
 }

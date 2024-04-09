@@ -3,6 +3,7 @@
 
   "positionX": "right",
   "positionY": "top",
+  "layer": "overlay",
   "control-center-margin-top": 8,
   "control-center-margin-bottom": 8,
   "control-center-margin-right": 8,
@@ -10,14 +11,12 @@
   "control-center-width": 500,
   "control-center-height": 600,
   "fit-to-screen": false,
-
-  "layer": "overlay",
   "cssPriority": "user",
   "notification-icon-size": 64,
   "notification-body-image-height": 100,
   "notification-body-image-width": 200,
-  "timeout": 10,
-  "timeout-low": 5,
+  "timeout": 6,
+  "timeout-low": 4,
   "timeout-critical": 0,
   "notification-window-width": 500,
   "keyboard-shortcuts": true,
@@ -26,6 +25,14 @@
   "hide-on-clear": true,
   "hide-on-action": true,
   "script-fail-notify": true,
+
+"notification-visibility": {
+    "example-name": {
+      "state": "muted",
+      "urgency": "Low",
+      "app-name": "Spotify"
+    }
+  },
 
   "widgets": [
     "title",
