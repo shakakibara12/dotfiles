@@ -28,7 +28,7 @@
     "on-scroll-down": "playerctl -p spotify previous",
     "tooltip": false,
     "escape": false,
-    "max-length": 15,
+    "max-length": 30,
     "exec": "$HOME/.config/waybar/mediaplayer.sh"
   },
 
@@ -48,6 +48,7 @@
 
   "clock": {
     "format": "<span foreground='#C6AAE8'> </span>{:%a %d %I:%M}",
+    "format-alt": "<span foreground='#C6AAE8'>󰣆  </span>{:%A %d %B - %I:%M %p}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
 
@@ -73,10 +74,10 @@
     "interval": 2,
     "format-wifi": "<span size='13000' foreground='#F2CECF'></span> {bandwidthDownBytes} | <span size='13000' foreground='#F2CECF'>︁</span> {bandwidthUpBytes} ",
     "format-ethernet": "<span size='13000' foreground='#F2CECF'></span> {bandwidthDownBytes} | <span size='13000' foreground='#F2CECF'>︁</span> {bandwidthUpBytes} ",
-    "format-linked": "{ifname} (No IP) ",
-    "format-disconnected": "<span size='13000' foreground='#F2CECF'> </span>Disconnected",
-    "format-alt": "{essid}: {ipaddr}/{cidr}",
-    "tooltip-format-wifi": "Signal Strength: {signalStrength}%"
+    //"format-linked": "{ifname} (No IP) ",
+    "format-disconnected": "<span size='13000' foreground='#F2CECF'> </span>Disconnected ",
+    "format-alt": "{essid}: {ipaddr}/{cidr} ",
+    "tooltip-format-wifi": "Signal Strength: {signalStrength}% "
   },
 
   "tray": {
