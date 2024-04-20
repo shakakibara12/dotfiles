@@ -9,6 +9,7 @@ local tethys = {
     -- Config
     showPictureInPictureButton = true,
     showSpeedButton = true,
+    showShortcutTooltip = true, -- Show name and shortcut of buttons on hover
     showChapterTooltip = true, -- Show chapter above timestamp in seekbar tooltip
     skipBy = 5, -- skipback/skipfrwd amount in seconds
     skipByMore = 30, -- RightClick skipback/skipfrwd amount in seconds
@@ -57,6 +58,13 @@ local tethys = {
 }
 read_options(tethys, "tethys")
 
+local thumbfast = {
+    width = 0,
+    height = 0,
+    disabled = true,
+    available = false
+}
+
 local function parseColor(color)
     if string.find(color, "#") then
         local colorU = string.upper(color)
@@ -104,6 +112,16 @@ tethys.pipWasFullscreen = false
 tethys.pipWasMaximized = false
 tethys.pipWasOnTop = false
 tethys.pipHadBorders = false
+
+tethys.userdataAvail = (function()
+    local list = mp.get_property_native("property-list")
+    for k,v in ipairs(list) do
+        if (v == "user-data") then
+            return true
+        end
+    end
+    return false
+end)()
 
 
 -- https://github.com/libass/libass/wiki/ASSv5-Override-Tags#color-and-alpha---c-o
@@ -248,6 +266,7 @@ end
 local user_opts = {
     showwindowed = true,        -- show OSC when windowed?
     showfullscreen = true,      -- show OSC when fullscreen?
+    idlescreen = true,          -- show mpv logo on idle
     scalewindowed = 1,          -- scaling of the controller when windowed
     scalefullscreen = 1,        -- scaling of the controller when fullscreen
     scaleforcedwindow = 2,      -- scaling when rendered on a forced window
@@ -280,6 +299,7 @@ local user_opts = {
     tooltipborder = 1,          -- border of tooltip in bottom/topbar
     timetotal = false,          -- display total time instead of remaining time?
     timems = false,             -- display timecodes with milliseconds?
+    tcspace = 100, -- timecode spacing (compensate font size estimation)
     visibility = "auto",        -- only used at init to set visibility_mode(...)
     -- visibility = "always",        -- only used at init to set visibility_mode(...)
     boxmaxchars = 80,           -- title crop threshold for box layout
@@ -291,6 +311,7 @@ local user_opts = {
     chapters_osd = true,        -- whether to show chapters OSD on next/prev
     playlist_osd = true,        -- whether to show playlist OSD on next/prev
     chapter_fmt = "Chapter: %s", -- chapter print format for seekbar-hover. "no" to disable
+    unicodeminus = false, -- whether to use the Unicode minus sign character
 }
 
 -- read options from config and command-line
@@ -389,17 +410,19 @@ end)
 --     print(jsonstr)
 -- end
 
+function isIgnored(bind, ignoredKeys)
+    for _, ignoredKey in pairs(ignoredKeys) do
+        if bind.key == ignoredKey then
+            return true
+        end
+    end
+    return false
+end
 function grepBindByCmd(pattern, ignoredKeys)
     ignoredKeys = ignoredKeys or {}
     local cmdBinds = {}
     for _, bind in pairs(ordered) do
-        local ignored = false
-        for _, ignoredKey in pairs(ignoredKeys) do
-            if bind.key == ignoredKey then
-                ignored = true
-                break
-            end
-        end
+        local ignored = isIgnored(bind, ignoredKeys)
         if not ignored and bind.cmd:find(pattern) then
             -- print(bind.key, bind.cmd)
             cmdBinds[#cmdBinds+1] = bind
@@ -408,11 +431,33 @@ function grepBindByCmd(pattern, ignoredKeys)
     return cmdBinds
 end
 
-function grepSpeedBinds()
+function grepSeekBinds(ignoredKeys)
+    ignoredKeys = ignoredKeys or {}
+    local backBinds = {}
+    local frwdBinds = {}
+    for _, bind in pairs(ordered) do
+        if isIgnored(bind, ignoredKeys) then
+            -- skip
+        elseif bind.cmd:find("^seek(%s+)(%-[%d%.]+)") then
+            backBinds[#backBinds+1] = bind
+        elseif bind.cmd:find("^no%-osd(%s+)seek(%s+)(%-[%d%.]+)") then
+            backBinds[#backBinds+1] = bind
+        elseif bind.cmd:find("^seek(%s+)(%+?[%d%.]+)") then
+            frwdBinds[#frwdBinds+1] = bind
+        elseif bind.cmd:find("^no%-osd(%s+)seek(%s+)(%+?[%d%.]+)") then
+            frwdBinds[#frwdBinds+1] = bind
+        end
+    end
+    return backBinds, frwdBinds
+end
+function grepSpeedBinds(ignoredKeys)
+    ignoredKeys = ignoredKeys or {}
     local downBinds = {}
     local upBinds = {}
     for _, bind in pairs(ordered) do
-        if bind.cmd:find("^add(%s+)speed(%s+)(%+?[%d%.]+)$") then
+        if isIgnored(bind, ignoredKeys) then
+            -- skip
+        elseif bind.cmd:find("^add(%s+)speed(%s+)(%+?[%d%.]+)$") then
             upBinds[#upBinds+1] = bind
         elseif bind.cmd:find("^add(%s+)speed(%s+)(%-[%d%.]+)$") then
             downBinds[#downBinds+1] = bind
@@ -466,9 +511,14 @@ function formatBinds(binds)
     return str
 end
 function formatSeekBind(bind)
-    local seekBy = bind.cmd:match("^seek%s+([%+%-]?[%d%.]+)")
+    local seekBy
+    if bind.cmd:match("^no%-osd%s+seek") then
+        seekBy = bind.cmd:match("^no%-osd%s+seek%s+([%+%-]?[%d%.]+)")
+    else
+        seekBy = bind.cmd:match("^seek%s+([%+%-]?[%d%.]+)")
+    end
     seekBy = tonumber(seekBy) -- Note: +0.1 is parsed okay
-    local label 
+    local label
     if seekBy < 0 then
         return ("Back %ss %s"):format(-seekBy, formatBindKey(bind.key))
     else
@@ -491,8 +541,7 @@ end
 -- %d+ = One or more digits from 0 to 9
 -- (%-?%d+) = Positive or negative integer
 local pauseBinds = grepBindByCmd("^cycle(%s+)pause", {"p", "PLAYPAUSE", "MBTN_RIGHT", "PLAY", "PAUSE"})
-local seekBackBinds = grepBindByCmd("^seek(%s+)(%-[%d%.]+)", {"REWIND", "Shift+PGDWN"})
-local seekFrwdBinds = grepBindByCmd("^seek(%s+)(%+?[%d%.]+)", {"FORWARD", "Shift+PGUP"})
+local seekBackBinds, seekFrwdBinds = grepSeekBinds({"REWIND", "Shift+PGDWN", "FORWARD", "Shift+PGUP"})
 local muteBinds = grepBindByCmd("^cycle(%s+)mute", {"MUTE"})
 local volDnBinds = grepBindByCmd("^add(%s+)volume(%s+)(%-%d+)", {"VOLUME_DOWN", "WHEEL_LEFT"})
 local volUpBinds = grepBindByCmd("^add(%s+)volume(%s+)(%d+)", {"VOLUME_UP", "WHEEL_RIGHT"})
@@ -512,12 +561,7 @@ local seekFrwdTooltip = formatSeekBinds(seekFrwdBinds)
 local muteTooltip = formatBinds(muteBinds)
 local volDnTooltip = formatBinds(volDnBinds)
 local volUpTooltip = formatBinds(volUpBinds)
-local volTooltip = {
-    -- ("Volume Down (%s) Up (%s)"):format(volDnTooltip, volUpTooltip),
-    ("Volume Down %s"):format(volDnTooltip),
-    ("Volume Up %s"):format(volUpTooltip),
-    ("Mute %s"):format(muteTooltip)
-}
+local volTooltip = ("Mute %s\\NVolume Up %s\\NVolume Down %s"):format(muteTooltip, volUpTooltip, volDnTooltip)
 local plPrevTooltip = ("Previous %s"):format(formatBinds(plPrevBinds))
 local plNextTooltip = ("Next %s"):format(formatBinds(plNextBinds))
 local chPrevTooltip = ("Prev Chapter %s"):format(formatBinds(chPrevBinds))
@@ -527,12 +571,7 @@ local subTooltip = ("Subtitle Track %s"):format(formatBinds(subBinds))
 local speedResetTooltip = formatBinds(speedResetBinds)
 local speedDnTooltip = formatBinds(speedDnBinds)
 local speedUpTooltip = formatBinds(speedUpBinds)
-local speedTooltip = {
-    -- ("Volume Down (%s) Up (%s)"):format(volDnTooltip, volUpTooltip),
-    ("Slower %s"):format(speedDnTooltip),
-    ("Faster %s"):format(speedUpTooltip),
-    ("Reset %s"):format(speedResetTooltip)
-}
+local speedTooltip = ("Reset %s\\NFaster %s\\NSlower %s"):format(speedResetTooltip, speedUpTooltip, speedDnTooltip)
 local pipTooltip = "Picture In Picture"
 local fullscreenTooltip = ("Fullscreen %s"):format(formatBinds(fullscreenBinds))
 -- print("pauseTooltip", pauseTooltip)
@@ -1355,6 +1394,9 @@ end
 
 function Thumbnailer:get_thumbnail_size()
     local video_dec_params = mp.get_property_native("video-dec-params")
+    if video_dec_params == nil then
+        return nil
+    end
     local video_width = video_dec_params.dw
     local video_height = video_dec_params.dh
     if not (video_width and video_height) then
@@ -1488,6 +1530,8 @@ function Thumbnailer:register_client()
     -- Notify workers to generate thumbnails when video loads/changes
     -- This will be executed after the on_video_change (because it's registered after it)
     mp.observe_property("video-dec-params", "native", function()
+        if thumbfast.available then return end
+
         local duration = mp.get_property_native("duration")
         local max_duration = thumbnailer_options.autogenerate_max_duration
 
@@ -1501,6 +1545,8 @@ function Thumbnailer:register_client()
 
     local thumb_script_key = not thumbnailer_options.disable_keybinds and "T" or nil
     mp.add_key_binding(thumb_script_key, "generate-thumbnails", function()
+        if thumbfast.available then return end
+
         if self.state.available then
             mp.osd_message("Started thumbnailer jobs")
             self:start_worker_jobs()
@@ -1807,6 +1853,9 @@ function renderThumbnailTooltip(pos, sliderPos, ass)
     ---- Geometry
     local scaleX, scaleY = get_virt_scale_factor()
     local videoDecParams = mp.get_property_native("video-dec-params")
+    if videoDecParams == nil then
+        return
+    end
     local videoWidth = videoDecParams.dw
     local videoHeight = videoDecParams.dh
     if not (videoWidth and videoHeight) then
@@ -1817,8 +1866,8 @@ function renderThumbnailTooltip(pos, sliderPos, ass)
     if thumb_size == nil then
         return
     end
-    local thumbGlobalWidth = thumb_size.w
-    local thumbGlobalHeight = thumb_size.h
+    local thumbGlobalWidth = thumbfast.available and thumbfast.width or thumb_size.w
+    local thumbGlobalHeight = thumbfast.available and thumbfast.height or thumb_size.h
     local thumbWidth =  math.floor(thumbGlobalWidth * scaleX)
     local thumbHeight =  math.floor(thumbGlobalHeight * scaleY)
 
@@ -1895,17 +1944,15 @@ function renderThumbnailTooltip(pos, sliderPos, ass)
     ass:append(timestampLabel)
 
     -- If thumbnails are not available, bail
-    if not (Thumbnailer.state.enabled and Thumbnailer.state.available) then
+    if not thumbfast.available and not (Thumbnailer.state.enabled and Thumbnailer.state.available) then
         return
     end
 
-    local thumbPath, thumbIndex, closestIndex = Thumbnailer:get_thumbnail_path(thumbTime)
-    -- msg.warn("renderThumbnailTooltip", thumbIndex, closestIndex, thumbPath)
-
-    if thumbPath then
+    if thumbPath or thumbfast.available then
         ---- Thumb BG/Outline
         ass:new_event()
         ass:pos(tooltipX, tooltipY)
+        ass:an(7)
         ass:append(("{\\bord0\\1c&H%s&\\1a&H%X&}"):format(tooltipBgColor, tooltipBgAlpha))
         ass:draw_start()
         ass:rect_cw(0, 0, tooltipWidth, bgHeight)
@@ -1917,12 +1964,29 @@ function renderThumbnailTooltip(pos, sliderPos, ass)
             -- like it was filtered.
             ass:new_event()
             ass:pos(thumbX, thumbY)
+            ass:an(7)
             ass:append(("{\\bord0\\1c&H%s&\\1a&H%X&}"):format(tooltipBgColor, 0))
             ass:draw_start()
             ass:rect_cw(0, 0, thumbWidth, thumbHeight)
             ass:draw_stop()
         end
+    end
 
+    if thumbfast.available then
+        if not thumbfast.disabled then
+            mp.commandv("script-message-to", "thumbfast", "thumb",
+                thumbTime,
+                math.floor(thumbGlobalX + 0.5),
+                math.floor(thumbGlobalY + 0.5)
+            )
+        end
+        return
+    end
+
+    local thumbPath, thumbIndex, closestIndex = Thumbnailer:get_thumbnail_path(thumbTime)
+    -- msg.warn("renderThumbnailTooltip", thumbIndex, closestIndex, thumbPath)
+
+    if thumbPath then
         ---- Render Thumbnail
         seekbarThumb.thumbPath = thumbPath
         seekbarThumb.globalWidth = thumbGlobalWidth
@@ -2219,9 +2283,13 @@ function togglePictureInPicture()
             mp.commandv('set', 'border', 'yes')
         end
         local videoDecParams = mp.get_property_native("video-dec-params")
-        local videoWidth = videoDecParams.dw
-        local videoHeight = videoDecParams.dh
-        mp.commandv('set', 'geometry', ''..videoWidth..'x'..videoHeight)
+        if videoDecParams ~= nil then
+            local videoWidth = videoDecParams.dw
+            local videoHeight = videoDecParams.dh
+            if videoWidth and videoHeight then
+                mp.commandv('set', 'geometry', ''..videoWidth..'x'..videoHeight)
+            end
+        end
         if tethys.pipWasMaximized then
             mp.commandv('set', 'window-maximized', 'yes')
         end
@@ -2243,7 +2311,11 @@ function togglePictureInPicture()
         end
     end
     tethys.isPictureInPicture = not isPiP
-    utils.shared_script_property_set("pictureinpicture", tostring(tethys.isPictureInPicture))
+    if tethys.userdataAvail then
+        mp.set_property_native("user-data/pictureinpicture", tostring(tethys.isPictureInPicture))
+    else
+        utils.shared_script_property_set("pictureinpicture", tostring(tethys.isPictureInPicture))
+    end
 end
 
 
@@ -2281,7 +2353,7 @@ end
 -- return a nice list of tracks of the given type (video, audio, sub)
 function get_tracklist(type)
     local msg = "Available " .. nicetypes[type] .. " Tracks: "
-    if #tracks_osc[type] == 0 then
+    if not tracks_osc or #tracks_osc[type] == 0 then
         msg = msg .. "none"
     else
         for n = 1, #tracks_osc[type] do
@@ -2730,7 +2802,10 @@ function render_elements(master_ass)
                         an=2, -- x,y is bottom-center
                     }
                     renderThumbnailTooltip(thumbPos, sliderPos, elem_ass)
-
+                else
+                    if thumbfast.available then
+                        mp.commandv("script-message-to", "thumbfast", "clear")
+                    end
                 end
             end
 
@@ -3169,7 +3244,8 @@ function window_controls(topbar)
         w = titlebox_w,
         h = wc_geo.h,
     }
-    lo.style = string.format("%s{\\clip(%f,%f,%f,%f)}",
+    -- Note: \q(2) = No Wrap
+    lo.style = string.format("%s{\\clip(%f,%f,%f,%f)\\q(2)}",
         tethysStyle.windowTitle,
         lo.geometry.x - tethys.windowTitleOutline,
         wc_geo.y - wc_geo.h - tethys.windowTitleOutline,
@@ -3486,6 +3562,11 @@ function bar_layout(direction)
     local padY = 3
     local buttonW = 27
     local tcW = (state.tc_ms) and 170 or 110
+    if user_opts.tcspace >= 50 and user_opts.tcspace <= 200 then
+        -- adjust our hardcoded font size estimation
+        tcW = tcW * user_opts.tcspace / 100
+    end
+
     local tsW = 90
     local minW = (buttonW + padX)*5 + (tcW + padX)*4 + (tsW + padX)*2
 
@@ -3803,7 +3884,9 @@ layouts["tethys"] = function()
     lo = add_layout("playpause")
     lo.geometry = geo
     lo.style = tethysStyle.button
-    setButtonTooltip(lo, pauseTooltip)
+    if tethys.showShortcutTooltip then
+        setButtonTooltip(lo, pauseTooltip)
+    end
     leftSectionWidth = leftSectionWidth + geo.w
 
     -- Skip Backwards
@@ -3817,7 +3900,9 @@ layouts["tethys"] = function()
     lo = add_layout("skipback")
     lo.geometry = geo
     lo.style = tethysStyle.smallButton
-    setButtonTooltip(lo, seekBackTooltip)
+    if tethys.showShortcutTooltip then
+        setButtonTooltip(lo, seekBackTooltip)
+    end
     leftSectionWidth = leftSectionWidth + geo.w
 
     -- Skip Forwards
@@ -3831,7 +3916,9 @@ layouts["tethys"] = function()
     lo = add_layout("skipfrwd")
     lo.geometry = geo
     lo.style = tethysStyle.smallButton
-    setButtonTooltip(lo, seekFrwdTooltip)
+    if tethys.showShortcutTooltip then
+        setButtonTooltip(lo, seekFrwdTooltip)
+    end
     leftSectionWidth = leftSectionWidth + geo.w
 
     -- Chapter Prev
@@ -3848,10 +3935,18 @@ layouts["tethys"] = function()
     setButtonTooltip(lo, function()
         local shortcutLabel = chPrevTooltip
         local prevChapter = getDeltaChapter(-1)
-        if prevChapter == nil then
-            return { shortcutLabel }
+        if tethys.showShortcutTooltip then
+            if prevChapter == nil then
+                return { shortcutLabel }
+            else
+                return { tethysStyle.text..prevChapter.label, shortcutLabel }
+            end
         else
-            return { tethysStyle.text..prevChapter.label, shortcutLabel }
+            if prevChapter == nil then
+                return {}
+            else
+                return { tethysStyle.text..prevChapter.label }
+            end
         end
     end)
     if elements["ch_prev"].visible then
@@ -3872,10 +3967,18 @@ layouts["tethys"] = function()
     setButtonTooltip(lo, function()
         local shortcutLabel = chNextTooltip
         local nextChapter = getDeltaChapter(1)
-        if nextChapter == nil then
-            return { shortcutLabel }
+        if tethys.showShortcutTooltip then
+            if nextChapter == nil then
+                return { shortcutLabel }
+            else
+                return { tethysStyle.text..nextChapter.label, shortcutLabel }
+            end
         else
-            return { tethysStyle.text..nextChapter.label, shortcutLabel }
+            if nextChapter == nil then
+                return {}
+            else
+                return { tethysStyle.text..nextChapter.label }
+            end
         end
     end)
     if elements["ch_next"].visible then
@@ -3896,7 +3999,9 @@ layouts["tethys"] = function()
     lo = add_layout("volume")
     lo.geometry = geo
     lo.style = tethysStyle.smallButton
-    setButtonTooltip(lo, volTooltip)
+    if tethys.showShortcutTooltip then
+        setButtonTooltip(lo, volTooltip)
+    end
     if elements["volume"].visible then
         leftSectionWidth = leftSectionWidth + geo.w
     end
@@ -3913,7 +4018,9 @@ layouts["tethys"] = function()
     lo = add_layout("tog_fs")
     lo.geometry = geo
     lo.style = tethysStyle.smallButton
-    setButtonTooltip(lo, fullscreenTooltip)
+    if tethys.showShortcutTooltip then
+        setButtonTooltip(lo, fullscreenTooltip)
+    end
     if elements["tog_fs"].visible then
         rightSectionWidth = rightSectionWidth + geo.w
     end
@@ -3929,7 +4036,9 @@ layouts["tethys"] = function()
     lo = add_layout("tog_pip")
     lo.geometry = geo
     lo.style = tethysStyle.smallButton
-    setButtonTooltip(lo, pipTooltip)
+    if tethys.showShortcutTooltip then
+        setButtonTooltip(lo, pipTooltip)
+    end
     if elements["tog_pip"].visible then
         rightSectionWidth = rightSectionWidth + geo.w
     end
@@ -3945,7 +4054,9 @@ layouts["tethys"] = function()
     lo = add_layout("speed")
     lo.geometry = geo
     lo.style = tethysStyle.smallButton
-    setButtonTooltip(lo, speedTooltip)
+    if tethys.showShortcutTooltip then
+        setButtonTooltip(lo, speedTooltip)
+    end
     if elements["speed"].visible then
         rightSectionWidth = rightSectionWidth + geo.w
     end
@@ -3963,7 +4074,9 @@ layouts["tethys"] = function()
     lo = add_layout("cy_sub")
     lo.geometry = geo
     lo.style = tethysStyle.trackButton
-    setButtonTooltip(lo, subTooltip)
+    if tethys.showShortcutTooltip then
+        setButtonTooltip(lo, subTooltip)
+    end
     if elements["cy_sub"].visible then
         rightSectionWidth = rightSectionWidth + geo.w
     end
@@ -3980,7 +4093,9 @@ layouts["tethys"] = function()
     lo = add_layout("cy_audio")
     lo.geometry = geo
     lo.style = tethysStyle.trackButton
-    setButtonTooltip(lo, audioTooltip)
+    if tethys.showShortcutTooltip then
+        setButtonTooltip(lo, audioTooltip)
+    end
     if elements["cy_audio"].visible then
         rightSectionWidth = rightSectionWidth + geo.w
     end
@@ -4003,10 +4118,18 @@ layouts["tethys"] = function()
     setButtonTooltip(lo, function()
         local shortcutLabel = plNextTooltip
         local nextItem = getDeltaPlaylistItem(1)
-        if nextItem == nil then
-            return { shortcutLabel }
+        if tethys.showShortcutTooltip then
+            if nextItem == nil then
+                return { shortcutLabel }
+            else
+                return { tethysStyle.text..nextItem.label, shortcutLabel }
+            end
         else
-            return { tethysStyle.text..nextItem.label, shortcutLabel }
+            if nextItem == nil then
+                return {}
+            else
+                return { tethysStyle.text..nextItem.label }
+            end
         end
     end)
     if elements["pl_next"].visible then
@@ -4028,10 +4151,18 @@ layouts["tethys"] = function()
     setButtonTooltip(lo, function()
         local shortcutLabel = plPrevTooltip
         local nextItem = getDeltaPlaylistItem(-1)
-        if nextItem == nil then
-            return { shortcutLabel }
+        if tethys.showShortcutTooltip then
+            if nextItem == nil then
+                return { shortcutLabel }
+            else
+                return { tethysStyle.text..nextItem.label, shortcutLabel }
+            end
         else
-            return { tethysStyle.text..nextItem.label, shortcutLabel }
+            if nextItem == nil then
+                return {}
+            else
+                return { tethysStyle.text..nextItem.label }
+            end
         end
     end)
     if elements["pl_prev"].visible then
@@ -4157,6 +4288,8 @@ function update_options(list)
     update_duration_watch()
     request_init()
 end
+
+local UNICODE_MINUS = string.char(0xe2, 0x88, 0x92) -- UTF-8 for U+2212 MINUS SIGN
 
 -- OSC INIT
 function osc_init()
@@ -4343,6 +4476,7 @@ function osc_init()
     --cy_audio
     ne = new_element("cy_audio", "button")
 
+    ne.visible = (#tracks_osc.audio > 1)
     ne.enabled = (#tracks_osc.audio > 0)
     ne.content = function ()
         local aid = "–"
@@ -4515,10 +4649,11 @@ function osc_init()
 
     ne.content = function ()
         if (state.rightTC_trem) then
+            local minus = user_opts.unicodeminus and UNICODE_MINUS or "-"
             if (state.tc_ms) then
-                return (mp.get_property_osd("playback-time/full").." / ".."-"..mp.get_property_osd("playtime-remaining/full"))
+                return (mp.get_property_osd("playback-time/full").." / "..minus..mp.get_property_osd("playtime-remaining/full"))
             else
-                return (mp.get_property_osd("playback-time").." / ".."-"..mp.get_property_osd("playtime-remaining"))
+                return (mp.get_property_osd("playback-time").." / "..minus..mp.get_property_osd("playtime-remaining"))
             end
         else
             if (state.tc_ms) then
@@ -4553,10 +4688,11 @@ function osc_init()
     ne.visible = (mp.get_property_number("duration", 0) > 0)
     ne.content = function ()
         if (state.rightTC_trem) then
+            local minus = user_opts.unicodeminus and UNICODE_MINUS or "-"
             if state.tc_ms then
-                return ("-"..mp.get_property_osd("playtime-remaining/full"))
+                return (minus..mp.get_property_osd("playtime-remaining/full"))
             else
-                return ("-"..mp.get_property_osd("playtime-remaining"))
+                return (minus..mp.get_property_osd("playtime-remaining"))
             end
         else
             if state.tc_ms then
@@ -4698,13 +4834,23 @@ function update_margins()
         reset_margins()
     end
 
-    utils.shared_script_property_set("osc-margins",
-        string.format("%f,%f,%f,%f", margins.l, margins.r, margins.t, margins.b))
+    if tethys.userdataAvail then
+        mp.set_property_native("user-data/osc/margins", {
+            l = margins.l, r = margins.r, t = margins.t, b = margins.b,
+        })
+    else
+        utils.shared_script_property_set("osc-margins",
+            string.format("%f,%f,%f,%f", margins.l, margins.r, margins.t, margins.b))
+    end
 end
 
 function shutdown()
     reset_margins()
-    utils.shared_script_property_set("osc-margins", nil)
+    if tethys.userdataAvail then
+        mp.set_property_native("user-data/osc/margins", nil)
+    else
+        utils.shared_script_property_set("osc-margins", nil)
+    end
 end
 
 --
@@ -5109,23 +5255,27 @@ function tick()
 
         local ass = assdraw.ass_new()
         -- mpv logo
-        for i, line in ipairs(logo_lines) do
-            ass:new_event()
-            ass:append(line_prefix .. line)
+        if user_opts.idlescreen then
+            for i, line in ipairs(logo_lines) do
+                ass:new_event()
+                ass:append(line_prefix .. line)
+            end
         end
 
         -- Santa hat
-        if is_december and not user_opts.greenandgrumpy then
+        if is_december and user_opts.idlescreen and not user_opts.greenandgrumpy then
             for i, line in ipairs(santa_hat_lines) do
                 ass:new_event()
                 ass:append(line_prefix .. line)
             end
         end
 
-        ass:new_event()
-        ass:pos(320, icon_y+65)
-        ass:an(8)
-        ass:append("Drop files or URLs to play here.")
+        if user_opts.idlescreen then
+            ass:new_event()
+            ass:pos(320, icon_y+65)
+            ass:an(8)
+            ass:append("Drop files or URLs to play here.")
+        end
         set_osd(640, 360, ass.text)
 
         if state.showhide_enabled then
@@ -5357,7 +5507,11 @@ function visibility_mode(mode, no_osd)
     end
 
     user_opts.visibility = mode
-    utils.shared_script_property_set("osc-visibility", mode)
+    if tethys.userdataAvail then
+        mp.set_property_native("user-data/osc/visibility", mode)
+    else
+        utils.shared_script_property_set("osc-visibility", mode)
+    end
 
     if not no_osd and tonumber(mp.get_property("osd-level")) >= 1 then
         mp.osd_message("OSC visibility: " .. mode)
@@ -5374,9 +5528,49 @@ function visibility_mode(mode, no_osd)
     request_tick()
 end
 
+function idlescreen_visibility(mode, no_osd)
+    if mode == "cycle" then
+        if user_opts.idlescreen then
+            mode = "no"
+        else
+            mode = "yes"
+        end
+    end
+
+    if mode == "yes" then
+        user_opts.idlescreen = true
+    else
+        user_opts.idlescreen = false
+    end
+
+    if tethys.userdataAvail then
+        mp.set_property_native("user-data/osc/idlescreen", mode)
+    else
+        utils.shared_script_property_set("osc-idlescreen", mode)
+    end
+
+    if not no_osd and tonumber(mp.get_property("osd-level")) >= 1 then
+        mp.osd_message("OSC logo visibility: " .. tostring(mode))
+    end
+
+    request_tick()
+end
+
 visibility_mode(user_opts.visibility, true)
 mp.register_script_message("osc-visibility", visibility_mode)
 mp.add_key_binding(nil, "visibility", function() visibility_mode("cycle") end)
 
+mp.register_script_message("osc-idlescreen", idlescreen_visibility)
+
+mp.register_script_message("thumbfast-info", function(json)
+    local data = utils.parse_json(json)
+    if type(data) ~= "table" or not data.width or not data.height then
+        msg.error("thumbfast-info: received json didn't produce a table with thumbnail information")
+    else
+        thumbfast = data
+    end
+end)
+
 set_virt_mouse_area(0, 0, 0, 0, "input")
 set_virt_mouse_area(0, 0, 0, 0, "window-controls")
+
