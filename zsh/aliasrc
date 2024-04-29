@@ -1,6 +1,6 @@
 #list
 alias ls='eza --icons -al --group-directories-first'
-alias update='sudo pacman -Syyu'
+alias update='sudo pacman -Syu'
 alias rm='rm -i'
 #alias ins='sudo dnf install'
 alias ins='sudo pacman -Sy'
@@ -37,6 +37,7 @@ alias yta-best="yt-dlp --extract-audio --audio-format best "
 
 alias iso="cat /etc/dev-rel | awk -F '=' '/ISO/ {print $2}'"
 
+#get the error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
 
 #shutdown or reboot

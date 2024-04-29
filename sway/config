@@ -393,7 +393,6 @@ bindgesture swipe:left workspace next
 
 #Startup Apps
 
-#exec --no-startup-id qbittorrent
 #exec --no-startup-id input-remapper-control --command autoload
 #exec --no-startup-id xhost +SI:localuser:root          #fix cannot open display: :0 error
 #better and secure alternative is using a polkit as mentioned here 

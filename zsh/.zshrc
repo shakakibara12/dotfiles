@@ -79,7 +79,7 @@ bindkey '^D' delete-char-or-list
 bindkey '^k' kill-line
 bindkey "^N" history-beginning-search-forward-end
 bindkey "^P" history-beginning-search-backward-end
-#bindkey "^B" backward-char
+bindkey "^B" backward-char
 #allow backspace to clear newline.
 bindkey '^?' backward-delete-char
 #bindkey "^F" forward-char
