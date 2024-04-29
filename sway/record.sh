@@ -18,11 +18,11 @@ save="$dir/$name"
 encoded_name="$dir/encoded_$name"
 #codec_param="-p "crf=23" -p "fpsmax=30" "
 mic_default=$(pactl get-default-source)
-monitor="alsa_output.usb-C-Media_Electronics_Inc._USB_Audio_Device-00.analog-stereo.monitor"
+monitor=$(pactl list sources | awk '/Name:/ {print $2}' | grep "$device")
 
 #quick fix for audio capture
 #set default source to monitor to capture desktop audio
-pactl set-default-source $monitor
+pactl set-default-source "$monitor"
 
 function show_help () {
     printf "%s\n" "Usage:"
@@ -63,7 +63,7 @@ case "$1" in
 esac
 
 #revert source to default device after recording is done
-pactl set-default-source "$mic_default"
+#pactl set-default-source "$mic_default"
 
 #Encoding
 function encode() {
