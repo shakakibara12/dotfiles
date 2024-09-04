@@ -1,91 +1,178 @@
 * {
-    border-radius: 0;
-    font-family: 'OperatorMono Nerd Font';
-    font-size: 14pt;
-    min-height: 0;
+  border: none;
+  border-radius: 2px;
+  font-family: "Roboto Mono Medium";
+  font-size: 20px;
 }
 
 window#waybar {
-    background: #1E1E28;
-    color: #DADAE8;
+  /* background-color: rgba(18, 21, 29, 0.98); */
+  background-color: #1a1a1a;
+  /* background-color: rgba(0, 0, 0, 0); */
+  border-bottom: 3px solid #1e222a;
+  color: #abb2bf;
+  transition-property: background-color;
+  transition-duration: .5s;
 }
 
-tooltip {
-	background: #1E1E28;
-	border-radius: 15px;
-	border-width: 2px;
-	border-style: solid;
-	border-color: #a4b9ef;
-	}
+window#waybar.hidden {
+  opacity: 0.2;
+}
 
-#workspaces {
-    background: #332E41;
-    margin-left: 5px;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    border-radius: 15px;
+#workspaces,
+#mode,
+#custom-media,
+#clock,
+#idle_inhibitor,
+#language,
+#pulseaudio,
+#backlight,
+#battery,
+#cpu,
+#memory,
+#network,
+#custom-power,
+#mpd,
+#custom-spotify,
+#tray {
+  background-color: #1e222a;
+  padding: 0 10px;
+  margin: 2px 4px 4px 4px;
+  border: 3px solid rgba(0, 0, 0, 0);
+  border-radius: 90px;
+  background-clip: padding-box;
 }
 
 #workspaces button {
-    padding-left: 10px;
-    padding-right: 10px;
-    min-width: 0;
-    color: #DADAE8;
+  padding: 0 5px;
+  min-width: 20px;
+  color: #61afef;
+}
+
+#temperature,
+#disk {
+  padding: 0 10px;
+  margin: 2px 4px 4px 4px;
+}
+
+
+#workspaces button:hover {
+  background-color: rgba(0, 0, 0, 0.2)
 }
 
 #workspaces button.focused {
-    color: #A4B9EF;
+  color: #c678dd;
+}
+
+#disk {
+  color: #56b6c2;
 }
 
 #workspaces button.urgent {
-    color: #F9C096;
+  color: #e06c75;
 }
 
-#workspaces button:hover {
-    background: #332e41;
-    border-color: #332e41;
-	color: #A4B9EF;
+#cpu {
+  color: #61afef;
 }
 
-#clock, #battery, #pulseaudio, #workspaces, #cpu, #backlight{
-	padding: 2px 10px;
-    background: #332E41;
-    margin-top: 5px;
-    margin-bottom: 5px;
+#memory {
+  color: #c678dd;
 }
 
-#network {
-    padding-left: 15px;
-    padding-right: 2px;
-    background: #332E41;
-    border-radius: 15px 0px 0px 15px;
-    margin-top: 5px;
-    margin-bottom: 5px;
+#temperature {
+  color: #61afef;
+}
+
+#temperature.critical {
+  background-color: #e06c75;
+  color: #1e222a;
+}
+
+#custom-media {
+  background-color: #c678dd;
+  color: #1e222a;
+}
+
+#custom-fans {
+  color: #98c379;
 }
 
 #clock {
-    padding-right: 15px;
-    margin-right: 5px;
-    border-radius: 0px 15px 15px 0px;
+  color: #61afef;
 }
 
-#tray {
-    padding-right: 15px;
-    margin-right: 5px;
-    border-radius: 15px 15px 15px 15px;
-    padding-left: 15px;
-    background: #332E41;
-    margin-top: 5px;
-    margin-bottom: 5px;
+#custom-power {
+  color: #f25287
+}
+
+#idle_inhibitor {
+  color: #abb2bf;
+}
+
+#idle_inhibitor.activated {
+  background-color: #abb2bf;
+  color: #1e222a;
+}
+
+#language {
+  color: #56b6c2;
+}
+
+#pulseaudio {
+  color: #d19a66;
+}
+
+#custom-rofi {
+	color: #ffffff;
+	background-color: #008aff;
+}
+
+#pulseaudio.muted {
+  background-color: #e06c75;
+  color: #1e222a;
+}
+
+#backlight {
+  color: #d19a66;
+}
+
+#battery {
+  color: #98c379;
+}
+
+#battery.charging, #battery.plugged {
+  background-color: #98c379;
+  color: #1e222a;
+}
+
+@keyframes blink {
+    to {
+        background-color: #1e222a;
+        color: #e06c75;
+    }
+}
+
+#battery.critical:not(.charging) {
+    background-color: #e06c75;
+    color: #1e222a;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+#network {
+    color: #c678dd
+}
+
+#network.disconnected {
+    background-color: #e06c75;
+    color: #1e222a;
 }
 
 
 #custom-spotify {
-    background: #332E41;
-    margin-top: 5px;
-    margin-bottom: 5px;
-    margin-left: 5px;
-    padding-right: 15px;
-    padding-left: 15px;
-    border-radius: 15px;
+    color: #00b33c;
 }

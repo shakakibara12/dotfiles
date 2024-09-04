@@ -1,29 +1,26 @@
 {
   "position": "top",
   "modules-left": ["sway/workspaces", "custom/spotify"],
-  "modules-center": [],
-  "modules-right": ["network", "pulseaudio", "cpu", "backlight", "battery", "clock", "tray"],
+  "modules-center": ["clock"],
+  "modules-right": ["network", "pulseaudio", "cpu", "backlight", "battery", "tray"],
   // Modules configuration
   "sway/workspaces": {
     "disable-scroll": true,
     "all-outputs": true,
-    "format": "{icon}",
-    "persistent_workspaces": {
-      "1": [],
-      "2": [],
-      "3": [],
-      "4": [],
-      "5": [],
-      "6": [],
-      "7": [],
-      "8": [],
-      "9": [],
-      "10": []
-    },
+    "format": "{name}: {icon}",
     "format-icons": {
-      "default": "",
-      "urgent": "",
-      "focused": ""
+      "1": " ",
+      "2": " ",
+      "3": " ",
+      "4": "󰣠 ",
+      "5": " ",
+      "6": " ",
+      "7": " ",
+      "8": " ",
+      "9": "󰞶 ",
+      "10": " ",
+      "urgent": " ",
+      "default": " "
     }
   },
   "custom/spotify": {
@@ -41,20 +38,20 @@
 
   "cpu": {
     "format": "{icon} {usage}%",
-    "format-icons": [""],
+    "format-icons": [" "],
     "tooltip": false,
     "interval": 3
   },
 
   "backlight": {
     "format": "{icon} {percent}%",
-    "format-icons": ["󰃟"],
+    "format-icons": ["󰃟 "],
     "on-scroll-up": "brightnessctl s +5%",
     "on-scroll-down": "brightnessctl s 5%-"
   },
 
   "clock": {
-    "format": "<span foreground='#C6AAE8'> </span>{:%a %d %I:%M}",
+    "format": "<span foreground='#61afef'> </span>{:%a %d %b %I:%M %p}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
 
@@ -71,17 +68,17 @@
     "format-plugged": "<span size='13000' foreground='#B1E3AD'> </span>{capacity}%",
     "format-alt": "<span size='13000' foreground='#B1E3AD'>{icon}</span> {time}",
     "format-full": "<span size='13000' foreground='#B1E3AD'>󰁹 </span>{capacity}%",
-    "format-icons": ["", "", "", "", ""],
+    "format-icons": [" ", " ", " ", " ", " "],
     "tooltip-format": "{time}"
   },
   "network": {
     //"format-wifi": "<span size='13000' foreground='#F2CECF'> </span>{essid}",
     //"format-ethernet": "<span size='13000' foreground='#F2CECF'>󰤭</span> Disconnected",
     "interval": 2,
-    "format-wifi": "<span size='13000' foreground='#F2CECF'></span> {bandwidthDownBytes} | <span size='13000' foreground='#F2CECF'>︁</span> {bandwidthUpBytes} ",
-    "format-ethernet": "<span size='13000' foreground='#F2CECF'></span> {bandwidthDownBytes} | <span size='13000' foreground='#F2CECF'>︁</span> {bandwidthUpBytes} ",
+    "format-wifi": "<span size='13000' foreground='#c678dd'> </span> {bandwidthDownBytes} | <span size='13000' foreground='#c678dd'>︁ </span> {bandwidthUpBytes} ",
+    "format-ethernet": "<span size='13000' foreground='#c678dd'> </span> {bandwidthDownBytes} | <span size='13000' foreground='#c678dd'>︁ </span> {bandwidthUpBytes} ",
     "format-linked": "{ifname} (No IP) ",
-    "format-disconnected": "<span size='13000' foreground='#F2CECF'> </span>Disconnected",
+    "format-disconnected": "<span size='13000' foreground='#c678dd'> </span>Disconnected",
     "format-alt": "{essid}: {ipaddr}/{cidr}",
     "tooltip-format-wifi": "Signal Strength: {signalStrength}%"
   },
@@ -99,14 +96,14 @@
     "on-click-right": "pactl set-source-mute 0 toggle",
     "on-click-middle": "pavucontrol",
     //"ignored-sinks": ["Easy Effects Sink", "Virtual Surround Sink"],
-    "format": "<span size='13000' foreground='#EBDDAA'>{icon}</span> {volume}% | {format_source}",
-    "format-muted": "<span size='14000' foreground='#EBDDAA'>󰖁</span> | {format_source}",
-    "format-source": "<span size='13000' foreground='#EBDDAA'>󰍬 </span>{volume}%",
-    "format-source-muted": "<span size='13000' foreground='#EBDDAA'>󰍭</span>",
+    "format": "<span size='13000' foreground='#d19a66'>{icon}</span> {volume}% | {format_source}",
+    "format-muted": "<span size='14000' foreground='#d19a66'>󰖁</span> | {format_source}",
+    "format-source": "<span size='13000' foreground='#d19a66'>󰍬 </span>{volume}%",
+    "format-source-muted": "<span size='13000' foreground='#d19a66'>󰍭</span>",
     "format-icons": {
-      "headphone": "",
-      "hands-free": "",
-      "headset": "",
+      "headphone": " ",
+      "hands-free": " ",
+      "headset": " ",
       "default": ["", ""]
     }
   }
