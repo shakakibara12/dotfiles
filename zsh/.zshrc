@@ -125,8 +125,3 @@ bindkey '^t' edit-command-line
 # Load syntax highlighting; should be last.
 #source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2> /dev/null
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2> /dev/null
-
-if [ -z "$SSH_AUTH_SOCK" ] ; then
-	eval $(ssh-agent -s) 2>/dev/null
-	ssh-add -q ~/.ssh/server_key.pem 2>/dev/null
-fi
