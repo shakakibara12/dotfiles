@@ -10,15 +10,14 @@
     "format": "{name}: {icon}",
     "format-icons": {
       "1": " ",
-      "2": " ",
+      "2": " ",
       "3": " ",
       "4": "󰣠 ",
       "5": " ",
-      "6": " ",
+      "6": " ",
       "7": " ",
       "8": " ",
       "9": "󰞶 ",
-      "10": " ",
       "urgent": " ",
       "default": " "
     }
@@ -26,10 +25,10 @@
   "custom/spotify": {
     "format": "<span foreground='#E5B4E2'>󰝚 </span><span font='OperatorMono Nerd Font weight=325 Italic'>{}</span>",
     "interval": 2,
-    "exec-if": "pgrep spotify",
-    "on-click": "playerctl -p spotify play-pause",
-    "on-scroll-up": "playerctl -p spotify previous",
-    "on-scroll-down": "playerctl -p spotify next",
+    "exec-if": "playerctl status",
+    "on-click": "playerctl play-pause",
+    "on-scroll-up": "playerctl previous",
+    "on-scroll-down": "playerctl spotify next",
     "tooltip": false,
     "escape": true,
     "max-length": 30,
@@ -51,7 +50,7 @@
   },
 
   "clock": {
-    "format": "<span foreground='#61afef'> </span>{:%a %d %b %I:%M %p}",
+    "format": "<span foreground='#61afef'>   </span>{:%a %d %b %I:%M %p}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
 
@@ -104,7 +103,7 @@
       "headphone": " ",
       "hands-free": " ",
       "headset": " ",
-      "default": ["", ""]
+      "default": [" ", " "]
     }
   }
 }

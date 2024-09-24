@@ -74,7 +74,7 @@ set $right l
 #Set variables here:
 
 set $filemanager nautilus
-set $browser flatpak run io.gitlab.librewolf-community
+set $browser librewolf
 set $term footclient
 set $mediaplayer footclient -e ncspot
 set $mail thunderbird
@@ -86,7 +86,7 @@ set $menu fuzzel -i -b 1a1a1aff --font='Roboto:weight=bold:size=12'
 ### Output configuration
 #
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
-output * bg ~/Pictures/Wallpapers/wallpaper fill
+output * background ~/Pictures/Wallpapers/wallpaper fill
 #max_render_time fixes the half refresh rate fps problem in games i.e., getting 72 fps in all fullscreen games
 output eDP-1 mode 1920x1080@144.149Hz max_render_time 1
 # Example configuration:
@@ -317,10 +317,10 @@ include /etc/sway/config.d/*
 
 #My Bindings
 # install ttf-font-awesome 6.xx
-bindsym $mod+x exec nwg-bar
+bindsym $mod+x exec nwg-bar -t ~/.config/nwg-bar/bar-sway.json
 
 #bindsym $mod+v exec copyq toggle
-bindsym $mod+v exec clipman pick --tool=wofi
+bindsym $mod+v exec cliphist list | wofi --dmenu | cliphist decode | wl-copy
 
 #Lockscreen
 bindsym $mod+Escape exec swaylock
@@ -329,6 +329,10 @@ bindsym $mod+Escape exec swaylock
 #https://github.com/sezanzeb/input-remapper
 #bindsym Control+Shift+t workspace next
 #bindsym Control+Shift+y workspace prev
+
+#Hide waybar, clear clipboard history as well as clipboard.
+bindsym $mod+b exec killall -SIGUSR1 waybar && cliphist wipe && wl-copy --clear
+
 
 bindsym $mod+Control+Down exec amixer set Master 2%-       #decrease audio
 bindsym $mod+Control+Up exec amixer set Master 2%+            #increase audio 
@@ -385,13 +389,17 @@ bindsym $mod+Shift+F12 exec ~/.config/sway/record.sh -g
 #better and secure alternative is using a polkit as mentioned here 
 #    https://www.reddit.com/r/swaywm/comments/r1218i/this_is_my_sway_is_fantastic_post/
 #or use `sudo -E program`
-exec --no-startup-id wl-paste -t text --watch clipman store --max-items=100
+#Stores only text data
+exec --no-startup-id wl-paste --type text --watch cliphist store 
+#Stores only image data
+exec --no-startup-id wl-paste --type image --watch cliphist store 
+
 exec --no-startup-id autotiling
 #this is really cool
 exec --no-startup-id playerctld daemon
 exec --no-startup-id foot --server
 exec --no-startup-id nm-applet
-exec --no-startup-id batsignal -b -c 30 -d 20 -f 90 -m 15
+#exec --no-startup-id batsignal -b -c 30 -d 20 -f 90 -m 15
 #use colours and font from Xdefaults ( for sxiv and other apps )
 #add a little sleep to make qbittorrent apear in tray.
 exec --no-startup-id sleep 8 && qbittorrent
@@ -429,8 +437,10 @@ for_window {
 	[class="gamescope"] $game
 
 	[class="steam_app.*"] $game
-
 	[instance="steam_app.*"] $game
+
+	[class="steam_proton"] $game
+	[instance="steam_proton"] $game
 
 	[class=".*\.exe"] $game
 	[instance=".*\.exe"] $game
