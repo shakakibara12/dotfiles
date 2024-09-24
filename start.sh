@@ -8,4 +8,3 @@
 
 val=$(udevadm info -a -n /dev/dri/card1 | grep boot_vga | rev | cut -c 2)
 WLR_DRM_DEVICE=/dev/dri/card$val sway --unsupported-gpu 2>/tmp/sway.log
-Hyprland

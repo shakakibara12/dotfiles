@@ -113,6 +113,12 @@ preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 #cd into directory with fzf epic
 #bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
 
+#emit an OSC-133;A sequence before each prompt.
+#https://codeberg.org/dnkl/foot/wiki#user-content-jumping-between-prompts
+precmd() {
+    print -Pn "\e]133;A\e\\"
+}
+
 #https://github.com/ohmyzsh/ohmyzsh/issues/3440
 #no longer need to reload shell after installing a package
 zstyle ':completion:*' rehash true

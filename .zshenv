@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PATH="$PATH:/bin:/opt/appimages:/home/shaka/bin:/home/shaka/.local/bin:/home/shaka/go/bin"
+export PATH="$PATH:/bin:/opt/appimages:/home/shaka/bin:/home/shaka/.local/bin:/home/shaka/go/bin:/home/shaka/.cargo/bin"
 export QT_QPA_PLATFORMTHEME=qt5ct
 export LIBVA_DRIVER_NAME='iHD'
 export _JAVA_AWT_WM_NONREPARENTING=1
