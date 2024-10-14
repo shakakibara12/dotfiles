@@ -1,6 +1,6 @@
 # Read `man 5 sway` for a complete reference.
-gaps inner 10 
-gaps outer 5 
+gaps inner 10
+gaps outer 5
 
 #disable windows titlebar
 default_border pixel 3
@@ -46,7 +46,7 @@ exec_always {
     gsettings set $gnome-schema monospace-font-name 'Roboto 13'
     gsettings set $gnome-schema color-scheme prefer-dark
     gsettings set $gnome-schema enable-animations true
-    gsettings set org.gnome.desktop.wm.preferences button-layout "" 
+    gsettings set org.gnome.desktop.wm.preferences button-layout ""
     seat * xcursor_theme 'Adwaita' 24
 }
 exec dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=sway
@@ -102,7 +102,7 @@ output eDP-1 mode 1920x1080@144.149Hz max_render_time 1
 #Thanks to https://codesti.com/issue/swaywm/swayidle/128
 ### Idle configuration #1 For manually lock the screen via Mod + Esc
 exec swayidle -w \
-        timeout 10 'if pgrep -x swaylock; then playerctl pause & swaymsg "output * power off"; fi' \
+        timeout 10 'if pgrep -x swaylock; then swaymsg "output * power off"; fi' \
         resume 'swaymsg "output * power on"'
 # This will turn off your displays after 10 seconds when the screen is locked, and turn your screens back on when
 # resumed. It will also lock your screen before your computer goes to sleep.
@@ -111,6 +111,7 @@ exec swayidle -w \
 exec swayidle -w \
         timeout 290 'notify-send "Locking screen in 10 seconds" ' \
         timeout 300 'playerctl pause & pactl set-sink-mute 0 true & swaylock -f' \
+        timeout 310 'swaymsg "output * power off"' \
         resume 'pactl set-sink-mute 0 toggle & swaymsg "output * power on"' \
         before-sleep 'playerctl pause & pactl set-sink-mute 0 true' \
         before-sleep 'swaylock -f' \
@@ -273,7 +274,7 @@ input "9610:73:BY_Tech_Gaming_Keyboard" {
 
     # Show the next scratchpad window or hide the focused scratchpad window.
     # If there are multiple scratchpad windows, this command cycles through them.
-    bindsym $mod+Shift+n scratchpad show, floating toggle 
+    bindsym $mod+Shift+n scratchpad show, floating toggle
 #
 # Resizing containers:
 
@@ -303,7 +304,7 @@ mode "$mode_resize" {
 
 #Use waybar
 bar {
-    swaybar_command waybar 
+    swaybar_command waybar
 }
 
 # Notification Daemon
@@ -335,10 +336,10 @@ bindsym $mod+b exec killall -SIGUSR1 waybar && cliphist wipe && wl-copy --clear
 
 
 bindsym $mod+Control+Down exec amixer set Master 2%-       #decrease audio
-bindsym $mod+Control+Up exec amixer set Master 2%+            #increase audio 
+bindsym $mod+Control+Up exec amixer set Master 2%+            #increase audio
 bindsym XF86AudioLowerVolume exec amixer set Master 2%-       #decrease audio
-bindsym XF86AudioRaiseVolume exec amixer set Master 2%+            #increase audio 
-bindsym $mod+Shift+m exec amixer set Master toggle      #mute audio 
+bindsym XF86AudioRaiseVolume exec amixer set Master 2%+            #increase audio
+bindsym $mod+Shift+m exec amixer set Master toggle      #mute audio
 
 #Media keys supported by vlc, spotify, audacious, xmm2, ...
 bindsym --locked XF86AudioPlay exec playerctl play-pause
@@ -347,11 +348,11 @@ bindsym --locked $mod+Shift+period exec playerctl next
 bindsym --locked XF86AudioPrev exec playerctl previous
 bindsym --locked $mod+Shift+comma exec playerctl previous
 bindsym --locked XF86AudioStop exec playerctl stop
-bindsym --locked XF86AudioMute exec pactl set-sink-mute 0 toggle              #mute audio 
+bindsym --locked XF86AudioMute exec pactl set-sink-mute 0 toggle              #mute audio
 #scripts
 bindsym $mod+p exec ~/.config/sway/wallpaper.sh -w
 #bindsym $mod+o exec ~/.config/sway/audio_output.sh
-bindsym $mod+u exec ~/scripts/mpv.sh 
+bindsym $mod+u exec ~/scripts/mpv.sh
 #bindsym $mod+m exec ~/scripts/rclone.sh
 #Laptop stuff
 bindsym --locked XF86MonBrightnessUp exec brightnessctl s +10%
@@ -365,7 +366,7 @@ bindsym $mod+c move absolute position center
 bindsym $mod+m move position mouse
 #Screenshot bebe
 #copy a section of screen and edit with swappy
-bindsym $mod+Control+s exec grim -g "$(slurp)" - | swappy -f - 
+bindsym $mod+Control+s exec grim -g "$(slurp)" - | swappy -f -
 #copy a section of screen and copy to clipboard
 bindsym $mod+Shift+s exec grimshot --notify copy area
 #Copy screenshot to clipboard
@@ -373,7 +374,7 @@ bindsym Control+Print exec grimshot --notify copy screen
 #Grab a swappshot from a specific window under Sway, using swaymsg and jq:
 bindsym $mod+Print exec ~/.config/sway/screenshot.sh
 #save full screen screenshot
-bindsym Print exec grimshot --notify save screen 
+bindsym Print exec grimshot --notify save screen
 #image_to_ocr lets go
 bindsym $mod+Shift+t exec wl-copy "$(grim -g "$(slurp)" - | tesseract -c debug_file=/dev/null -l eng - -)"
 
@@ -386,13 +387,13 @@ bindsym $mod+Shift+F12 exec ~/.config/sway/record.sh -g
 
 #exec --no-startup-id input-remapper-control --command autoload
 #exec --no-startup-id xhost +SI:localuser:root          #fix cannot open display: :0 error
-#better and secure alternative is using a polkit as mentioned here 
+#better and secure alternative is using a polkit as mentioned here
 #    https://www.reddit.com/r/swaywm/comments/r1218i/this_is_my_sway_is_fantastic_post/
 #or use `sudo -E program`
 #Stores only text data
-exec --no-startup-id wl-paste --type text --watch cliphist store 
+exec --no-startup-id wl-paste --type text --watch cliphist store
 #Stores only image data
-exec --no-startup-id wl-paste --type image --watch cliphist store 
+exec --no-startup-id wl-paste --type image --watch cliphist store
 
 exec --no-startup-id autotiling
 #this is really cool
@@ -446,7 +447,7 @@ for_window {
 	[instance=".*\.exe"] $game
 
     # Steam
-    [title="Friends List"] $game; [floating] resize set 300 600 
+    [title="Friends List"] $game; [floating] resize set 300 600
 
 #popup - floating enable; sticky enable
 
