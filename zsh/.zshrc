@@ -6,7 +6,6 @@ autoload -U colors && colors	# Load colors
 autoload -U promptinit && promptinit					# autoload prompt
 PS1="%B%{$fg[red]%}<%{$fg[green]%}%n%{$fg[yellow]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}>%{$reset_color%}$%b "
 setopt autocd		# Automatically cd into typed directory.
-#stty stop undef		# Disable ctrl-s to freeze terminal.
 setopt interactive_comments
 
 #Enable git on the right side
