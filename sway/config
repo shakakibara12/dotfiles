@@ -88,7 +88,9 @@ set $menu fuzzel -i -b 1a1a1aff --font='Roboto:weight=bold:size=12'
 # Default wallpaper (more resolutions are available in /usr/share/backgrounds/sway/)
 output * background ~/Pictures/Wallpapers/wallpaper fill
 #max_render_time fixes the half refresh rate fps problem in games i.e., getting 72 fps in all fullscreen games
-output eDP-1 mode 1920x1080@144.149Hz max_render_time 1
+#output eDP-1 mode 1920x1080@144.149Hz max_render_time 1 position 0,0
+include outputs
+include workspaces
 # Example configuration:
 #
 #   output HDMI-A-1 resolution 1920x1080 position 1920,0
@@ -139,7 +141,7 @@ bindswitch --reload --locked lid:off output $laptop enable
 
 # disable mouse acceleration
 input * {
-    accel_profile flat
+    accel_profile "flat"
 }
 
 input type:keyboard {
@@ -147,7 +149,6 @@ input type:keyboard {
     repeat_rate 30
     xkb_options caps:escape
 }
-
 
 input "1241:41132:E-Signal_USB_Gaming_Mouse" {
     scroll_factor 1.3
@@ -314,7 +315,7 @@ exec swaync
 bindsym $mod+Shift+i exec swaync-client -t -sw
 
 
-include /etc/sway/config.d/*
+#include /etc/sway/config.d/*
 
 #My Bindings
 # install ttf-font-awesome 6.xx
@@ -360,7 +361,7 @@ bindsym --locked XF86MonBrightnessDown exec brightnessctl s 10%-
 #Disable Touchpad
 bindsym XF86TouchpadToggle input type:touchpad events toggle enabled disabled
 # Move floating container to the center of all outputs
-bindsym $mod+c move absolute position center
+bindsym $mod+c move position center
 
 # Move container to the current position of the cursor
 bindsym $mod+m move position mouse
@@ -370,17 +371,17 @@ bindsym $mod+Control+s exec grim -g "$(slurp)" - | swappy -f -
 #copy a section of screen and copy to clipboard
 bindsym $mod+Shift+s exec grimshot --notify copy area
 #Copy screenshot to clipboard
-bindsym Control+Print exec grimshot --notify copy screen
+bindsym Control+Print exec grimshot --notify copy output
 #Grab a swappshot from a specific window under Sway, using swaymsg and jq:
 bindsym $mod+Print exec ~/.config/sway/screenshot.sh
 #save full screen screenshot
-bindsym Print exec grimshot --notify save screen
+bindsym Print exec grimshot --notify save output
 #image_to_ocr lets go
 bindsym $mod+Shift+t exec wl-copy "$(grim -g "$(slurp)" - | tesseract -c debug_file=/dev/null -l eng - -)"
 
 #Record
-bindsym $mod+F12 exec ~/.config/sway/record.sh -s
-bindsym $mod+Shift+F12 exec ~/.config/sway/record.sh -g
+#bindsym $mod+F12 exec ~/.config/sway/record.sh -s
+#bindsym $mod+Shift+F12 exec ~/.config/sway/record.sh -g
 
 
 #Startup Apps
@@ -407,6 +408,7 @@ exec --no-startup-id sleep 8 && qbittorrent
 exec --no-startup-id xsettingsd
 exec --no-startup-id xrdb ~/.Xdefaults
 exec --no-startup-id syncthing --no-browser
+exec --no-startup-id fcitx5 -d --replace
 #exec --no-startup-id wayvnc
 #exec --no-startup-id exec /usr/lib/kdeconnectd
 #exec --no-startup-id ~/scripts/fuckem.sh
@@ -496,7 +498,6 @@ for_window {
 	[app_id="mpv"] $video
 
 	[app_id="vlc"] $video
-
 #misc
 
     [app_id="foot"] opacity 0.98
@@ -517,4 +518,5 @@ for_window {
 
     #Open programs in different workspace
     #[app_id="org.qbittorrent.qBittorrent"] move to workspace 4
+    [shell=".*"] inhibit_idle fullscreen
 }
