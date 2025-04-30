@@ -159,7 +159,7 @@ input type:touchpad {
     natural_scroll enabled
     middle_emulation enabled
     pointer_accel 0.6
-    dwt enabled
+    dwt disabled
 }
 
 input "9610:73:BY_Tech_Gaming_Keyboard" {
