@@ -303,6 +303,16 @@ mode "$mode_resize" {
     bindsym Escape mode "default"
 }
 
+# image_to_ocr lets go
+set $ocr_mode ocr mode: en|jp
+bindsym $mod+shift+t mode "$ocr_mode"
+mode "$ocr_mode" {
+
+    bindsym e exec wl-copy "$(grim -g "$(slurp)" - | tesseract -l eng - -)" & swaymsg mode "default"
+    bindsym j exec wl-copy "$(grim -g "$(slurp)" - | tesseract -l jpn - - | tr -d "[:space:]")" & swaymsg mode "default"
+
+}
+
 #Use waybar
 bar {
     swaybar_command waybar
@@ -376,8 +386,6 @@ bindsym Control+Print exec grimshot --notify copy output
 bindsym $mod+Print exec ~/.config/sway/screenshot.sh
 #save full screen screenshot
 bindsym Print exec grimshot --notify save output
-#image_to_ocr lets go
-bindsym $mod+Shift+t exec wl-copy "$(grim -g "$(slurp)" - | tesseract -c debug_file=/dev/null -l eng - -)"
 
 #Record
 #bindsym $mod+F12 exec ~/.config/sway/record.sh -s

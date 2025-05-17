@@ -1,6 +1,6 @@
 {
   "position": "top",
-  "modules-left": ["sway/workspaces", "custom/spotify"],
+  "modules-left": ["sway/workspaces", "sway/mode", "custom/spotify"],
   "modules-center": ["clock"],
   "modules-right": ["network", "pulseaudio", "cpu", "backlight", "battery", "tray"],
   // Modules configuration
@@ -28,10 +28,10 @@
     "exec-if": "playerctl status",
     "on-click": "playerctl play-pause",
     "on-scroll-up": "playerctl previous",
-    "on-scroll-down": "playerctl spotify next",
+    "on-scroll-down": "playerctl next",
     "tooltip": false,
     "escape": true,
-    "max-length": 30,
+    "max-length": 40,
     "exec": "$HOME/.config/waybar/mediaplayer.sh"
   },
 
