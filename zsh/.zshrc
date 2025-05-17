@@ -59,8 +59,8 @@ zmodload zsh/complist
 _comp_options+=(globdots)		# Include hidden files.
 # Basic auto/tab complete:
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} #add colors in tab completion
-zstyle ':completion:*' menu select
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'  'r:|=*' 'l:|=* r:|=*' #case insensitive tab completion
+zstyle ':completion:*' menu select
 #fpath=(/usr/share/zsh/site-functions $fpath)
 
 
