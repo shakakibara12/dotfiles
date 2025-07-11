@@ -26,14 +26,21 @@ set_wallpaper() {
         local second_wall=$(echo "$choose" | sed -n '2p')
         ln -sf "$first_wall" "$path1/wallpaper"
         ln -sf "$second_wall" "$path1/wallpaper2"
+
+        # Create Blurred versions of the selected wallpapers.
+        magick "$first_wall" \( +clone -blur 0x12 \) \( -clone 0 -fill "rgba(255,255,255,0.25)" -colorize 100 \) -compose over -composite "$path1/wall_glass.png"
+        magick "$second_wall" \( +clone -blur 0x12 \) \( -clone 0 -fill "rgba(255,255,255,0.25)" -colorize 100 \) -compose over -composite "$path1/wall_glass2.png"
     else
         ln -sf "$choose" "$path1/wallpaper"
+        magick "$choose" \( +clone -blur 0x12 \) \( -clone 0 -fill "rgba(255,255,255,0.25)" -colorize 100 \) -compose over -composite "$path1/wall_glass.png"
     fi
 
     # Restart swaybg with the new wallpapers
     pkill swaybg
     swaybg -o eDP-1 -i "$path1/wallpaper" -m fill &
     swaybg -o HDMI-A-1 -i "$path1/wallpaper2" -m fill &
+    swww restore
+
 }
 
 # Function to set wallpaper from videos

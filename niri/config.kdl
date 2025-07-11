@@ -65,6 +65,10 @@ input {
     // focus-follows-mouse max-scroll-amount="0%"
 }
 
+hotkey-overlay {
+    skip-at-startup
+}
+
 // You can configure outputs by their name, which you can find
 // by running `niri msg outputs` while inside a niri instance.
 // The built-in laptop monitor is usually called "eDP-1".
@@ -100,6 +104,9 @@ output "eDP-1" {
     // If the position is unset or results in an overlap, the output is instead placed
     // automatically.
     position x=0 y=0
+
+    // Focus this monitor on startup.
+    focus-at-startup
 
 }
 output "HDMI-A-1" {
@@ -161,6 +168,9 @@ layout {
     //
     // Alternatively, you can override it with a window rule called
     // `draw-border-with-background`.
+
+    // Set transparent workspace background color.
+    background-color "transparent"
 
     // You can change how the focus ring looks.
     focus-ring {
@@ -280,13 +290,14 @@ spawn-at-startup "bash" "-c" "xrdb ~/.Xdefaults"
 spawn-at-startup "bash" "-c" "syncthing --no-browser"
 spawn-at-startup "bash" "-c" "fcitx5 -d --replace"
 spawn-at-startup "nm-applet"
-spawn-at-startup "xsettingsd"
 spawn-at-startup "xwayland-satellite"
 spawn-at-startup "swaync"
+spawn-at-startup "swww-daemon"
 
-// environment {
-//     DISPLAY ":0"
-// }
+// https://wiki.archlinux.org/title/Niri#XWayland
+environment {
+    DISPLAY ":0"
+}
 
 // Uncomment this line to ask the clients to omit their client-side decorations if possible.
 // If the client will specifically ask for CSD, the request will be honored.
@@ -354,6 +365,27 @@ window-rule {
 /-window-rule {
     geometry-corner-radius 12
     clip-to-geometry true
+}
+
+window-rule {
+    // This enables floating window for games including launchers.
+    match app-id=r#"steam_app_"#
+    open-floating true
+}
+
+// Make the wallpaper stationary, rather than moving with workspaces.
+layer-rule {
+    // This is for swaybg; change for other wallpaper tools.
+    // Find the right namespace by running niri msg layers.
+    match namespace="^swww-daemon$"
+    place-within-backdrop true
+}
+
+// Optionally, disable the workspace shadows in the overview.
+overview {
+    workspace-shadow {
+        off
+    }
 }
 
 binds {
@@ -606,8 +638,7 @@ binds {
     // Toggle tabbed column display mode.
     // Windows in this column will appear as vertical tabs,
     // rather than stacked on top of each other.
-    TODO: Check what it does and find a different bind.
-    //Mod+W { toggle-column-tabbed-display; }
+    Mod+Shift+W { toggle-column-tabbed-display; }
 
     // Actions to switch layouts.
     // Note: if you uncomment these, make sure you do NOT have
