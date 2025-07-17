@@ -379,13 +379,13 @@ bindsym $mod+m move position mouse
 #copy a section of screen and edit with swappy
 bindsym $mod+Control+s exec grim -g "$(slurp)" - | swappy -f -
 #copy a section of screen and copy to clipboard
-bindsym $mod+Shift+s exec grimshot --notify copy area
+bindsym $mod+Shift+s exec /usr/share/sway-contrib/grimshot --notify copy area
 #Copy screenshot to clipboard
-bindsym Control+Print exec grimshot --notify copy output
+bindsym Control+Print exec /usr/share/sway-contrib/grimshot --notify copy output
 #Grab a swappshot from a specific window under Sway, using swaymsg and jq:
 bindsym $mod+Print exec ~/.config/sway/screenshot.sh
 #save full screen screenshot
-bindsym Print exec grimshot --notify save output
+bindsym Print exec /usr/share/sway-contrib/grimshot --notify save output
 
 #Record
 #bindsym $mod+F12 exec ~/.config/sway/record.sh -s
