@@ -16,6 +16,12 @@ alias grep='grep --color=auto'
 #readable output
 alias df='df -h'
 
+#Color always for diff
+alias diff='diff --color=always'
+
+#List recently changed files < 24H
+alias recent-='find . -mtime 0'
+
 #free
 alias free="free -mt"
 alias wget="wget -c"

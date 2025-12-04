@@ -1,14 +1,17 @@
-#shaka epic zsh config
+# Shaka's epic zsh config
+# Author: Shakakibara
 
-#----------theme------------
+#----------Theme------------
 # Enable colors and change prompt:
-autoload -U colors && colors	# Load colors
-autoload -U promptinit && promptinit					# autoload prompt
+autoload -U colors && colors
+# Autoload prompt
+autoload -U promptinit && promptinit
 PS1="%B%{$fg[red]%}<%{$fg[green]%}%n%{$fg[yellow]%}@%{$fg[blue]%}%M %{$fg[magenta]%}%~%{$fg[red]%}>%{$reset_color%}$%b "
-setopt autocd		# Automatically cd into typed directory.
+# Automatically cd into typed directory.
+setopt autocd
 setopt interactive_comments
 
-#Enable git on the right side
+# Enable git on the right side
 autoload -Uz vcs_info
 precmd_vcs_info() { vcs_info }
 precmd_functions+=( precmd_vcs_info )
@@ -47,8 +50,8 @@ function chpwd-osc7-pwd() {
 }
 add-zsh-hook -Uz chpwd chpwd-osc7-pwd
 
-#Speed up zsh compinit :- https://gist.github.com/ctechols/ca1035271ad134841284
-#autoload -Uz compinit && compinit
+# Speed up zsh compinit :- https://gist.github.com/ctechols/ca1035271ad134841284
+# Autoload -Uz compinit && compinit
 autoload -Uz compinit
 for dump in ~/.config/zsh/zcompdump(N.mh+24); do
   compinit
@@ -61,7 +64,7 @@ _comp_options+=(globdots)		# Include hidden files.
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS} #add colors in tab completion
 zstyle ':completion:*' matcher-list '' 'm:{a-zA-Z}={A-Za-z}'  'r:|=*' 'l:|=* r:|=*' #case insensitive tab completion
 zstyle ':completion:*' menu select
-#fpath=(/usr/share/zsh/site-functions $fpath)
+# fpath=(/usr/share/zsh/site-functions $fpath)
 
 
 autoload -U history-search-end
@@ -71,7 +74,7 @@ zle -N history-beginning-search-forward-end history-search-end
 bindkey -M vicmd '/' history-incremental-pattern-search-backward
 bindkey -M vicmd '?' history-incremental-pattern-search-forward
 
-# set up for insert mode too
+# Set up for insert mode too
 bindkey -M viins '^R' history-incremental-pattern-search-backward
 bindkey -M viins '^F' history-incremental-pattern-search-forward
 bindkey '^D' delete-char-or-list
@@ -79,15 +82,16 @@ bindkey '^k' kill-line
 bindkey "^N" history-beginning-search-forward-end
 bindkey "^P" history-beginning-search-backward-end
 bindkey "^B" backward-char
-#allow backspace to clear newline.
+# Allow backspace to clear newline.
 bindkey '^?' backward-delete-char
-#bindkey "^F" forward-char
+# bindkey "^F" forward-char
 bindkey "^a" beginning-of-line
 bindkey "^e" end-of-line
 bindkey "^[[1;5C" forward-word
 bindkey "^[[1;5D" backward-word
 bindkey "\e[27;2;13~" accept-line  # shift+return
 bindkey "\e[27;5;13~" accept-line  # ctrl+return
+
 # Use vim keys in tab complete menu:
 # vi mode
 bindkey -v
@@ -96,7 +100,7 @@ bindkey -M menuselect 'h' vi-backward-char
 bindkey -M menuselect 'k' vi-up-line-or-history
 bindkey -M menuselect 'l' vi-forward-char
 bindkey -M menuselect 'j' vi-down-line-or-history
-#bindkey -v '^?' backward-delete-char
+# bindkey -v '^?' backward-delete-char
 
 # Change cursor shape for different vi modes.
 function zle-keymap-select () {
@@ -109,17 +113,17 @@ zle -N zle-keymap-select
 echo -ne '\e[5 q' # Use beam shape cursor on startup.
 preexec() { echo -ne '\e[5 q' ;} # Use beam shape cursor for each new prompt.
 
-#cd into directory with fzf epic
-#bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
+# cd into directory with fzf epic
+# bindkey -s '^f' 'cd "$(dirname "$(fzf)")"\n'
 
-#emit an OSC-133;A sequence before each prompt.
-#https://codeberg.org/dnkl/foot/wiki#user-content-jumping-between-prompts
+# emit an OSC-133;A sequence before each prompt.
+# https://codeberg.org/dnkl/foot/wiki#user-content-jumping-between-prompts
 precmd() {
     print -Pn "\e]133;A\e\\"
 }
 
-#https://github.com/ohmyzsh/ohmyzsh/issues/3440
-#no longer need to reload shell after installing a package
+# https://github.com/ohmyzsh/ohmyzsh/issues/3440
+# Avoid reloading after installing a package.
 zstyle ':completion:*' rehash true
 
 # Edit line in vim with ctrl-t:
@@ -128,5 +132,5 @@ zle -N edit-command-line
 bindkey '^t' edit-command-line
 
 # Load syntax highlighting; should be last.
-#source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2> /dev/null
+# source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2> /dev/null
 source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 2> /dev/null
