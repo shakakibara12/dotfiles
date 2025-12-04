@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-export PATH="$PATH:/bin:/opt/appimages:/home/shaka/bin:/home/shaka/.local/bin:/home/shaka/go/bin:/home/shaka/.cargo/bin"
+export PATH="$PATH:/bin:/opt/appimages:$HOME/bin:$HOME/.local/bin:$HOME/go/bin:$HOME/.cargo/bin"
 export QT_QPA_PLATFORMTHEME=qt5ct
 export LIBVA_DRIVER_NAME='iHD'
 export _JAVA_AWT_WM_NONREPARENTING=1
@@ -9,7 +9,8 @@ export _JAVA_AWT_WM_NONREPARENTING=1
 export JDK_JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
 export QT_WAYLAND_DISABLE_WINDOWDECORATION="1"
 export QT_QPA_PLATFORM=wayland
-export XDG_SCREENSHOTS_DIR=~/Pictures/Screenshots
+export XDG_SCREENSHOTS_DIR=$HOME/Pictures/Screenshots
+export XDG_CACHE_HOME=$HOME/.cache
 # removes window outlines and stuff
 export ZDOTDIR=$HOME/.config/zsh
 export EDITOR='nvim'
