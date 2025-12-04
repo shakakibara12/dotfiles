@@ -379,13 +379,13 @@ bindsym $mod+m move position mouse
 #copy a section of screen and edit with swappy
 bindsym $mod+Control+s exec grim -g "$(slurp)" - | swappy -f -
 #copy a section of screen and copy to clipboard
-bindsym $mod+Shift+s exec /usr/share/sway-contrib/grimshot --notify copy area
+bindsym $mod+Shift+s exec grimshot --notify copy area
 #Copy screenshot to clipboard
-bindsym Control+Print exec /usr/share/sway-contrib/grimshot --notify copy output
+bindsym Control+Print exec grimshot --notify copy output
 #Grab a swappshot from a specific window under Sway, using swaymsg and jq:
 bindsym $mod+Print exec ~/.config/sway/screenshot.sh
 #save full screen screenshot
-bindsym Print exec /usr/share/sway-contrib/grimshot --notify save output
+bindsym Print exec grimshot --notify save output
 
 #Record
 #bindsym $mod+F12 exec ~/.config/sway/record.sh -s
@@ -417,7 +417,7 @@ exec --no-startup-id xsettingsd
 exec --no-startup-id xrdb ~/.Xdefaults
 exec --no-startup-id syncthing --no-browser
 exec --no-startup-id fcitx5 -d --replace
-#exec --no-startup-id wayvnc
+exec --no-startup-id wayvnc
 #exec --no-startup-id exec /usr/lib/kdeconnectd
 #exec --no-startup-id ~/scripts/fuckem.sh
 #exec --no-startup-id gammastep -l 29.9:78.0
