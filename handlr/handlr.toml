@@ -1,3 +1,4 @@
+expand_wildcards = true
 [[handlers]]
 exec = "mpv %u" # Uses desktop entry field codes
 terminal = false # Set to true for terminal apps, false for GUI apps (optional; defaults to false)
