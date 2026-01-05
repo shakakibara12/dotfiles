@@ -4,8 +4,6 @@ alias update='sudo pacman -Syu'
 alias rm='rm -i'
 #alias ins='sudo dnf install'
 alias ins='sudo pacman -Sy'
-#https://wiki.archlinux.org/title/Arch_User_Repository#How_do_I_find_out_if_any_of_my_installed_packages_disappeared_from_AUR.3F
-alias aur_list='comm -23 <(pacman -Qqm | sort) <(curl https://aur.archlinux.org/packages.gz | gzip -cd | sort)'
 alias v='nvim'
 alias history='history 0' #fixes history only showing 16 results
 alias rsync='rsync -vh'
@@ -53,7 +51,6 @@ alias sus="systemctl suspend"
 #user
 alias connect='bash ~/scripts/lpu_net.sh login'
 alias disconnect='bash ~/scripts/lpu_net.sh logout'
-alias torrent="webtorrent -o ~/.local/share/webtorrent/ --mpv $1"
 #alias sudo='doas'
 
 # # ex = EXtractor for all kinds of archives

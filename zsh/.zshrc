@@ -29,9 +29,9 @@ setopt HIST_IGNORE_SPACE #if command started with a space, it will not get added
 setopt SHARE_HISTORY  # acc. to man zshoptions INC_APPEND_HISTORY should be turned off, if this is on
 #setopt HIST_IGNORE_ALL_DUPS  # don't record dupes in history
 setopt HIST_IGNORE_DUPS # don't record dupes in history
-#setopt EXTENDED_HISTORY # add timestamps to history, not really useful.
-HISTSIZE=100000
-SAVEHIST=100000
+setopt EXTENDED_HISTORY # add timestamps to history
+HISTSIZE=1000000
+SAVEHIST=1000000
 HISTFILE=~/.config/zsh/history
 
 # Load aliases and shortcuts if existent.
@@ -51,12 +51,13 @@ function chpwd-osc7-pwd() {
 add-zsh-hook -Uz chpwd chpwd-osc7-pwd
 
 # Speed up zsh compinit :- https://gist.github.com/ctechols/ca1035271ad134841284
-# Autoload -Uz compinit && compinit
 autoload -Uz compinit
-for dump in ~/.config/zsh/zcompdump(N.mh+24); do
-  compinit
-done
-compinit -C
+
+if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
+	compinit;
+else
+	compinit -C;
+fi;
 
 zmodload zsh/complist
 _comp_options+=(globdots)		# Include hidden files.
