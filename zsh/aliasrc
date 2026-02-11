@@ -1,4 +1,3 @@
-#list
 alias ls='eza --icons -al --group-directories-first'
 alias update='sudo pacman -Syu'
 alias rm='rm -i'
@@ -11,27 +10,32 @@ alias cp='cp -v'
 
 alias grep='grep --color=auto'
 
-#readable output
+# Please don't curse me
+alias lf='yazi'
+
+# Readable output
 alias df='df -h'
 
-#Color always for diff
+# Color always for diff
 alias diff='diff --color=always'
 
-#List recently changed files < 24H
+# List recently changed files < 24H
 alias recent='find . -mtime 0'
 
-#free
+# Free
 alias free="free -mt"
+
+# Continue wget downloads
 alias wget="wget -c"
 
-#grub update
+# Grub update
 alias update-grub="sudo grub-mkconfig -o /boot/grub/grub.cfg"
 
-#switch between bash and zsh
+# Switch between bash and zsh
 alias tobash="sudo chsh $USER -s /bin/bash && echo 'Now log out.'"
 alias tozsh="sudo chsh $USER -s /bin/zsh && echo 'Now log out.'"
 
-#get fastest mirrors in your neighborhood
+# Fastest mirrors in your neighborhood
 alias mirror="sudo reflector --protocol https -f 30 -l 30 --threads 4 --number 5 --verbose --save /etc/pacman.d/mirrorlist"
 
 alias ytv-best="yt-dlp -f bestvideo+bestaudio "
@@ -39,19 +43,18 @@ alias yta-best="yt-dlp --extract-audio --audio-format best "
 
 alias iso="cat /etc/dev-rel | awk -F '=' '/ISO/ {print $2}'"
 
-#get the error messages from journalctl
+# Fetch error messages from journalctl
 alias jctl="journalctl -p 3 -xb"
 
-#shutdown or reboot
+# Shutdown or reboot
 alias ssn="sudo shutdown now"
 alias sr="sudo reboot"
-#Sussy baka
+# Sussy baka
 alias sus="systemctl suspend"
 
-#user
+# lpu_net
 alias connect='bash ~/scripts/lpu_net.sh login'
 alias disconnect='bash ~/scripts/lpu_net.sh logout'
-#alias sudo='doas'
 
 # # ex = EXtractor for all kinds of archives
 # # usage: ex <file>
