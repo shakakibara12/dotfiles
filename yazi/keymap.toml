@@ -1,0 +1,12 @@
+# Dropping-to-shell
+# https://yazi-rs.github.io/docs/tips#dropping-to-shell
+[[mgr.prepend_keymap]]
+on   = "!"
+for  = "unix"
+run  = 'shell "$SHELL" --block'
+desc = "Open $SHELL here"
+
+[[mgr.prepend_keymap]]
+on   = "D"
+run  = "noop"
+desc = "Disable permanent delete"
