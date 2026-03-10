@@ -430,6 +430,9 @@ binds {
 
     // Hide waybar, clear clipboard history as well as clipboard.
     Mod+B { spawn-sh "killall -SIGUSR1 waybar && cliphist wipe && wl-copy --clear"; }
+    
+    // Image_to_OCR
+    Mod+Shift+T { spawn-sh "~/scripts/ocr.sh"; }
 
     // Use spawn-sh to run a shell command. Do this if you need pipes, multiple commands, etc.
     // Note: the entire command goes as a single argument. It's passed verbatim to `sh -c`.
@@ -454,9 +457,6 @@ binds {
     XF86AudioNext        allow-when-locked=true { spawn-sh "playerctl next"; }
     Mod+Shift+Period    allow-when-locked=true { spawn-sh "playerctl next"; }
     Mod+Shift+Comma     allow-when-locked=true { spawn-sh "playerctl previous"; }
-    
-    // Image_to_OCR
-    Mod+Shift+T { spawn-sh "~/scripts/ocr.sh"; }
 
     // Example brightness key mappings for brightnessctl.
     // You can use regular spawn with multiple arguments too (to avoid going through "sh"),
