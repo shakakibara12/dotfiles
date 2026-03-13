@@ -16,8 +16,6 @@ alias lf='yazi'
 # Readable output
 alias df='df -h'
 
-# Color always for diff
-alias diff='diff --color=always'
 
 # List recently changed files < 24H
 alias recent='find . -mtime 0'
@@ -81,6 +79,3 @@ ex ()
     echo "'$1' is not a valid file"
   fi
 }
-
-
-
