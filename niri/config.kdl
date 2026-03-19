@@ -204,8 +204,8 @@ spawn-sh-at-startup "wl-paste --type text --watch cliphist store"
 spawn-sh-at-startup "wl-paste --type image --watch cliphist store"
 spawn-sh-at-startup "sleep 8 && qbittorrent"
 spawn-sh-at-startup "fcitx5 -d --replace"
-// spawn-sh-at-startup "playerctld daemon"
-// spawn-sh-at-startup "xrdb ~/.Xdefaults"
+spawn-sh-at-startup "xrdb ~/.Xdefaults"
+spawn-sh-at-startup "shutdown 23:30"
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
