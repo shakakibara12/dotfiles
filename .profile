@@ -4,7 +4,7 @@ export TERM=foot
 export TERMINAL=foot
 export ELECTRON_OZONE_PLATFORM_HINT=auto
 export XDG_SESSION_TYPE=wayland
-export QT_QPA_PLATFORMTHEME=qt6ct
+export QT_QPA_PLATFORMTHEME=qt5ct
 export QT_WAYLAND_DISABLE_WINDOWDECORATION=1
 # Install qt5-wayland and qt6-wayland
 export QT_QPA_PLATFORM=wayland
