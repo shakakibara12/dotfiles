@@ -205,7 +205,6 @@ spawn-sh-at-startup "wl-paste --type image --watch cliphist store"
 spawn-sh-at-startup "sleep 8 && qbittorrent"
 spawn-sh-at-startup "fcitx5 -d --replace"
 spawn-sh-at-startup "xrdb ~/.Xdefaults"
-spawn-sh-at-startup "shutdown 23:30"
 
 hotkey-overlay {
     // Uncomment this line to disable the "Important Hotkeys" pop-up at startup.
@@ -286,12 +285,10 @@ window-rule {
 //     open-floating true
 // }
 
-// Make the wallpaper stationary, rather than moving with workspaces.
+// Set the overview wallpaper on the backdrop.
 layer-rule {
-    // This is for swaybg; change for other wallpaper tools.
-    // Find the right namespace by running niri msg layers.
-    match namespace="^swww-daemon$"
-    place-within-backdrop true
+  match namespace="^noctalia-overview*"
+  place-within-backdrop true
 }
 
 // Optionally, disable the workspace shadows in the overview.
