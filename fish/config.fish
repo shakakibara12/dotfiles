@@ -15,6 +15,12 @@ end
 fish_add_path --path ~/.local/bin
 fish_add_path --path ~/.cargo/bin
 
+## Custom key bindings
+function fish_user_key_bindings
+    # Bind Ctrl+T to edit the command buffer
+    bind \ct edit_command_buffer
+end
+
 ## Functions
 # Fish command history
 function history
