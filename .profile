@@ -14,12 +14,12 @@ export GTK_THEME=adw-gtk3-dark
 export LIBVA_DRIVER_NAME=iHD
 # fix java applications weird font anti aliasing
 # https://wiki.archlinux.org/title/Java#Tips_and_tricks
-export JDK_JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel'
+export JDK_JAVA_OPTIONS="-Dawt.useSystemAAFontSettings=on -Dswing.aatext=true -Dswing.defaultlaf=com.sun.java.swing.plaf.gtk.GTKLookAndFeel"
 export _JAVA_AWT_WM_NONREPARENTING=1
 # Format man pages
 export MANROFFOPT="-c"
-export MANPAGER="sh -c 'col -bx | bat -l man -p'"
-export PAGER='bat'
+export MANPAGER="nvim +Man!"
+export PAGER="bat"
 # Fcitx (IME)
 export XMODIFIERS=@im=fcitx
 export QT_IM_MODULES="wayland;fcitx;ibus"
