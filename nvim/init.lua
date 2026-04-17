@@ -16,6 +16,10 @@ vim.opt.number = true
 -- keep current content top + left when splitting
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+-- Disable wrap
+vim.opt.wrap = false
+-- Disable swap
+vim.opt.swapfile = false
 -- infinite undo!
 -- NOTE: ends up in ~/.local/state/nvim/undo/
 vim.opt.undofile = true
@@ -54,6 +58,10 @@ vim.api.nvim_create_autocmd('Filetype', { pattern = 'rust', command = 'set color
 -- show more hidden characters
 -- also, show tabs nicer
 vim.opt.listchars = 'tab:^ ,nbsp:¬,extends:»,precedes:«,trail:•'
+
+-- Set borders for all floating windows
+-- Everything looks beautiful with this!
+vim.o.winborder = 'rounded'
 
 -- HOTKEYS
 
