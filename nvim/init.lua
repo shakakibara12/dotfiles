@@ -223,11 +223,34 @@ require("lazy").setup({
 	{
 		"mason-org/mason-lspconfig.nvim",
 		opts = {
-			ensure_installed = { "lua_ls", "rust_analyzer" },
+			ensure_installed = { "lua_ls", "rust_analyzer", "ruff", "stylua", "ty" },
 		},
 		dependencies = {
 			{ "mason-org/mason.nvim", opts = {} },
 			"neovim/nvim-lspconfig",
 		},
 	},
+	-- These are the keybindings which are created automatically through
+	-- nvim lsp, v0.11+ only.
+	-- grn    -> renames all references of the symbol under the cursor
+	-- gra    -> shows a list of code actions available in the line under the cursor
+	-- grr    -> lists all the references of the symbol under the cursor
+	-- gri    -> lists all the implementations for the symbol under the cursor
+	-- grt    -> jump to the definition of the type symbol under the cursor
+	-- gO     -> lists all symbols in the current buffer
+	-- ctrl-s -> in insert mode, displays the function signature under the cursor
+	--
+	-- Tree-sitter, enable manual installtion of other parsers
+	-- Note: If a certain pattern is hit and the parser for that lang is not
+	-- available, there will be a error, so make sure to install it. Either via
+	-- package manager or :TSInstall
+	{
+		'nvim-treesitter/nvim-treesitter',
+		lazy = false,
+		build = ':TSUpdate',
+		opts = { vim.api.nvim_create_autocmd('FileType', {
+			pattern = { 'lua', 'rust', 'python' },
+			callback = function() vim.treesitter.start() end,
+		}) }
+	}
 })
