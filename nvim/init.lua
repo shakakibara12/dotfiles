@@ -54,10 +54,19 @@ vim.opt.diffopt:append('algorithm:histogram')
 -- show a column at 80 characters as a guide for long lines
 vim.opt.colorcolumn = '80'
 -- except in Glorius Rust where the rule is 100 characters
-vim.api.nvim_create_autocmd('Filetype', { pattern = 'rust', command = 'set colorcolumn=100' })
+vim.api.nvim_create_autocmd('FileType', {
+    pattern = 'rust',
+    callback = function() vim.opt_local.colorcolumn = '100' end,
+})
 -- show more hidden characters
 -- also, show tabs nicer
-vim.opt.listchars = 'tab:^ ,nbsp:¬,extends:»,precedes:«,trail:•'
+vim.opt.listchars = {
+    tab = '^ ',
+    nbsp = '¬',
+    extends = '»',
+    precedes = '«',
+    trail = '•',
+}
 
 -- Set borders for all floating windows
 -- Everything looks beautiful with this!
@@ -96,16 +105,15 @@ vim.keymap.set('i', '<F1>', '<Esc>')
 
 
 -- highlight yanked text
-vim.api.nvim_create_autocmd(
-	'TextYankPost',
-	{
-		pattern = '*',
-		command = 'silent! lua vim.hl.on_yank({ timeout = 100 })'
-	}
-)
+vim.api.nvim_create_autocmd('TextYankPost', {
+    callback = function() vim.hl.on_yank({ timeout = 100 }) end,
+})
+
 -- prevent accidental writes to buffers that shouldn't be edited
-vim.api.nvim_create_autocmd('BufRead', { pattern = '*.orig', command = 'set readonly' })
-vim.api.nvim_create_autocmd('BufRead', { pattern = '*.pacnew', command = 'set readonly' })
+vim.api.nvim_create_autocmd('BufRead', {
+    pattern = { '*.orig', '*.pacnew' },
+    callback = function() vim.opt_local.readonly = true end,
+})
 
 -- help filetype detection (add as needed)
 -- vim.api.nvim_create_autocmd('BufRead', { pattern = '*.ext', command = 'set filetype=someft' })
