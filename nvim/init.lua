@@ -1,9 +1,9 @@
 ---@diagnostic disable: undefined-global
 -- always set leader first!
-vim.keymap.set("n", "<Space>", "<Nop>", { silent = true })
-vim.g.mapleader = " "
+vim.keymap.set('n', '<Space>', '<Nop>', { silent = true })
+vim.g.mapleader = ' '
 -- Lazy needs it
-vim.g.maplocalleader = "\\"
+vim.g.maplocalleader = '\\'
 
 -- keep more context on screen while scrolling
 vim.opt.scrolloff = 8
@@ -129,15 +129,15 @@ vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
 
 
 -- setup lazy plugin manager first
-local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
-	local lazyrepo = "https://github.com/folke/lazy.nvim.git"
-	local out = vim.fn.system({ "git", "clone", "--filter=blob:none", "--branch=stable", lazyrepo, lazypath })
+	local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
+	local out = vim.fn.system({ 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath })
 	if vim.v.shell_error ~= 0 then
 		vim.api.nvim_echo({
-			{ "Failed to clone lazy.nvim:\n", "ErrorMsg" },
-			{ out,                            "WarningMsg" },
-			{ "\nPress any key to exit..." },
+			{ 'Failed to clone lazy.nvim:\n', 'ErrorMsg' },
+			{ out,                            'WarningMsg' },
+			{ '\nPress any key to exit...' },
 		}, true, {})
 		vim.fn.getchar()
 		os.exit(1)
@@ -146,36 +146,18 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 -- Setup lazy.nvim
-require("lazy").setup({
+require('lazy').setup({
 	-- automatically check for plugin updates
 	checker = { enabled = true },
 
 	-- the colorscheme should be available when starting Neovim
 	{
-		"Shatur/neovim-ayu",
+		'Shatur/neovim-ayu',
 		lazy = false, -- no lazy, it's UI
 		priority = 1000, -- load first
 		config = function()
 			-- load the colorscheme
-			vim.cmd([[colorscheme ayu]])
-		end,
-	},
-
-	-- add nice statusline, ayu themed, off course.
-	{
-		'nvim-lualine/lualine.nvim',
-		lazy = false, -- no lazy, it's UI
-		priority = 1000, -- load first
-		-- This automatically calls require("lualine").setup(opts)
-		opts = {
-			options = {
-				theme = 'ayu',
-			},
-		},
-		-- init is called during startup, configuration should be done here.
-		init = function()
-			-- no need to also show mode in cmd line when we have bar
-			vim.o.showmode = false
+			vim.cmd.colorscheme('ayu')
 		end,
 	},
 
@@ -194,12 +176,12 @@ require("lazy").setup({
 	},
 
 	{
-		"ibhagwan/fzf-lua",
+		'ibhagwan/fzf-lua',
 		-- optional for icon support
 		opts = {
 			-- No reverse view
 			fzf_opts = {
-				["--layout"] = "default",
+				['--layout'] = 'default',
 			},
 		},
 		config = function()
@@ -221,13 +203,19 @@ require("lazy").setup({
 	-- For creating individual config for lsp server see:
 	-- https://vonheikemen.github.io/learn-nvim/feature/lsp-setup.html#the-lsp-directory
 	{
-		"mason-org/mason-lspconfig.nvim",
+		'mason-org/mason-lspconfig.nvim',
 		opts = {
-			ensure_installed = { "lua_ls", "rust_analyzer", "ruff", "stylua", "ty" },
+			ensure_installed = {
+				'lua_ls',
+				'rust_analyzer',
+				'ruff',
+				'stylua',
+				'ty'
+			},
 		},
 		dependencies = {
-			{ "mason-org/mason.nvim", opts = {} },
-			"neovim/nvim-lspconfig",
+			{ 'mason-org/mason.nvim', opts = {} },
+			'neovim/nvim-lspconfig',
 		},
 	},
 	-- These are the keybindings which are created automatically through
@@ -241,16 +229,24 @@ require("lazy").setup({
 	-- ctrl-s -> in insert mode, displays the function signature under the cursor
 	--
 	-- Tree-sitter, enable manual installtion of other parsers
-	-- Note: If a certain pattern is hit and the parser for that lang is not
-	-- available, there will be a error, so make sure to install it. Either via
-	-- package manager or :TSInstall
 	{
 		'nvim-treesitter/nvim-treesitter',
 		lazy = false,
 		build = ':TSUpdate',
-		opts = { vim.api.nvim_create_autocmd('FileType', {
-			pattern = { 'lua', 'rust', 'python' },
-			callback = function() vim.treesitter.start() end,
-		}) }
+		opts = {
+			ensure_installed = {
+				'c',
+				'lua',
+				'vim',
+				'vimdoc',
+				'query',
+				'rust',
+				'python'
+			},
+			vim.api.nvim_create_autocmd('FileType', {
+				pattern = { 'lua', 'rust', 'python' },
+				callback = function() vim.treesitter.start() end,
+			})
+		}
 	}
 })
