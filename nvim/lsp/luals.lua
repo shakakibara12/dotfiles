@@ -1,5 +1,6 @@
-return {
-  cmd = {'lua-language-server'},
-  filetypes = {'lua'},
-  root_markers = {'.luarc.json', '.luarc.jsonc'},
-}
+-- This is just a reference file, for my own sake
+-- return {
+--   cmd = {'lua-language-server'},
+--   filetypes = {'lua'},
+--   root_markers = {'.luarc.json', '.luarc.jsonc'},
+-- }
