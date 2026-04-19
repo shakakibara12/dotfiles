@@ -2,9 +2,7 @@ mpv/watch_later
 mpv/history.log
 mpv/scripts/mpv-webtorrent-hook
 zsh/.zcompdump*
-nvim/plugged/
 zsh/history
-nvim/lazy-lock.json
 dconf/user
 # Avoid plugin's configuration
 noctalia/plugins
