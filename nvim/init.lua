@@ -1,14 +1,14 @@
 ---@diagnostic disable: undefined-global
 -- always set leader first!
-vim.keymap.set('n', '<Space>', '<Nop>', { silent = true })
-vim.g.mapleader = ' '
+vim.keymap.set("n", "<Space>", "<Nop>", { silent = true })
+vim.g.mapleader = " "
 -- Lazy needs it
-vim.g.maplocalleader = '\\'
+vim.g.maplocalleader = "\\"
 
 -- keep more context on screen while scrolling
 vim.opt.scrolloff = 8
 -- always draw sign column. prevents buffer moving when adding/deleting sign
-vim.opt.signcolumn = 'yes'
+vim.opt.signcolumn = "yes"
 -- sweet sweet relative line numbers
 vim.opt.relativenumber = true
 -- and show the absolute line number for the current line
@@ -28,10 +28,10 @@ vim.opt.undolevels = 10000
 -- Decent wildmenu
 -- in completion, when there is more than one match,
 -- list all matches, and only complete to longest common match
-vim.opt.wildmode = 'list:longest'
+vim.opt.wildmode = "list:longest"
 -- when opening a file with a command (like :e),
 -- don't suggest files like there:
-vim.opt.wildignore = '.hg,.svn,*~,*.png,*.jpg,*.gif,*.min.js,*.swp,*.o,vendor,dist,_site,*.mkv,*.mp4'
+vim.opt.wildignore = ".hg,.svn,*~,*.png,*.jpg,*.gif,*.min.js,*.swp,*.o,vendor,dist,_site,*.mkv,*.mp4"
 -- tabs: go big or go home
 vim.opt.shiftwidth = 8
 vim.opt.softtabstop = 8
@@ -45,52 +45,53 @@ vim.opt.smartcase = true
 vim.opt.vb = true
 -- more useful diffs (nvim -d)
 -- by ignoring whitespace
-vim.opt.diffopt:append('iwhite')
+vim.opt.diffopt:append("iwhite")
 -- and using a smarter algorithm
-vim.opt.diffopt:append('algorithm:histogram')
+vim.opt.diffopt:append("algorithm:histogram")
 -- show a column at 80 characters as a guide for long lines
-vim.opt.colorcolumn = '80'
+vim.opt.colorcolumn = "80"
 -- except in Glorius Rust where the rule is 100 characters
-vim.api.nvim_create_autocmd('FileType', {
-    pattern = 'rust',
-    callback = function() vim.opt_local.colorcolumn = '100' end,
+vim.api.nvim_create_autocmd("FileType", {
+	pattern = "rust",
+	callback = function()
+		vim.opt_local.colorcolumn = "100"
+	end,
 })
 -- show more hidden characters and nicer tabs
 vim.opt.listchars = {
-    tab = '^ ',
-    nbsp = '¬',
-    extends = '»',
-    precedes = '«',
-    trail = '•',
+	tab = "^ ",
+	nbsp = "¬",
+	extends = "»",
+	precedes = "«",
+	trail = "•",
 }
 
 -- Set borders for all floating windows
 -- Everything looks beautiful with this!
-vim.o.winborder = 'rounded'
+vim.o.winborder = "rounded"
 
 -- HOTKEYS
 
 -- Allow copying to system clipboard using space + y
-vim.keymap.set('v', '<leader>y', '"+y')
+vim.keymap.set("v", "<leader>y", '"+y')
 -- always center search results
-vim.keymap.set('n', 'n', 'nzz', { silent = true })
-vim.keymap.set('n', 'N', 'Nzz', { silent = true })
-vim.keymap.set('n', '*', '*zz', { silent = true })
-vim.keymap.set('n', '#', '#zz', { silent = true })
-vim.keymap.set('n', 'g*', 'g*zz', { silent = true })
+vim.keymap.set("n", "n", "nzz", { silent = true })
+vim.keymap.set("n", "N", "Nzz", { silent = true })
+vim.keymap.set("n", "*", "*zz", { silent = true })
+vim.keymap.set("n", "#", "#zz", { silent = true })
+vim.keymap.set("n", "g*", "g*zz", { silent = true })
 -- no arrow keys --- force yourself to use the home row
-vim.keymap.set('n', '<up>', '<nop>')
-vim.keymap.set('n', '<down>', '<nop>')
-vim.keymap.set('n', '<left>', '<nop>')
-vim.keymap.set('n', '<right>', '<nop>')
-vim.keymap.set('i', '<up>', '<nop>')
-vim.keymap.set('i', '<down>', '<nop>')
-vim.keymap.set('i', '<left>', '<nop>')
-vim.keymap.set('i', '<right>', '<nop>')
+vim.keymap.set("n", "<up>", "<nop>")
+vim.keymap.set("n", "<down>", "<nop>")
+vim.keymap.set("n", "<left>", "<nop>")
+vim.keymap.set("n", "<right>", "<nop>")
+vim.keymap.set("i", "<up>", "<nop>")
+vim.keymap.set("i", "<down>", "<nop>")
+vim.keymap.set("i", "<left>", "<nop>")
+vim.keymap.set("i", "<right>", "<nop>")
 -- F1 is pretty close to Esc, so you probably meant Esc
-vim.keymap.set('', '<F1>', '<Esc>')
-vim.keymap.set('i', '<F1>', '<Esc>')
-
+vim.keymap.set("", "<F1>", "<Esc>")
+vim.keymap.set("i", "<F1>", "<Esc>")
 
 -------------------------------------------------------------------------------
 ---
@@ -98,18 +99,20 @@ vim.keymap.set('i', '<F1>', '<Esc>')
 ---
 -------------------------------------------------------------------------------
 
-
 -- highlight yanked text
-vim.api.nvim_create_autocmd('TextYankPost', {
-    callback = function() vim.hl.on_yank({ timeout = 100 }) end,
+vim.api.nvim_create_autocmd("TextYankPost", {
+	callback = function()
+		vim.hl.on_yank({ timeout = 100 })
+	end,
 })
 
 -- prevent accidental writes to buffers that shouldn't be edited
-vim.api.nvim_create_autocmd('BufRead', {
-    pattern = { '*.orig', '*.pacnew' },
-    callback = function() vim.opt_local.readonly = true end,
+vim.api.nvim_create_autocmd("BufRead", {
+	pattern = { "*.orig", "*.pacnew" },
+	callback = function()
+		vim.opt_local.readonly = true
+	end,
 })
-
 
 -------------------------------------------------------------------------------
 ---
@@ -117,44 +120,58 @@ vim.api.nvim_create_autocmd('BufRead', {
 ---
 -------------------------------------------------------------------------------
 
-
 -- Setup vim.pack
 -- NOTE: plugin updates is done manually via :lua vim.pack.update()
+local gh = function(x) return "https://github.com/" .. x end
+local cb = function(x) return "https://codeberg.org/" .. x end
+
 vim.pack.add({
-    'https://github.com/Shatur/neovim-ayu',
-    'https://github.com/folke/which-key.nvim',
-    'https://github.com/notjedi/nvim-rooter.lua',
-    'https://github.com/ibhagwan/fzf-lua',
-    'https://github.com/mason-org/mason.nvim',
-    'https://github.com/mason-org/mason-lspconfig.nvim',
-    'https://github.com/neovim/nvim-lspconfig',
-    'https://github.com/nvim-treesitter/nvim-treesitter',
+	gh("Shatur/neovim-ayu"),
+	gh("folke/which-key.nvim"),
+	gh("notjedi/nvim-rooter.lua"),
+	gh("ibhagwan/fzf-lua"),
+	gh("mason-org/mason.nvim"),
+	gh("mason-org/mason-lspconfig.nvim"),
+	gh("neovim/nvim-lspconfig"),
+	gh("nvim-treesitter/nvim-treesitter"),
+	gh("lervag/wiki.vim"),
+	cb("andyg/leap.nvim"),
 })
 
 -- the colorscheme should be available when starting Neovim
 -- load the colorscheme
-vim.cmd.colorscheme('ayu')
+vim.cmd.colorscheme("ayu")
 
 -- get popups for pressed key, very nice
-require('which-key').setup()
+require("which-key").setup()
 
 -- auto-cd to root of git project
-require('nvim-rooter').setup()
+require("nvim-rooter").setup()
 
-local fzf_lua = require('fzf-lua')
+-- Setup wiki.nvim
+vim.g.wiki_root = '~/Documents/notes'
+vim.g.wiki_select_method = {
+  pages = require("wiki.fzf_lua").pages,
+  tags = require("wiki.fzf_lua").tags,
+  toc = require("wiki.fzf_lua").toc,
+  links = require("wiki.fzf_lua").links,
+}
+
+-- Leap out of those bounderies!
+vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
+vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
+
+local fzf_lua = require("fzf-lua")
 fzf_lua.setup({
-    -- No reverse view
-    fzf_opts = {
-        ['--layout'] = 'default',
-    },
+	-- No reverse view
+	fzf_opts = {
+		["--layout"] = "default",
+	},
 })
-
-vim.keymap.set('n', '<leader>ff', fzf_lua.files, { desc = 'fzf-lua find files' })
-vim.keymap.set('n', '<leader>fg', fzf_lua.live_grep, { desc = 'fzf-lua live grep' })
-vim.keymap.set('n', '<leader>fb', fzf_lua.buffers, { desc = 'fzf-lua buffers' })
-vim.keymap.set('n', '<leader>fh', fzf_lua.help_tags, { desc = 'fzf-lua help tags' })
-
--- TODO: Checkout https://codeberg.org/andyg/leap.nvim . Looks really interesting.
+vim.keymap.set("n", "<leader>ff", fzf_lua.files, { desc = "fzf-lua find files" })
+vim.keymap.set("n", "<leader>fg", fzf_lua.live_grep, { desc = "fzf-lua live grep" })
+vim.keymap.set("n", "<leader>fb", fzf_lua.buffers, { desc = "fzf-lua buffers" })
+vim.keymap.set("n", "<leader>fh", fzf_lua.help_tags, { desc = "fzf-lua help tags" })
 
 -- LSP
 -- We use mason for this, as it automatically enables the installed
@@ -162,15 +179,15 @@ vim.keymap.set('n', '<leader>fh', fzf_lua.help_tags, { desc = 'fzf-lua help tags
 -- https://github.com/mason-org/mason-lspconfig.nvim?tab=readme-ov-file#configuration-using-lazynvim
 -- For creating individual config for lsp server see:
 -- https://vonheikemen.github.io/learn-nvim/feature/lsp-setup.html#the-lsp-directory
-require('mason').setup()
-require('mason-lspconfig').setup({
-    ensure_installed = {
-        'lua_ls',
-        'rust_analyzer',
-        'ruff',
-        'stylua',
-        'ty'
-    },
+require("mason").setup()
+require("mason-lspconfig").setup({
+	ensure_installed = {
+		"lua_ls",
+		"rust_analyzer",
+		"ruff",
+		"stylua",
+		"ty",
+	},
 })
 
 -- These are the keybindings which are created automatically through
@@ -184,12 +201,12 @@ require('mason-lspconfig').setup({
 -- ctrl-s -> in insert mode, displays the function signature under the cursor
 
 -- Tree-sitter, enable manual installation of other parsers
-require('nvim-treesitter').install({
-    'c',
-    'lua',
-    'vim',
-    'vimdoc',
-    'query',
-    'rust',
-    'python'
+require("nvim-treesitter").install({
+	"c",
+	"lua",
+	"vim",
+	"vimdoc",
+	"query",
+	"rust",
+	"python",
 })

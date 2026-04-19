@@ -4,6 +4,10 @@
       "rev": "834246377489f9a1e6d4df570a7874a48c644b56",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "leap.nvim": {
+      "rev": "b960d5038c5c505c52e56a54490f9bbb1f0e6ef6",
+      "src": "https://codeberg.org/andyg/leap.nvim"
+    },
     "mason-lspconfig.nvim": {
       "rev": "0a3b42c3e503df87aef6d6513e13148381495c3a",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim"
@@ -31,6 +35,10 @@
     "which-key.nvim": {
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
       "src": "https://github.com/folke/which-key.nvim"
+    },
+    "wiki.vim": {
+      "rev": "44f266fc8ed6f8fbc6bae47ee1ca6ba32e5995f8",
+      "src": "https://github.com/lervag/wiki.vim"
     }
   }
 }
