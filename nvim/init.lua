@@ -243,10 +243,6 @@ require('lazy').setup({
 				'rust',
 				'python'
 			},
-			vim.api.nvim_create_autocmd('FileType', {
-				pattern = { 'lua', 'rust', 'python' },
-				callback = function() vim.treesitter.start() end,
-			})
 		}
 	}
 })
