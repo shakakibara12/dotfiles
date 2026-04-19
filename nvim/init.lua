@@ -47,9 +47,6 @@ vim.opt.vb = true
 -- by ignoring whitespace
 vim.opt.diffopt:append('iwhite')
 -- and using a smarter algorithm
--- https://vimways.org/2018/the-power-of-diff/
--- https://stackoverflow.com/questions/32365271/whats-the-difference-between-git-diff-patience-and-git-diff-histogram
--- https://luppeng.wordpress.com/2020/10/10/when-to-use-each-of-the-git-diff-algorithms/
 vim.opt.diffopt:append('algorithm:histogram')
 -- show a column at 80 characters as a guide for long lines
 vim.opt.colorcolumn = '80'
@@ -58,8 +55,7 @@ vim.api.nvim_create_autocmd('FileType', {
     pattern = 'rust',
     callback = function() vim.opt_local.colorcolumn = '100' end,
 })
--- show more hidden characters
--- also, show tabs nicer
+-- show more hidden characters and nicer tabs
 vim.opt.listchars = {
     tab = '^ ',
     nbsp = '¬',
@@ -76,8 +72,6 @@ vim.o.winborder = 'rounded'
 
 -- Allow copying to system clipboard using space + y
 vim.keymap.set('v', '<leader>y', '"+y')
-
-
 -- always center search results
 vim.keymap.set('n', 'n', 'nzz', { silent = true })
 vim.keymap.set('n', 'N', 'Nzz', { silent = true })
@@ -97,6 +91,7 @@ vim.keymap.set('i', '<right>', '<nop>')
 vim.keymap.set('', '<F1>', '<Esc>')
 vim.keymap.set('i', '<F1>', '<Esc>')
 
+
 -------------------------------------------------------------------------------
 ---
 --- Autocommands
@@ -115,19 +110,6 @@ vim.api.nvim_create_autocmd('BufRead', {
     callback = function() vim.opt_local.readonly = true end,
 })
 
--- help filetype detection (add as needed)
--- vim.api.nvim_create_autocmd('BufRead', { pattern = '*.ext', command = 'set filetype=someft' })
-
--------------------------------------------------------------------------------
----
---- Diagnostics
----
--------------------------------------------------------------------------------
-
-
--- Allow virtual text
-vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
-
 
 -------------------------------------------------------------------------------
 ---
@@ -136,121 +118,78 @@ vim.diagnostic.config({ virtual_text = true, virtual_lines = false })
 -------------------------------------------------------------------------------
 
 
--- setup lazy plugin manager first
-local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-if not (vim.uv or vim.loop).fs_stat(lazypath) then
-	local lazyrepo = 'https://github.com/folke/lazy.nvim.git'
-	local out = vim.fn.system({ 'git', 'clone', '--filter=blob:none', '--branch=stable', lazyrepo, lazypath })
-	if vim.v.shell_error ~= 0 then
-		vim.api.nvim_echo({
-			{ 'Failed to clone lazy.nvim:\n', 'ErrorMsg' },
-			{ out,                            'WarningMsg' },
-			{ '\nPress any key to exit...' },
-		}, true, {})
-		vim.fn.getchar()
-		os.exit(1)
-	end
-end
-vim.opt.rtp:prepend(lazypath)
+-- Setup vim.pack
+-- NOTE: plugin updates is done manually via :lua vim.pack.update()
+vim.pack.add({
+    'https://github.com/Shatur/neovim-ayu',
+    'https://github.com/folke/which-key.nvim',
+    'https://github.com/notjedi/nvim-rooter.lua',
+    'https://github.com/ibhagwan/fzf-lua',
+    'https://github.com/mason-org/mason.nvim',
+    'https://github.com/mason-org/mason-lspconfig.nvim',
+    'https://github.com/neovim/nvim-lspconfig',
+    'https://github.com/nvim-treesitter/nvim-treesitter',
+})
 
--- Setup lazy.nvim
-require('lazy').setup({
-	-- automatically check for plugin updates
-	checker = { enabled = true },
+-- the colorscheme should be available when starting Neovim
+-- load the colorscheme
+vim.cmd.colorscheme('ayu')
 
-	-- the colorscheme should be available when starting Neovim
-	{
-		'Shatur/neovim-ayu',
-		lazy = false, -- no lazy, it's UI
-		priority = 1000, -- load first
-		config = function()
-			-- load the colorscheme
-			vim.cmd.colorscheme('ayu')
-		end,
-	},
+-- get popups for pressed key, very nice
+require('which-key').setup()
 
-	-- get popups for pressed key, very nice
-	{
-		'folke/which-key.nvim',
-		event = 'VeryLazy',
-		opts = {},
-	},
+-- auto-cd to root of git project
+require('nvim-rooter').setup()
 
-	-- auto-cd to root of git project
-	{
-		'notjedi/nvim-rooter.lua',
-		lazy = false,
-		opts = {},
-	},
+local fzf_lua = require('fzf-lua')
+fzf_lua.setup({
+    -- No reverse view
+    fzf_opts = {
+        ['--layout'] = 'default',
+    },
+})
 
-	{
-		'ibhagwan/fzf-lua',
-		-- optional for icon support
-		opts = {
-			-- No reverse view
-			fzf_opts = {
-				['--layout'] = 'default',
-			},
-		},
-		config = function()
-			local fzf_lua = require('fzf-lua')
+vim.keymap.set('n', '<leader>ff', fzf_lua.files, { desc = 'fzf-lua find files' })
+vim.keymap.set('n', '<leader>fg', fzf_lua.live_grep, { desc = 'fzf-lua live grep' })
+vim.keymap.set('n', '<leader>fb', fzf_lua.buffers, { desc = 'fzf-lua buffers' })
+vim.keymap.set('n', '<leader>fh', fzf_lua.help_tags, { desc = 'fzf-lua help tags' })
 
-			vim.keymap.set('n', '<leader>ff', fzf_lua.files, { desc = 'fzf-lua find files' })
-			vim.keymap.set('n', '<leader>fg', fzf_lua.live_grep, { desc = 'fzf-lua live grep' })
-			vim.keymap.set('n', '<leader>fb', fzf_lua.buffers, { desc = 'fzf-lua buffers' })
-			vim.keymap.set('n', '<leader>fh', fzf_lua.help_tags, { desc = 'fzf-lua help tags' })
-		end,
-	},
+-- TODO: Checkout https://codeberg.org/andyg/leap.nvim . Looks really interesting.
 
-	-- TODO: Checkout https://codeberg.org/andyg/leap.nvim . Looks really interesting.
+-- LSP
+-- We use mason for this, as it automatically enables the installed
+-- lsp servers, by calling vim.lsp.enable('server') on them.
+-- https://github.com/mason-org/mason-lspconfig.nvim?tab=readme-ov-file#configuration-using-lazynvim
+-- For creating individual config for lsp server see:
+-- https://vonheikemen.github.io/learn-nvim/feature/lsp-setup.html#the-lsp-directory
+require('mason').setup()
+require('mason-lspconfig').setup({
+    ensure_installed = {
+        'lua_ls',
+        'rust_analyzer',
+        'ruff',
+        'stylua',
+        'ty'
+    },
+})
 
-	-- LSP
-	-- We use mason for this, as it automatically enables the installed
-	-- lsp servers, by calling vim.lsp.enable('server') on them.
-	-- https://github.com/mason-org/mason-lspconfig.nvim?tab=readme-ov-file#configuration-using-lazynvim
-	-- For creating individual config for lsp server see:
-	-- https://vonheikemen.github.io/learn-nvim/feature/lsp-setup.html#the-lsp-directory
-	{
-		'mason-org/mason-lspconfig.nvim',
-		opts = {
-			ensure_installed = {
-				'lua_ls',
-				'rust_analyzer',
-				'ruff',
-				'stylua',
-				'ty'
-			},
-		},
-		dependencies = {
-			{ 'mason-org/mason.nvim', opts = {} },
-			'neovim/nvim-lspconfig',
-		},
-	},
-	-- These are the keybindings which are created automatically through
-	-- nvim lsp, v0.11+ only.
-	-- grn    -> renames all references of the symbol under the cursor
-	-- gra    -> shows a list of code actions available in the line under the cursor
-	-- grr    -> lists all the references of the symbol under the cursor
-	-- gri    -> lists all the implementations for the symbol under the cursor
-	-- grt    -> jump to the definition of the type symbol under the cursor
-	-- gO     -> lists all symbols in the current buffer
-	-- ctrl-s -> in insert mode, displays the function signature under the cursor
-	--
-	-- Tree-sitter, enable manual installtion of other parsers
-	{
-		'nvim-treesitter/nvim-treesitter',
-		lazy = false,
-		build = ':TSUpdate',
-		opts = {
-			ensure_installed = {
-				'c',
-				'lua',
-				'vim',
-				'vimdoc',
-				'query',
-				'rust',
-				'python'
-			},
-		}
-	}
+-- These are the keybindings which are created automatically through
+-- nvim lsp, v0.11+ only.
+-- grn    -> renames all references of the symbol under the cursor
+-- gra    -> shows a list of code actions available in the line under the cursor
+-- grr    -> lists all the references of the symbol under the cursor
+-- gri    -> lists all the implementations for the symbol under the cursor
+-- grt    -> jump to the definition of the type symbol under the cursor
+-- gO     -> lists all symbols in the current buffer
+-- ctrl-s -> in insert mode, displays the function signature under the cursor
+
+-- Tree-sitter, enable manual installation of other parsers
+require('nvim-treesitter').install({
+    'c',
+    'lua',
+    'vim',
+    'vimdoc',
+    'query',
+    'rust',
+    'python'
 })
