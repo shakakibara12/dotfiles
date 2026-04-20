@@ -93,6 +93,9 @@ vim.keymap.set("i", "<right>", "<nop>")
 vim.keymap.set("", "<F1>", "<Esc>")
 vim.keymap.set("i", "<F1>", "<Esc>")
 
+-- Auto-cd to the current file's parent directory.
+vim.keymap.set("n", "<leader>cd", "<CMD>cd %:p:h<CR><CMD>pwd<CR>")
+
 -------------------------------------------------------------------------------
 ---
 --- Autocommands
@@ -122,11 +125,13 @@ vim.api.nvim_create_autocmd("BufRead", {
 
 -- Setup vim.pack
 -- NOTE: plugin updates is done manually via :lua vim.pack.update()
+
 local gh = function(x) return "https://github.com/" .. x end
 local cb = function(x) return "https://codeberg.org/" .. x end
 
 vim.pack.add({
 	gh("Shatur/neovim-ayu"),
+	gh("nvim-lualine/lualine.nvim"),
 	gh("folke/which-key.nvim"),
 	gh("notjedi/nvim-rooter.lua"),
 	gh("ibhagwan/fzf-lua"),
@@ -142,6 +147,16 @@ vim.pack.add({
 -- load the colorscheme
 vim.cmd.colorscheme("ayu")
 
+-- load the status bar
+require("lualine").setup({
+	options = {
+		icons_enabled = false,
+		theme = "ayu",
+	},
+})
+-- no need to also show mode in cmd line when we have bar
+vim.o.showmode = false
+
 -- get popups for pressed key, very nice
 require("which-key").setup()
 
@@ -149,18 +164,19 @@ require("which-key").setup()
 require("nvim-rooter").setup()
 
 -- Setup wiki.nvim
-vim.g.wiki_root = '~/Documents/notes'
+vim.g.wiki_root = "~/Documents/notes"
 vim.g.wiki_select_method = {
-  pages = require("wiki.fzf_lua").pages,
-  tags = require("wiki.fzf_lua").tags,
-  toc = require("wiki.fzf_lua").toc,
-  links = require("wiki.fzf_lua").links,
+	pages = require("wiki.fzf_lua").pages,
+	tags = require("wiki.fzf_lua").tags,
+	toc = require("wiki.fzf_lua").toc,
+	links = require("wiki.fzf_lua").links,
 }
 
 -- Leap out of those bounderies!
 vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
 vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
 
+-- Setup fzf-lua
 local fzf_lua = require("fzf-lua")
 fzf_lua.setup({
 	-- No reverse view
@@ -209,4 +225,5 @@ require("nvim-treesitter").install({
 	"query",
 	"rust",
 	"python",
+	"markdown",
 })
