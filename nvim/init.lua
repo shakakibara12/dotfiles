@@ -140,6 +140,7 @@ vim.pack.add({
 	gh("neovim/nvim-lspconfig"),
 	gh("nvim-treesitter/nvim-treesitter"),
 	gh("lervag/wiki.vim"),
+	gh("MeanderingProgrammer/render-markdown.nvim"),
 	cb("andyg/leap.nvim"),
 })
 
@@ -226,4 +227,5 @@ require("nvim-treesitter").install({
 	"rust",
 	"python",
 	"markdown",
+	"markdown_inline",
 })
