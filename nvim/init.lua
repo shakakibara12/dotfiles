@@ -198,6 +198,19 @@ require("which-key").setup()
 -- auto-cd to root of git project
 require("nvim-rooter").setup()
 
+-- Setup render-markdown (f*ck icons)
+require("render-markdown").setup({
+	heading = {
+		icons = {},
+	},
+	bullet = {
+		icons = {},
+	},
+	checkbox = {
+		enabled = false,
+	},
+})
+
 -- Setup fzf-lua
 local fzf_lua = require("fzf-lua")
 fzf_lua.setup({
