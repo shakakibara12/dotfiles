@@ -8,6 +8,10 @@
       "rev": "05e44d38de0a79c11fba5f7bf8138791b1dbdd1e",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "gruvbox-material": {
+      "rev": "11d779b26a9ab2b3db8c22c6ac9fb6e8ed4fea79",
+      "src": "https://github.com/sainnhe/gruvbox-material"
+    },
     "gruvbox.nvim": {
       "rev": "154eb5ff5b96d0641307113fa385eaf0d36d9796",
       "src": "https://github.com/ellisonleao/gruvbox.nvim"
@@ -55,6 +59,14 @@
     "rustaceanvim": {
       "rev": "40b50ae2335faa2a4e136a196908b4700014f0b0",
       "src": "https://github.com/mrcjkb/rustaceanvim"
+    },
+    "styler.nvim": {
+      "rev": "d73d868541a2536a96d057c793d53c50e5f407bb",
+      "src": "https://github.com/folke/styler.nvim"
+    },
+    "tokyonight.nvim": {
+      "rev": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
+      "src": "https://github.com/folke/tokyonight.nvim"
     },
     "which-key.nvim": {
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",

@@ -59,6 +59,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.colorcolumn = "100"
 	end,
 })
+
 -- show more hidden characters and nicer tabs
 vim.opt.listchars = {
 	tab = "^ ",
@@ -162,7 +163,7 @@ local gh = function(x) return "https://github.com/" .. x end
 local cb = function(x) return "https://codeberg.org/" .. x end
 
 vim.pack.add({
-	gh("rose-pine/neovim"),
+	gh("sainnhe/gruvbox-material"),
 	gh("nvim-lualine/lualine.nvim"),
 	gh("folke/which-key.nvim"),
 	gh("notjedi/nvim-rooter.lua"),
@@ -178,17 +179,21 @@ vim.pack.add({
 	gh("bullets-vim/bullets.vim"),
 })
 
+-- Go hard or go home.
+vim.g.gruvbox_material_background = "hard"
+
 -- the colorscheme should be available when starting Neovim
 -- load the colorscheme
-vim.cmd.colorscheme("rose-pine-moon")
+vim.cmd.colorscheme("gruvbox-material")
 
 -- load the status bar
 require("lualine").setup({
 	options = {
 		icons_enabled = false,
-		theme = "rose-pine",
+		theme = "gruvbox-material",
 	},
 })
+
 -- no need to also show mode in cmd line when we have bar
 vim.opt.showmode = false
 
@@ -201,7 +206,7 @@ require("nvim-rooter").setup()
 -- Setup render-markdown (f*ck icons)
 require("render-markdown").setup({
 	heading = {
-		icons = {},
+		enabled = false,
 	},
 	bullet = {
 		icons = {},
@@ -225,7 +230,7 @@ vim.keymap.set("n", "<leader>fg", fzf_lua.live_grep, { desc = "fzf-lua live grep
 vim.keymap.set("n", "<leader>fb", fzf_lua.buffers, { desc = "fzf-lua buffers" })
 vim.keymap.set("n", "<leader>fh", fzf_lua.help_tags, { desc = "fzf-lua help tags" })
 -- Setup wiki.nvim
-vim.g.wiki_root = "~/Documents/notes"
+vim.g.wiki_root = "~/Documents/notes/work"
 vim.g.wiki_select_method = {
 	pages = require("wiki.fzf_lua").pages,
 	tags = require("wiki.fzf_lua").tags,
