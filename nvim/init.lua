@@ -162,7 +162,7 @@ local gh = function(x) return "https://github.com/" .. x end
 local cb = function(x) return "https://codeberg.org/" .. x end
 
 vim.pack.add({
-	gh("Shatur/neovim-ayu"),
+	gh("rose-pine/neovim"),
 	gh("nvim-lualine/lualine.nvim"),
 	gh("folke/which-key.nvim"),
 	gh("notjedi/nvim-rooter.lua"),
@@ -175,19 +175,18 @@ vim.pack.add({
 	gh("MeanderingProgrammer/render-markdown.nvim"),
 	cb("andyg/leap.nvim"),
 	gh("mrcjkb/rustaceanvim"),
-	gh("ellisonleao/gruvbox.nvim"),
-	gh("rose-pine/neovim"),
+	gh("bullets-vim/bullets.vim"),
 })
 
 -- the colorscheme should be available when starting Neovim
 -- load the colorscheme
-vim.cmd.colorscheme("ayu")
+vim.cmd.colorscheme("rose-pine-moon")
 
 -- load the status bar
 require("lualine").setup({
 	options = {
 		icons_enabled = false,
-		theme = "ayu",
+		theme = "rose-pine",
 	},
 })
 -- no need to also show mode in cmd line when we have bar
@@ -224,7 +223,6 @@ vim.g.wiki_select_method = {
 -- Leap out of those bounderies!
 vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
 vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
-
 
 -- Setup LSP
 -- We use mason for this, as it automatically enables the installed

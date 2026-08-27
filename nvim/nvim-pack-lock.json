@@ -1,5 +1,9 @@
 {
   "plugins": {
+    "bullets.vim": {
+      "rev": "81570b98ca44b4100b3ddcf8d9ca74b9a9b0c884",
+      "src": "https://github.com/bullets-vim/bullets.vim"
+    },
     "fzf-lua": {
       "rev": "05e44d38de0a79c11fba5f7bf8138791b1dbdd1e",
       "src": "https://github.com/ibhagwan/fzf-lua"
@@ -9,7 +13,7 @@
       "src": "https://github.com/ellisonleao/gruvbox.nvim"
     },
     "leap.nvim": {
-      "rev": "b41c342a67d0fb36694c506ca369761dd5b60b6c",
+      "rev": "5db34d1a302ef18bc819dc8a38011abe29dae229",
       "src": "https://codeberg.org/andyg/leap.nvim"
     },
     "lualine.nvim": {
@@ -17,7 +21,7 @@
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mason-lspconfig.nvim": {
-      "rev": "67029ccdac1ef8941e13b826417bc0ffac24cc86",
+      "rev": "1b621470c01bd8190bb32a290d21575d3e6470c5",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim"
     },
     "mason.nvim": {
@@ -33,7 +37,7 @@
       "src": "https://github.com/Shatur/neovim-ayu"
     },
     "nvim-lspconfig": {
-      "rev": "51dbf5359da86721662c87ca10eb73add973737b",
+      "rev": "3928e638fdedf195b23ae5a18f024afa487982bc",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-rooter.lua": {
@@ -41,7 +45,7 @@
       "src": "https://github.com/notjedi/nvim-rooter.lua"
     },
     "nvim-treesitter": {
-      "rev": "a1bcffc8095c142ad1f7a9671a4ae180333f9209",
+      "rev": "8b98b4470eb326f1c7b50dae79f8c963568e5720",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "render-markdown.nvim": {
@@ -49,7 +53,7 @@
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
     },
     "rustaceanvim": {
-      "rev": "5ceae75d8141290c03e119b4c4ce785574a0325b",
+      "rev": "40b50ae2335faa2a4e136a196908b4700014f0b0",
       "src": "https://github.com/mrcjkb/rustaceanvim"
     },
     "which-key.nvim": {
@@ -57,7 +61,7 @@
       "src": "https://github.com/folke/which-key.nvim"
     },
     "wiki.vim": {
-      "rev": "0e4cbe6aa68093c1b48d6bfbb76c0d7a74658bca",
+      "rev": "2268b4286c5bcb5b46caa1810d048a3602379a51",
       "src": "https://github.com/lervag/wiki.vim"
     }
   }
