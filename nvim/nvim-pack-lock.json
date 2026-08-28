@@ -1,31 +1,47 @@
 {
   "plugins": {
+    "bullets.vim": {
+      "rev": "81570b98ca44b4100b3ddcf8d9ca74b9a9b0c884",
+      "src": "https://github.com/bullets-vim/bullets.vim"
+    },
     "fzf-lua": {
-      "rev": "beaa4e83e6be4174af291a464e4f49548c943963",
+      "rev": "05e44d38de0a79c11fba5f7bf8138791b1dbdd1e",
       "src": "https://github.com/ibhagwan/fzf-lua"
     },
+    "gruvbox-material": {
+      "rev": "11d779b26a9ab2b3db8c22c6ac9fb6e8ed4fea79",
+      "src": "https://github.com/sainnhe/gruvbox-material"
+    },
+    "gruvbox.nvim": {
+      "rev": "154eb5ff5b96d0641307113fa385eaf0d36d9796",
+      "src": "https://github.com/ellisonleao/gruvbox.nvim"
+    },
     "leap.nvim": {
-      "rev": "ce3cf75200ae148d75563088f435389f9e4100fd",
+      "rev": "5db34d1a302ef18bc819dc8a38011abe29dae229",
       "src": "https://codeberg.org/andyg/leap.nvim"
     },
     "lualine.nvim": {
-      "rev": "a905eeebc4e63fdc48b5135d3bf8aea5618fb21c",
+      "rev": "221ce6b2d999187044529f49da6554a92f740a96",
       "src": "https://github.com/nvim-lualine/lualine.nvim"
     },
     "mason-lspconfig.nvim": {
-      "rev": "0a3b42c3e503df87aef6d6513e13148381495c3a",
+      "rev": "1b621470c01bd8190bb32a290d21575d3e6470c5",
       "src": "https://github.com/mason-org/mason-lspconfig.nvim"
     },
     "mason.nvim": {
-      "rev": "b03fb0f20bc1d43daf558cda981a2be22e73ac42",
+      "rev": "2a6940af80375532e5e9e7c1f2fc6319a1b7a69d",
       "src": "https://github.com/mason-org/mason.nvim"
+    },
+    "neovim": {
+      "rev": "ff483051a47e27d84bdef47703538df1ed9f4a47",
+      "src": "https://github.com/rose-pine/neovim"
     },
     "neovim-ayu": {
       "rev": "e5a9f0fa2918d6b5f57c21b3ac014314ee5e41c8",
       "src": "https://github.com/Shatur/neovim-ayu"
     },
     "nvim-lspconfig": {
-      "rev": "e05fb8c3bd61d909dacff24f77f23beb644daf54",
+      "rev": "3928e638fdedf195b23ae5a18f024afa487982bc",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-rooter.lua": {
@@ -33,19 +49,31 @@
       "src": "https://github.com/notjedi/nvim-rooter.lua"
     },
     "nvim-treesitter": {
-      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
+      "rev": "8b98b4470eb326f1c7b50dae79f8c963568e5720",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "render-markdown.nvim": {
-      "rev": "d67113f11384c0dad96fced2f7b91f1fc811e97f",
+      "rev": "4663eb3ecd538bd5062628fb6d95bbe6bdca78f6",
       "src": "https://github.com/MeanderingProgrammer/render-markdown.nvim"
+    },
+    "rustaceanvim": {
+      "rev": "40b50ae2335faa2a4e136a196908b4700014f0b0",
+      "src": "https://github.com/mrcjkb/rustaceanvim"
+    },
+    "styler.nvim": {
+      "rev": "d73d868541a2536a96d057c793d53c50e5f407bb",
+      "src": "https://github.com/folke/styler.nvim"
+    },
+    "tokyonight.nvim": {
+      "rev": "cdc07ac78467a233fd62c493de29a17e0cf2b2b6",
+      "src": "https://github.com/folke/tokyonight.nvim"
     },
     "which-key.nvim": {
       "rev": "3aab2147e74890957785941f0c1ad87d0a44c15a",
       "src": "https://github.com/folke/which-key.nvim"
     },
     "wiki.vim": {
-      "rev": "44f266fc8ed6f8fbc6bae47ee1ca6ba32e5995f8",
+      "rev": "2268b4286c5bcb5b46caa1810d048a3602379a51",
       "src": "https://github.com/lervag/wiki.vim"
     }
   }

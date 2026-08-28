@@ -29,6 +29,8 @@ vim.opt.undolevels = 10000
 -- in completion, when there is more than one match,
 -- list all matches, and only complete to longest common match
 vim.opt.wildmode = "list:longest"
+-- prevent the built-in vim.lsp.completion autotrigger from selecting the first item
+vim.opt.completeopt = { "menuone", "noselect", "popup" }
 -- when opening a file with a command (like :e),
 -- don't suggest files like there:
 vim.opt.wildignore = ".hg,.svn,*~,*.png,*.jpg,*.gif,*.min.js,*.swp,*.o,vendor,dist,_site,*.mkv,*.mp4"
@@ -57,6 +59,7 @@ vim.api.nvim_create_autocmd("FileType", {
 		vim.opt_local.colorcolumn = "100"
 	end,
 })
+
 -- show more hidden characters and nicer tabs
 vim.opt.listchars = {
 	tab = "^ ",
@@ -68,10 +71,19 @@ vim.opt.listchars = {
 
 -- Set borders for all floating windows
 -- Everything looks beautiful with this!
-vim.o.winborder = "rounded"
+vim.opt.winborder = "rounded"
+-- Rounded popups
+vim.opt.pumborder = "rounded"
+-- Max items shown at once
+vim.opt.pumheight = 15
+-- Min width of the popup
+vim.opt.pumwidth = 40
+-- Slight transparency
+vim.opt.pumblend = 10
+-- Transparency for floating docs
+vim.opt.winblend = 10
 
 -- HOTKEYS
-
 -- Allow copying to system clipboard using space + y
 vim.keymap.set("v", "<leader>y", '"+y')
 -- always center search results
@@ -96,24 +108,42 @@ vim.keymap.set("i", "<F1>", "<Esc>")
 -- Auto-cd to the current file's parent directory.
 vim.keymap.set("n", "<leader>cd", "<CMD>cd %:p:h<CR><CMD>pwd<CR>")
 
+-- Update using pack
+vim.keymap.set("n", "<leader>ps", "<cmd>lua vim.pack.update()<CR>")
+
 -------------------------------------------------------------------------------
 ---
 --- Autocommands
 ---
 -------------------------------------------------------------------------------
 
--- highlight yanked text
+-- Highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
 	callback = function()
 		vim.hl.on_yank({ timeout = 100 })
 	end,
 })
 
--- prevent accidental writes to buffers that shouldn't be edited
+-- Prevent accidental writes to buffers that shouldn't be edited
 vim.api.nvim_create_autocmd("BufRead", {
 	pattern = { "*.orig", "*.pacnew" },
 	callback = function()
 		vim.opt_local.readonly = true
+	end,
+})
+
+-- Auto format using lsp before save.
+vim.api.nvim_create_autocmd("BufWritePre", {
+	callback = function()
+		vim.lsp.buf.format({ async = true })
+	end,
+})
+
+-- I just like wraps in markdown
+vim.api.nvim_create_autocmd("BufRead", {
+	pattern = { "*.md" },
+	callback = function()
+		vim.opt.wrap = true
 	end,
 })
 
@@ -125,12 +155,15 @@ vim.api.nvim_create_autocmd("BufRead", {
 
 -- Setup vim.pack
 -- NOTE: plugin updates is done manually via :lua vim.pack.update()
+-- Or use <leader>ps
 
+-- stylua: ignore
 local gh = function(x) return "https://github.com/" .. x end
+-- stylua: ignore
 local cb = function(x) return "https://codeberg.org/" .. x end
 
 vim.pack.add({
-	gh("Shatur/neovim-ayu"),
+	gh("sainnhe/gruvbox-material"),
 	gh("nvim-lualine/lualine.nvim"),
 	gh("folke/which-key.nvim"),
 	gh("notjedi/nvim-rooter.lua"),
@@ -142,21 +175,27 @@ vim.pack.add({
 	gh("lervag/wiki.vim"),
 	gh("MeanderingProgrammer/render-markdown.nvim"),
 	cb("andyg/leap.nvim"),
+	gh("mrcjkb/rustaceanvim"),
+	gh("bullets-vim/bullets.vim"),
 })
+
+-- Go hard or go home.
+vim.g.gruvbox_material_background = "hard"
 
 -- the colorscheme should be available when starting Neovim
 -- load the colorscheme
-vim.cmd.colorscheme("ayu")
+vim.cmd.colorscheme("gruvbox-material")
 
 -- load the status bar
 require("lualine").setup({
 	options = {
 		icons_enabled = false,
-		theme = "ayu",
+		theme = "gruvbox-material",
 	},
 })
+
 -- no need to also show mode in cmd line when we have bar
-vim.o.showmode = false
+vim.opt.showmode = false
 
 -- get popups for pressed key, very nice
 require("which-key").setup()
@@ -164,8 +203,34 @@ require("which-key").setup()
 -- auto-cd to root of git project
 require("nvim-rooter").setup()
 
+-- Setup render-markdown (f*ck icons)
+require("render-markdown").setup({
+	heading = {
+		enabled = false,
+	},
+	bullet = {
+		icons = {},
+	},
+	checkbox = {
+		enabled = false,
+	},
+})
+
+-- Setup fzf-lua
+local fzf_lua = require("fzf-lua")
+fzf_lua.setup({
+	-- No reverse view
+	fzf_opts = {
+		["--layout"] = "default",
+	},
+})
+
+vim.keymap.set("n", "<leader>ff", fzf_lua.files, { desc = "fzf-lua find files" })
+vim.keymap.set("n", "<leader>fg", fzf_lua.live_grep, { desc = "fzf-lua live grep" })
+vim.keymap.set("n", "<leader>fb", fzf_lua.buffers, { desc = "fzf-lua buffers" })
+vim.keymap.set("n", "<leader>fh", fzf_lua.help_tags, { desc = "fzf-lua help tags" })
 -- Setup wiki.nvim
-vim.g.wiki_root = "~/Documents/notes"
+vim.g.wiki_root = "~/Documents/notes/work"
 vim.g.wiki_select_method = {
 	pages = require("wiki.fzf_lua").pages,
 	tags = require("wiki.fzf_lua").tags,
@@ -177,20 +242,7 @@ vim.g.wiki_select_method = {
 vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
 vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
 
--- Setup fzf-lua
-local fzf_lua = require("fzf-lua")
-fzf_lua.setup({
-	-- No reverse view
-	fzf_opts = {
-		["--layout"] = "default",
-	},
-})
-vim.keymap.set("n", "<leader>ff", fzf_lua.files, { desc = "fzf-lua find files" })
-vim.keymap.set("n", "<leader>fg", fzf_lua.live_grep, { desc = "fzf-lua live grep" })
-vim.keymap.set("n", "<leader>fb", fzf_lua.buffers, { desc = "fzf-lua buffers" })
-vim.keymap.set("n", "<leader>fh", fzf_lua.help_tags, { desc = "fzf-lua help tags" })
-
--- LSP
+-- Setup LSP
 -- We use mason for this, as it automatically enables the installed
 -- lsp servers, by calling vim.lsp.enable('server') on them.
 -- https://github.com/mason-org/mason-lspconfig.nvim?tab=readme-ov-file#configuration-using-lazynvim
@@ -207,15 +259,10 @@ require("mason-lspconfig").setup({
 	},
 })
 
--- These are the keybindings which are created automatically through
--- nvim lsp, v0.11+ only.
--- grn    -> renames all references of the symbol under the cursor
--- gra    -> shows a list of code actions available in the line under the cursor
--- grr    -> lists all the references of the symbol under the cursor
--- gri    -> lists all the implementations for the symbol under the cursor
--- grt    -> jump to the definition of the type symbol under the cursor
--- gO     -> lists all symbols in the current buffer
--- ctrl-s -> in insert mode, displays the function signature under the cursor
+-- vim.diagnostic.config({ virtual_text = true })
+
+-- LSP keybindings
+vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 
 -- Tree-sitter, enable manual installation of other parsers
 require("nvim-treesitter").install({
@@ -228,4 +275,26 @@ require("nvim-treesitter").install({
 	"python",
 	"markdown",
 	"markdown_inline",
+})
+
+-- Don't show "match 1 of 3" messages in command line
+vim.opt.shortmess:append("c")
+
+-- buffer local keybindings, better performance?
+vim.api.nvim_create_autocmd("LspAttach", {
+	callback = function(args)
+		local bufnr = args.buf
+		local map = function(mode, lhs, rhs, desc)
+			vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
+		end
+
+		map("n", "gd", vim.lsp.buf.definition, "Go to definition")
+		map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
+		map("n", "gi", vim.lsp.buf.implementation, "Go to implementation")
+		map("n", "gr", vim.lsp.buf.references, "References")
+		map("n", "gt", vim.lsp.buf.type_definition, "type definition")
+		map("n", "gk", vim.lsp.buf.signature_help, "signature help")
+		map("n", "grn", vim.lsp.buf.rename, "Rename symbol")
+		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
+	end,
 })
