@@ -3,10 +3,15 @@
 [[mgr.prepend_keymap]]
 on   = "!"
 for  = "unix"
-run  = 'shell "$SHELL" --block'
+run  = "shell '$SHELL' --block"
 desc = "Open $SHELL here"
 
 [[mgr.prepend_keymap]]
 on   = "D"
 run  = "noop"
 desc = "Disable permanent delete"
+
+[[mgr.prepend_keymap]]
+on   = "T"
+run  = "plugin simple-tag -- toggle-tag --key=*"
+desc = "Toggle a tag (press any key)"
