@@ -8,9 +8,3 @@ desc = "Add sub to MPV"
 [[open.prepend_rules]]
 url = "*.{ass,srt,ssa,sty,sup,vtt}"
 use = [ "add-sub", "edit" ]
-
-[plugin]
-prepend_fetchers = [
-	{ group = "simple-tag", url = "*", run = "simple-tag" },
-	{ group = "simple-tag", url = "*/", run = "simple-tag" },
-]

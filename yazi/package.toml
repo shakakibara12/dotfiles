@@ -1,7 +1,0 @@
-[[plugin.deps]]
-use = "boydaihungst/simple-tag"
-rev = "1ec0bc0"
-hash = "b04468b0f19afde80477cfe8f65b8f7b"
-
-[flavor]
-deps = []

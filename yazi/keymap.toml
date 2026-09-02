@@ -10,8 +10,3 @@ desc = "Open $SHELL here"
 on   = "D"
 run  = "noop"
 desc = "Disable permanent delete"
-
-[[mgr.prepend_keymap]]
-on   = "T"
-run  = "plugin simple-tag -- toggle-tag --key=*"
-desc = "Toggle a tag (press any key)"
