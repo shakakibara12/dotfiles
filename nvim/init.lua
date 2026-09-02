@@ -111,6 +111,9 @@ vim.keymap.set("n", "<leader>cd", "<CMD>cd %:p:h<CR><CMD>pwd<CR>")
 -- Update using pack
 vim.keymap.set("n", "<leader>ps", "<cmd>lua vim.pack.update()<CR>")
 
+-- Insert current date and time
+vim.keymap.set("n", "<leader>dt", "<cmd>r!date<CR>")
+
 -------------------------------------------------------------------------------
 ---
 --- Autocommands
