@@ -176,7 +176,6 @@ vim.pack.add({
 	gh("neovim/nvim-lspconfig"),
 	gh("nvim-treesitter/nvim-treesitter"),
 	gh("lervag/wiki.vim"),
-	gh("MeanderingProgrammer/render-markdown.nvim"),
 	cb("andyg/leap.nvim"),
 	gh("mrcjkb/rustaceanvim"),
 	gh("bullets-vim/bullets.vim"),
@@ -205,19 +204,6 @@ require("which-key").setup()
 
 -- auto-cd to root of git project
 require("nvim-rooter").setup()
-
--- Setup render-markdown (f*ck icons)
-require("render-markdown").setup({
-	heading = {
-		enabled = false,
-	},
-	bullet = {
-		icons = {},
-	},
-	checkbox = {
-		enabled = false,
-	},
-})
 
 -- Setup fzf-lua
 local fzf_lua = require("fzf-lua")
