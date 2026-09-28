@@ -177,7 +177,6 @@ vim.pack.add({
 	gh("nvim-treesitter/nvim-treesitter"),
 	gh("lervag/wiki.vim"),
 	cb("andyg/leap.nvim"),
-	gh("mrcjkb/rustaceanvim"),
 	gh("bullets-vim/bullets.vim"),
 })
 
@@ -264,22 +263,3 @@ require("nvim-treesitter").install({
 
 -- Don't show "match 1 of 3" messages in command line
 vim.opt.shortmess:append("c")
-
--- buffer local keybindings, better performance?
-vim.api.nvim_create_autocmd("LspAttach", {
-	callback = function(args)
-		local bufnr = args.buf
-		local map = function(mode, lhs, rhs, desc)
-			vim.keymap.set(mode, lhs, rhs, { buffer = bufnr, desc = desc })
-		end
-
-		map("n", "gd", vim.lsp.buf.definition, "Go to definition")
-		map("n", "gD", vim.lsp.buf.declaration, "Go to declaration")
-		map("n", "gi", vim.lsp.buf.implementation, "Go to implementation")
-		map("n", "gr", vim.lsp.buf.references, "References")
-		map("n", "gt", vim.lsp.buf.type_definition, "type definition")
-		map("n", "gk", vim.lsp.buf.signature_help, "signature help")
-		map("n", "grn", vim.lsp.buf.rename, "Rename symbol")
-		map({ "n", "v" }, "<leader>ca", vim.lsp.buf.code_action, "Code action")
-	end,
-})
