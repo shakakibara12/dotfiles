@@ -232,6 +232,7 @@ vim.keymap.set("n", "<leader>ff", fzf_lua.files, { desc = "fzf-lua find files" }
 vim.keymap.set("n", "<leader>fg", fzf_lua.live_grep, { desc = "fzf-lua live grep" })
 vim.keymap.set("n", "<leader>fb", fzf_lua.buffers, { desc = "fzf-lua buffers" })
 vim.keymap.set("n", "<leader>fh", fzf_lua.help_tags, { desc = "fzf-lua help tags" })
+
 -- Setup wiki.nvim
 vim.g.wiki_root = "~/Documents/notes/work"
 vim.g.wiki_select_method = {
@@ -246,11 +247,8 @@ vim.keymap.set({ "n", "x", "o" }, "s", "<Plug>(leap)")
 vim.keymap.set("n", "S", "<Plug>(leap-from-window)")
 
 -- Setup LSP
--- We use mason for this, as it automatically enables the installed
--- lsp servers, by calling vim.lsp.enable('server') on them.
+-- Mason automatically enables the installed lsp servers
 -- https://github.com/mason-org/mason-lspconfig.nvim?tab=readme-ov-file#configuration-using-lazynvim
--- For creating individual config for lsp server see:
--- https://vonheikemen.github.io/learn-nvim/feature/lsp-setup.html#the-lsp-directory
 require("mason").setup()
 require("mason-lspconfig").setup({
 	ensure_installed = {
@@ -262,10 +260,8 @@ require("mason-lspconfig").setup({
 	},
 })
 
+-- Honestly, it's pretty distracting.
 -- vim.diagnostic.config({ virtual_text = true })
-
--- LSP keybindings
-vim.keymap.set("n", "<leader>ld", vim.diagnostic.open_float, { desc = "Line Diagnostics" })
 
 -- Tree-sitter, enable manual installation of other parsers
 require("nvim-treesitter").install({
