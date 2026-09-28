@@ -8,6 +8,10 @@
       "rev": "bf346215895aef7df1f29f6f89b579cb8d9ce5f5",
       "src": "https://github.com/wsdjeg/calendar.nvim"
     },
+    "calendar.vim": {
+      "rev": "2ef5b0a2717d8a2ea24c55d11e426f25e6243282",
+      "src": "https://github.com/itchyny/calendar.vim"
+    },
     "fzf-lua": {
       "rev": "ec1b98d3f5f44a1cff1f2c3832af2f09c3d806ca",
       "src": "https://github.com/ibhagwan/fzf-lua"

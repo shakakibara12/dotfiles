@@ -178,6 +178,7 @@ vim.pack.add({
 	gh("lervag/wiki.vim"),
 	cb("andyg/leap.nvim"),
 	gh("bullets-vim/bullets.vim"),
+	gh("itchyny/calendar.vim"),
 })
 
 -- Go hard or go home.
@@ -203,6 +204,12 @@ require("which-key").setup()
 
 -- auto-cd to root of git project
 require("nvim-rooter").setup()
+
+-- Setup calendar.vim
+vim.g.calendar_date_endian = "little"
+vim.g.calendar_locale = "ja"
+vim.g.calendar_clock_12hour = 1
+vim.keymap.set("n", "<leader>cc", "<cmd>Calendar -position=here<cr>", { desc = "calendar.vim" })
 
 -- Setup fzf-lua
 local fzf_lua = require("fzf-lua")
