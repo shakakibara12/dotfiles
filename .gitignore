@@ -7,3 +7,4 @@ zsh/history
 dconf/user
 # Avoid plugin's configuration
 noctalia/plugins
+nvim/nvim-pack-lock.json
