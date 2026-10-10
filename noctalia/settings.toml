@@ -1,0 +1,241 @@
+config_version = 14
+
+[accessibility]
+ui_scale = 1.2500000111758709
+
+[backdrop]
+enabled = true
+
+[bar]
+order = [ "master" ]
+
+    [bar.master]
+    background_opacity = 0.89999997988343239
+    capsule = true
+    capsule_opacity = 0.89999997988343239
+    capsule_thickness = 0.79999998584389687
+    contact_shadow = true
+    end = [ "tray", "network", "notifications", "battery", "volume", "brightness", "control-center" ]
+    margin_ends = 5
+    start = [ "workspaces", "media", "sysmon" ]
+
+[battery]
+warning_threshold = 20
+
+[calendar]
+enabled = true
+
+    [calendar.account.calendar]
+    credential_source = "file"
+    name = "Home"
+    password_file = "/home/shaka/.config/pass"
+    provider = "custom"
+    server_url = "http://100.108.69.48:5232/shaka/9153d7b1-0ad9-4edf-baf9-b5a9abab8589/"
+    type = "caldav"
+    username = "shaka"
+
+    [calendar.account.f1]
+    color = "tertiary"
+    server_url = "http://ics.fixtur.es/v2/league/formula-1-practise.ics"
+    type = "ics"
+
+[[control_center.shortcuts]]
+type = "wifi"
+
+[[control_center.shortcuts]]
+type = "bluetooth"
+
+[[control_center.shortcuts]]
+type = "caffeine"
+
+[[control_center.shortcuts]]
+type = "power_profile"
+
+[[control_center.shortcuts]]
+type = "wallpaper"
+
+[[control_center.shortcuts]]
+type = "clipboard"
+
+[desktop_widgets]
+enabled = false
+
+[dock]
+enabled = true
+icon_size = 36
+layer = "overlay"
+reserve_space = false
+smart_auto_hide = true
+
+[idle]
+behavior_order = [ "lock", "screen-off", "lock-and-suspend" ]
+pre_action_fade_seconds = 1
+
+    [idle.behavior.lock]
+    action = "lock"
+    enabled = true
+    timeout = 600.0
+
+    [idle.behavior.lock-and-suspend]
+    action = "lock_and_suspend"
+    enabled = true
+    timeout = 900.0
+
+    [idle.behavior.screen-off]
+    action = "screen_off"
+    enabled = true
+    timeout = 660.0
+
+[location]
+custom_schedule = true
+sunrise = "06:00"
+sunset = "22:00"
+
+[lockscreen_widgets]
+enabled = false
+schema_version = 2
+widget_order = [ "lockscreen-login-box@eDP-1" ]
+
+    [lockscreen_widgets.grid]
+    cell_size = 16
+    major_interval = 4
+    visible = true
+
+    [lockscreen_widgets.widget."lockscreen-login-box@eDP-1"]
+    box_height = 196.0
+    box_width = 810.0
+    cx = 960.0
+    cy = 898.0
+    output = "eDP-1"
+    placement_height = 1080.0
+    placement_width = 1920.0
+    rotation = 0.0
+    type = "login_box"
+
+        [lockscreen_widgets.widget."lockscreen-login-box@eDP-1".settings]
+        background_color = "surface_variant"
+        background_opacity = 0.88
+        background_radius = 12.0
+        center_password_text = false
+        input_opacity = 1.0
+        input_radius = 6.0
+        layout = "regular"
+        show_caps_lock = true
+        show_keyboard_layout = true
+        show_login_button = true
+        show_media = true
+        show_session_buttons = true
+        show_unlock_hint = true
+        show_weather = true
+
+[nightlight]
+enabled = true
+
+[notification]
+background_opacity = 0.89999997988343239
+layer = "overlay"
+width = 300
+
+[shell]
+clipboard_enabled = false
+clipboard_keep_from_closed_apps = false
+
+    [shell.launcher]
+    categories = false
+    fetch_exchange_rates = false
+    show_app_origin_indicator = false
+    show_icons = false
+    sort_by_usage = false
+
+    [shell.panel]
+    open_near_click_control_center = true
+    session_placement = "floating"
+    session_position = "center"
+
+    [[shell.session.actions]]
+    action = "lock"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "1"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "logout"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "2"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "lock_and_suspend"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "3"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "reboot"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "4"
+    variant = "default"
+
+    [[shell.session.actions]]
+    action = "shutdown"
+    countdown_seconds = 0.0
+    enabled = true
+    shortcut = "5"
+    variant = "destructive"
+
+    [[shell.session.actions]]
+    action = "command"
+    command = "notify-send 'Noctalia' 'Custom session entry'"
+    countdown_seconds = 0.0
+    enabled = false
+    variant = "default"
+
+[theme]
+builtin = "Ayu"
+mode = "dark"
+source = "builtin"
+wallpaper_scheme = "m3-content"
+
+[wallpaper.default]
+path = "/home/shaka/Pictures/Wallpapers/lo-fi-sailor-moon.gif"
+
+[wallpaper.last]
+path = "/home/shaka/Pictures/Wallpapers/lo-fi-sailor-moon.gif"
+
+[wallpaper.monitors.eDP-1]
+path = "/home/shaka/Pictures/Wallpapers/lo-fi-sailor-moon.gif"
+
+[widget.battery]
+display_mode = "graphic"
+show_label = false
+
+[widget.brightness]
+show_label = false
+
+[widget.clock]
+format = "{:%I:%M %p %a, %b %d}"
+
+[widget.control-center]
+glyph = "navigation"
+
+[widget.media]
+hide_when_no_media = true
+show_progress = true
+title_scroll = "on_hover"
+
+[widget.network]
+show_label = false
+
+[widget.sysmon]
+stat = "cpu_temp"
+visualization = "none"
+
+[widget.tray]
+drawer = true
+
+[widget.volume]
+show_label = false

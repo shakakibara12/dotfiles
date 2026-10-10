@@ -1,6 +1,7 @@
 mpv/watch_later
 mpv/history.log
 mpv/scripts/mpv-webtorrent-hook
+mpv/logs
 zsh/.zcompdump*
 zsh/history
 dconf/user

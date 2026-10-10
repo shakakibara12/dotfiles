@@ -226,7 +226,7 @@ vim.keymap.set("n", "<leader>fb", fzf_lua.buffers, { desc = "fzf-lua buffers" })
 vim.keymap.set("n", "<leader>fh", fzf_lua.help_tags, { desc = "fzf-lua help tags" })
 
 -- Setup wiki.nvim
-vim.g.wiki_root = "~/Documents/notes/work"
+vim.g.wiki_root = "~/Documents/notes/personal"
 vim.g.wiki_select_method = {
 	pages = require("wiki.fzf_lua").pages,
 	tags = require("wiki.fzf_lua").tags,
