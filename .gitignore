@@ -5,6 +5,6 @@ mpv/logs
 zsh/.zcompdump*
 zsh/history
 dconf/user
+nvim/nvim-pack-lock.json
 # Avoid plugin's configuration
 noctalia/plugins
-nvim/nvim-pack-lock.json
