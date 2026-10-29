@@ -176,6 +176,7 @@ vim.pack.add({
 	gh("neovim/nvim-lspconfig"),
 	gh("nvim-treesitter/nvim-treesitter"),
 	gh("lervag/wiki.vim"),
+	gh("MeanderingProgrammer/render-markdown.nvim"),
 	cb("andyg/leap.nvim"),
 	gh("bullets-vim/bullets.vim"),
 	gh("itchyny/calendar.vim"),
@@ -210,6 +211,19 @@ vim.g.calendar_date_endian = "little"
 vim.g.calendar_locale = "ja"
 vim.g.calendar_clock_12hour = 1
 vim.keymap.set("n", "<leader>cc", "<cmd>Calendar -position=here<cr>", { desc = "calendar.vim" })
+
+-- Setup render-markdown (f*ck icons)
+require("render-markdown").setup({
+	heading = {
+		enabled = false,
+	},
+	bullet = {
+		icons = {},
+	},
+	checkbox = {
+		enabled = false,
+	},
+})
 
 -- Setup fzf-lua
 local fzf_lua = require("fzf-lua")
