@@ -1,4 +1,5 @@
 ---@diagnostic disable: undefined-global
+--- Dependencies: gcc, tree-sitter-cli
 -- always set leader first!
 vim.keymap.set("n", "<Space>", "<Nop>", { silent = true })
 vim.g.mapleader = " "
