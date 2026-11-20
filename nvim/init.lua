@@ -1,5 +1,5 @@
 ---@diagnostic disable: undefined-global
---- Dependencies: gcc, tree-sitter-cli
+--- Dependencies: gcc, tree-sitter-cli, python, unzip, wget, rust-src (for rust lsp)
 -- always set leader first!
 vim.keymap.set("n", "<Space>", "<Nop>", { silent = true })
 vim.g.mapleader = " "
