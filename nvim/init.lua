@@ -6,6 +6,21 @@ vim.g.mapleader = " "
 -- Lazy needs it
 vim.g.maplocalleader = "\\"
 
+if vim.fn.has("wsl") == 1 then
+	vim.g.clipboard = {
+		name = "win32yank-wsl",
+		copy = {
+			["+"] = "win32yank.exe -i --crlf",
+			["*"] = "win32yank.exe -i --crlf",
+		},
+		paste = {
+			["+"] = "win32yank.exe -o --lf",
+			["*"] = "win32yank.exe -o --lf",
+		},
+		cache_enabled = 0,
+	}
+end
+
 -- keep more context on screen while scrolling
 vim.opt.scrolloff = 8
 -- always draw sign column. prevents buffer moving when adding/deleting sign
@@ -115,6 +130,11 @@ vim.keymap.set("n", "<leader>ps", "<cmd>lua vim.pack.update()<CR>")
 -- Insert current date and time
 vim.keymap.set("n", "<leader>dt", "<cmd>r!date<CR>")
 
+-- Format buffer with LSP
+vim.keymap.set("n", "<leader>gf", function()
+	vim.lsp.buf.format({ async = true })
+end, { desc = "Format buffer (LSP)" })
+
 -------------------------------------------------------------------------------
 ---
 --- Autocommands
@@ -137,11 +157,11 @@ vim.api.nvim_create_autocmd("BufRead", {
 })
 
 -- Auto format using lsp before save.
-vim.api.nvim_create_autocmd("BufWritePre", {
-	callback = function()
-		vim.lsp.buf.format({ async = true })
-	end,
-})
+-- vim.api.nvim_create_autocmd("BufWritePre", {
+-- 	callback = function()
+-- 		vim.lsp.buf.format({ async = true })
+-- 	end,
+-- })
 
 -- I just like wraps in markdown
 vim.api.nvim_create_autocmd("BufRead", {
@@ -241,7 +261,7 @@ vim.keymap.set("n", "<leader>fb", fzf_lua.buffers, { desc = "fzf-lua buffers" })
 vim.keymap.set("n", "<leader>fh", fzf_lua.help_tags, { desc = "fzf-lua help tags" })
 
 -- Setup wiki.nvim
-vim.g.wiki_root = "~/Documents/notes/personal"
+vim.g.wiki_root = "~/Documents/notes/work"
 vim.g.wiki_select_method = {
 	pages = require("wiki.fzf_lua").pages,
 	tags = require("wiki.fzf_lua").tags,
